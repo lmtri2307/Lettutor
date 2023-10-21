@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/presentation/Home/Home.dart';
 import 'package:lettutor/presentation/Login/LoginPage.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           headlineLarge: TextStyle(
             color: Theme.of(context).primaryColor,
-            fontSize: 28,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
           headlineSmall: const TextStyle(
@@ -27,12 +28,15 @@ class MyApp extends StatelessWidget {
           ),
           bodyMedium: const TextStyle(
             fontSize: 16,
+          ),
+          bodySmall: const TextStyle(
+            fontSize: 14
           )
         ),
         useMaterial3: true,
       ),
       home: const SafeArea(
-        child: Login(),
+        child: Home(),
       )
 
     );

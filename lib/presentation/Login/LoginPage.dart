@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/Login/AppBar.dart';
+import 'package:lettutor/presentation/AppBar/AppBar.dart';
 import 'package:lettutor/presentation/Login/LoginForm.dart';
 import 'package:lettutor/presentation/Login/SocialIcons.dart';
 
@@ -9,10 +9,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: MyAppBar(),
-      ),
+      appBar: const MyAppBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -81,6 +78,26 @@ class Login extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   const SocialIcons(),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Not a member yet?",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      TextButton(
+                          onPressed: null,
+                          child: Text(
+                            "Sign up",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    color: Theme.of(context).primaryColor),
+                          ))
+                    ],
+                  )
                 ],
               ),
             ),

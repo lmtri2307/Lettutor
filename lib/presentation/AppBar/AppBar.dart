@@ -3,8 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/enums/language.dart';
 import 'package:lettutor/presentation/Login/LanguageOption.dart';
 
-class MyAppBar extends StatelessWidget {
-  const MyAppBar({super.key});
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const MyAppBar({super.key, this.isLogined = false});
+
+  final bool isLogined;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(70);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,7 @@ class MyAppBar extends StatelessWidget {
                   // Handle your menu selection here
                 },
                 itemBuilder: (BuildContext context) =>
-                <PopupMenuEntry<Language>>[
+                    <PopupMenuEntry<Language>>[
                   const PopupMenuItem<Language>(
                     value: Language.vietnam,
                     child: LanguageOption(language: Language.vietnam),
@@ -62,6 +67,22 @@ class MyAppBar extends StatelessWidget {
                 ],
                 offset: const Offset(0, 40),
               ),
+            ),
+          ),
+          const SizedBox(width: 8,),
+          Container(
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(225, 228, 230, 235),
+              shape: BoxShape.circle,
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(2.0),
+              child: IconButton(
+                icon: Icon(Icons.list), // replace 'favorite' with the icon you want
+                iconSize: 16, // adjust the size as needed
+                color: Colors.red, // adjust the color as needed
+                onPressed: null,
+              )
             ),
           ),
         ],

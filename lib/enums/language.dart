@@ -10,7 +10,7 @@ enum Language {
   const Language(this.name);
 
   Widget get imageWidget => SvgPicture.asset(
-    'images/$name.svg',
+    'assets/images/$name.svg',
     semanticsLabel: 'Your SVG Image',
     width: 24,
     height: 24,

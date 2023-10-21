@@ -20,12 +20,13 @@ class MyAppBar extends StatelessWidget {
         ],
       ),
       child: AppBar(
+        toolbarHeight: double.infinity,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         title: SvgPicture.asset(
-          'images/logo.svg',
+          'assets/images/logo.svg',
           semanticsLabel: 'Your SVG Image',
-          fit: BoxFit.contain,
+          fit: BoxFit.fitHeight,
           width: 180,
         ),
         actions: [
@@ -39,7 +40,7 @@ class MyAppBar extends StatelessWidget {
               padding: const EdgeInsets.all(2.0),
               child: PopupMenuButton<Language>(
                 icon: SvgPicture.asset(
-                  'images/vietnam.svg',
+                  'assets/images/vietnam.svg',
                   semanticsLabel: 'Your SVG Image',
                   width: 16,
                   height: 16,
@@ -48,7 +49,8 @@ class MyAppBar extends StatelessWidget {
                 onSelected: (Language result) {
                   // Handle your menu selection here
                 },
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<Language>>[
+                itemBuilder: (BuildContext context) =>
+                <PopupMenuEntry<Language>>[
                   const PopupMenuItem<Language>(
                     value: Language.vietnam,
                     child: LanguageOption(language: Language.vietnam),

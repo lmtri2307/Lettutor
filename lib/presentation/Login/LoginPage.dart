@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lettutor/enums/language.dart';
 import 'package:lettutor/presentation/Login/AppBar.dart';
-import 'package:lettutor/presentation/Login/LanguageOption.dart';
 import 'package:lettutor/presentation/Login/LoginForm.dart';
 import 'package:lettutor/presentation/Login/SocialIcons.dart';
 
@@ -12,15 +9,15 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(72),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
         child: MyAppBar(),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Image.asset("images/login.png"),
+            Image.asset("assets/images/login.png"),
             Padding(
               padding: const EdgeInsets.all(48),
               child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum Language {
   vietnam("vietnam"),
@@ -18,12 +19,15 @@ enum Language {
       );
 }
 
-enum FormFieldType{
+enum FormFieldType {
   email("email", "abc@example.com"),
-  password("password", "");
+  password("password", "******");
+
   const FormFieldType(this.name, this.placeholder);
+
   final String name;
   final String placeholder;
+
   String get label => name.toUpperCase();
 }
 
@@ -84,32 +88,69 @@ class Login extends StatelessWidget {
         child: Column(
           children: [
             Image.asset("images/login.png"),
-            const Padding(
-              padding: EdgeInsets.all(48),
+            Padding(
+              padding: const EdgeInsets.all(48),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Say hello to your \nEnglish tutors",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 0, 113, 240),
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.headlineLarge,
                     textAlign: TextAlign.center, // Center align text
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 16.0),
+                    padding: const EdgeInsets.only(top: 16.0),
                     child: Text(
                       "Become fluent faster through one on one video chat lessons tailored to your goals.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  LoginForm()
+                  const SizedBox(height: 8),
+                  const LoginForm(),
+                  const SizedBox(height: 20),
+                  TextButton(
+                    onPressed: null,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Text(
+                      "Forgot Password?",
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Theme.of(context).primaryColor),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: null,
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      minimumSize: const Size.fromHeight(56),
+                      backgroundColor: Theme.of(context).primaryColor,
+                    ),
+                    child: Text(
+                      "Login",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  Center(
+                    child: Text(
+                      "Or continue with",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const SocialIcons(),
                 ],
               ),
             ),
@@ -147,7 +188,9 @@ class LoginForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CustomFormField(field: FormFieldType.email),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           CustomFormField(field: FormFieldType.password)
         ],
       ),
@@ -157,7 +200,9 @@ class LoginForm extends StatelessWidget {
 
 class CustomFormField extends StatelessWidget {
   const CustomFormField({super.key, required this.field});
+
   final FormFieldType field;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -184,6 +229,58 @@ class CustomFormField extends StatelessWidget {
               ),
               borderRadius: BorderRadius.all(Radius.circular(6)),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SocialIcons extends StatelessWidget {
+  const SocialIcons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Theme.of(context).primaryColor,
+              width: 2.0, // border width
+            ),
+          ),
+          child: const CircleAvatar(
+            backgroundColor: Colors.white,
+            child: FaIcon(FontAwesomeIcons.facebookF, color: Color(0xFF1877F2)),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Theme.of(context).primaryColor,
+              width: 2.0, // border width
+            ),
+          ),
+          child: const CircleAvatar(
+            backgroundColor: Colors.white,
+            child: FaIcon(FontAwesomeIcons.google, color: Color(0xFFDB4437)),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Theme.of(context).primaryColor,
+              width: 2.0, // border width
+            ),
+          ),
+          child: const CircleAvatar(
+            backgroundColor: Colors.white,
+            child: FaIcon(FontAwesomeIcons.mobileAlt, color: Colors.black),
           ),
         ),
       ],

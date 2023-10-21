@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/enums/language.dart';
+import 'package:lettutor/presentation/Login/AppBar.dart';
 import 'package:lettutor/presentation/Login/LanguageOption.dart';
 import 'package:lettutor/presentation/Login/LoginForm.dart';
 import 'package:lettutor/presentation/Login/SocialIcons.dart';
@@ -11,51 +12,9 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 72,
-        backgroundColor: Colors.white,
-        title: SvgPicture.asset(
-          'images/logo.svg',
-          semanticsLabel: 'Your SVG Image',
-          fit: BoxFit.contain,
-          width: 180,
-        ),
-        actions: [
-          // PopupMenuButton(itemBuilder: itemBuilder)
-          Container(
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(225, 228, 230, 235),
-              shape: BoxShape.circle,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: PopupMenuButton<Language>(
-                icon: SvgPicture.asset(
-                  'images/vietnam.svg',
-                  semanticsLabel: 'Your SVG Image',
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.cover,
-                ),
-                onSelected: (Language result) {
-                  // Handle your menu selection here
-                },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<Language>>[
-                  const PopupMenuItem<Language>(
-                    value: Language.vietnam,
-                    child: LanguageOption(language: Language.vietnam),
-                  ),
-                  const PopupMenuItem<Language>(
-                    value: Language.us,
-                    child: LanguageOption(language: Language.us),
-                  ),
-                ],
-                offset: const Offset(0, 40),
-              ),
-            ),
-          ),
-        ],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(72),
+        child: MyAppBar(),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -65,7 +24,7 @@ class Login extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(48),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     "Say hello to your \nEnglish tutors",

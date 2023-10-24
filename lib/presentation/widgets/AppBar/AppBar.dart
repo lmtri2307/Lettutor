@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/enums/language.dart';
-import 'package:lettutor/presentation/Login/LanguageOption.dart';
+import 'package:lettutor/presentation/widgets/AppBar/LanguageOption.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key, this.isLogined = false});

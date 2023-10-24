@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/AppBar/AppBar.dart';
-import 'package:lettutor/presentation/Login/LoginForm.dart';
-import 'package:lettutor/presentation/Login/SocialIcons.dart';
+import 'package:lettutor/presentation/widgets/AppBar/AppBar.dart';
+import 'package:lettutor/presentation/pages/Login/LoginForm.dart';
+import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});

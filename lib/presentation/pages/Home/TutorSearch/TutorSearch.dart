@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/enums/tutor_nationality.dart';
-import 'package:lettutor/presentation/Home/TutorSearchFilterChoiceList.dart';
-import 'package:lettutor/presentation/TimeRangePickerFormField/TimeRangePickerFormField.dart';
+import 'package:lettutor/presentation/pages/Home/TutorSearch/TutorSearchFilterChoiceList.dart';
+import 'package:lettutor/presentation/widgets/TimeRangePickerFormField/TimeRangePickerFormField.dart';
 
 class TutorSearch extends StatelessWidget {
   const TutorSearch({super.key});

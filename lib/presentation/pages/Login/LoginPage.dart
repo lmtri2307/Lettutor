@@ -3,8 +3,8 @@ import 'package:lettutor/presentation/widgets/AppBar/AppBar.dart';
 import 'package:lettutor/presentation/pages/Login/LoginForm.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {

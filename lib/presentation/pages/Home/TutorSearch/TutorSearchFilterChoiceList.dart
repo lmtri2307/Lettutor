@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/enums/tutor_filter_choice.dart';
+import 'package:lettutor/dummy/specialty.dart';
 import 'package:lettutor/presentation/widgets/MultipleLabelsPicker/MultipleLabelPicker.dart';
 
 class TutorSearchFilterChoiceList extends StatelessWidget {
@@ -7,10 +7,9 @@ class TutorSearchFilterChoiceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TutorFilterChoice chosen = TutorFilterChoice.all;
     return MultipleLabelsPicker(
         onSelected: (isSelected) {},
-        labelList: TutorFilterChoice.values.map((e) => e.name).toList(),
+        labelList: ["All", ...specialtyList.map((e) => e.name).toList()],
         defaultStyle: StateStyle(
             backgroundColor: const Color.fromARGB(255, 228, 230, 235),
             textColor: const Color.fromARGB(255, 100, 100, 100)),

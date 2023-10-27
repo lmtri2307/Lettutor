@@ -16,25 +16,30 @@ class RecommendedTutors extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        ListView(
+        ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          children: tutorList
-              .map((e) => Column(
-                    children: [
-                      TutorCard(
-                        tutor: e,
-                      ),
-                      const SizedBox(height: 8)
-                    ],
-                  ))
-              .toList(),
+          itemBuilder: (BuildContext context, int index) {
+            return TutorCard(
+              tutor: tutorList[index],
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 8);
+          },
+          itemCount: tutorList.length,
+          // children: tutorList
+          //     .map((e) => Column(
+          //           children: [
+          //             TutorCard(
+          //               tutor: e,
+          //             ),
+          //             const SizedBox(height: 8)
+          //           ],
+          //         ))
+          //     .toList(),
         )
       ],
     );
   }
 }
-
-
-
-

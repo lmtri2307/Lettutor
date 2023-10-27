@@ -69,22 +69,23 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8,),
-          Container(
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(225, 228, 230, 235),
-              shape: BoxShape.circle,
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(2.0),
-              child: IconButton(
-                icon: Icon(Icons.list), // replace 'favorite' with the icon you want
-                iconSize: 16, // adjust the size as needed
-                color: Colors.red, // adjust the color as needed
-                onPressed: null,
-              )
-            ),
+          const SizedBox(
+            width: 8,
           ),
+          if (isLogined)
+            Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(225, 228, 230, 235),
+                shape: BoxShape.circle,
+              ),
+              child: const Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: IconButton(
+                    icon: Icon(Icons.list),
+                    iconSize: 16,
+                    onPressed: null,
+                  )),
+            ),
         ],
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/pages/Home/Home.dart';
+import 'package:lettutor/dummy/tutor.dart';
+import 'package:lettutor/presentation/pages/Home/HomePage.dart';
+import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
+import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +25,11 @@ class MyApp extends StatelessWidget {
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
+          headlineMedium: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor
+          ),
           headlineSmall: const TextStyle(
             fontSize: 20,
           ),
@@ -34,8 +42,10 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SafeArea(
-        child: Home(),
+      home: SafeArea(
+        child: TutorPage(tutor: tutorList[0],),
+        // child: LoginPage(),
+        // child: Home(),
       )
 
     );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Tutor.dart';
-import 'package:lettutor/presentation/pages/Home/RecommendedTutors/Rating.dart';
 import 'package:lettutor/presentation/widgets/MultipleLabelsPicker/MultipleLabelPicker.dart';
+import 'package:lettutor/presentation/widgets/TutorProfile/TutorProfile.dart';
+
 class TutorCard extends StatelessWidget {
   const TutorCard({super.key, required this.tutor});
 
@@ -15,62 +16,21 @@ class TutorCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            InkWell(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Avatar
-                  tutor.avatar,
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  // Information
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          tutor.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          tutor.country,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                              color: Colors.grey.shade500,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Rating(rating: tutor.rating)
-                      ],
-                    ),
-                  ),
-                  // Favorite Button
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.favorite_border_rounded,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
+            TutorProfile(
+              tutor: tutor,
             ),
+            // InkWell(
+            //   child: TutorProfile(
+            //     tutor: tutor,
+            //   ),
+            // ),
             const SizedBox(
               height: 10,
             ),
             MultipleLabelsPicker(
-                labelList: tutor.labels.map((e) => e.name).toList(),
+                labelList: tutor.specialtyList!.map((e) => e.name).toList(),
                 defaultStyle: StateStyle(
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255),
                     textColor: Theme.of(context).primaryColor),
@@ -81,7 +41,13 @@ class TutorCard extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Text(tutor.introduction),
+            Text(
+              tutor.introduction,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Colors.grey.shade500),
+            ),
             Align(
               alignment: Alignment.centerRight,
               child: OutlinedButton.icon(

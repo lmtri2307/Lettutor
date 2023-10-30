@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SubPageAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const SubPageAppBar({super.key, required this.title});
+enum AppBarType { main, sub }
+
+class PageAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const PageAppBar({super.key, required this.title, required this.type});
 
   final String title;
+  final AppBarType type;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +17,7 @@ class SubPageAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -21,9 +25,11 @@ class SubPageAppBar extends StatelessWidget implements PreferredSizeWidget {
           toolbarHeight: double.infinity,
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
-          leading: BackButton(
-            color: Theme.of(context).primaryColor,
-          ),
+          leading: type == AppBarType.sub
+              ? BackButton(
+                  color: Theme.of(context).primaryColor,
+                )
+              : null,
           title: Text(
             title,
             style: Theme.of(context).textTheme.headlineMedium,

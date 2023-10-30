@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:lettutor/dummy/tutor.dart';
+import 'package:lettutor/dummy/user.dart';
 import 'package:lettutor/models/Lesson.dart';
+import 'package:lettutor/models/Review.dart';
 
 DateTime generateRandomFutureDate() {
   final random = Random();
@@ -18,7 +20,7 @@ List<DateTime> generateSortedRandomListOfFutureDate() {
   return result;
 }
 
-List<List<Lesson>> groupByDate(List<Lesson> lessonList){
+List<List<Lesson>> groupByDate(List<Lesson> lessonList) {
   List<List<Lesson>> result = [];
   List<Lesson> currentGroup = [];
 
@@ -39,6 +41,11 @@ List<List<Lesson>> groupByDate(List<Lesson> lessonList){
 }
 
 final lessonList = generateSortedRandomListOfFutureDate()
-    .map((e) => Lesson(tutorList[0], e, const Duration(minutes: 30))).toList();
+    .map((e) => Lesson(tutorList[0], e, const Duration(minutes: 30),
+        review: Review(
+            author: userList[0],
+            comment: "Sample Comment",
+            rating: Random().nextInt(10) / 2)))
+    .toList();
 
 final lessonListGroupedByDate = groupByDate(lessonList);

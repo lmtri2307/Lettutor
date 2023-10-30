@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/presentation/widgets/AppBar/AppBar.dart';
 import 'package:lettutor/presentation/pages/Home/RecommendedTutors/RecommendedTutors.dart';
 import 'package:lettutor/presentation/pages/Home/TutorSearch/TutorSearch.dart';
-import 'package:lettutor/presentation/pages/Home/UpcomingLesson.dart';
+import 'package:lettutor/presentation/pages/Home/UpcomingLessonNotification.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            UpcomingLesson(),
+            UpcomingLessonNotification(),
             Padding(
               padding:
                   EdgeInsets.only(top: 33, left: 30, right: 30, bottom: 49),

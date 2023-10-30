@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class UpcomingLesson extends StatelessWidget {
-  const UpcomingLesson({super.key});
+class UpcomingLessonNotification extends StatelessWidget {
+  const UpcomingLessonNotification({super.key});
 
   @override
   Widget build(BuildContext context) {

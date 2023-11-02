@@ -32,7 +32,7 @@ class PreviewCard extends StatelessWidget {
           Image.asset(
             imageUrl,
             height: 200,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 40, left: 24, bottom: 12),

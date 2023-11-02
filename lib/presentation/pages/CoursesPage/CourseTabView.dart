@@ -19,7 +19,7 @@ class CourseTabView extends StatelessWidget {
                 title: course.name,
                 description: course.description,
                 additionalDetail:
-                    '${course.level.name} • ${course.lessonList.length} lessons',
+                    '${course.level.name} • ${course.topicList.length} lessons',
               ))
           .toList(),
     );

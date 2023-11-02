@@ -18,52 +18,63 @@ class CourseFilter extends StatelessWidget {
             borderSide: BorderSide(color: Colors.grey, width: 2),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          labelStyle: const TextStyle(color: Colors.black),
+          labelStyle: TextStyle(color: Colors.grey.shade400),
           hintStyle: TextStyle(color: Colors.grey.shade400),
         )),
-        child: Wrap(
-          direction: Axis.horizontal,
-          runSpacing: 4,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            FractionallySizedBox(
-                widthFactor: 0.5,
-                child: Container(
-                    height: 40,
-                    margin: const EdgeInsets.only(right: 8),
-                    child: CourseFilterField(
-                      optionList: const [
-                        "Intermediate",
-                        "Beginner",
-                        "Pre-advanced",
-                        "Upper-Beginner"
-                      ],
-                      label: "Select Level",
-                      getOptionLabel: (option) => option,
-                    ))),
-            FractionallySizedBox(
-                widthFactor: 0.5,
-                child: Container(
-                    height: 40,
-                    margin: const EdgeInsets.only(left: 8),
-                    child: CourseFilterField(
-                      optionList: const [
-                        "Intermediate",
-                        "Beginner",
-                        "Pre-advanced",
-                        "Upper-Beginner"
-                      ],
-                      label: "Select category",
-                      getOptionLabel: (option) => option,
-                    ))),
-            DropdownButtonFormField(
-              decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(8),
-                  hintText: "Sort by level"),
-              isExpanded: true,
-              items: ["Level decreasing", "Level ascending"]
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                  .toList(),
-              onChanged: (e) {},
+            Text("Filters", style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey
+            ),),
+            const SizedBox(height: 12,),
+            Wrap(
+              direction: Axis.horizontal,
+              runSpacing: 4,
+              children: [
+                FractionallySizedBox(
+                    widthFactor: 0.5,
+                    child: Container(
+                        height: 40,
+                        margin: const EdgeInsets.only(right: 8),
+                        child: CourseFilterField(
+                          optionList: const [
+                            "Intermediate",
+                            "Beginner",
+                            "Pre-advanced",
+                            "Upper-Beginner"
+                          ],
+                          label: "Select Level",
+                          getOptionLabel: (option) => option,
+                        ))),
+                FractionallySizedBox(
+                    widthFactor: 0.5,
+                    child: Container(
+                        height: 40,
+                        margin: const EdgeInsets.only(left: 8),
+                        child: CourseFilterField(
+                          optionList: const [
+                            "Intermediate",
+                            "Beginner",
+                            "Pre-advanced",
+                            "Upper-Beginner"
+                          ],
+                          label: "Select category",
+                          getOptionLabel: (option) => option,
+                        ))),
+                DropdownButtonFormField(
+                  decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(8),
+                      hintText: "Sort by level"),
+                  isExpanded: true,
+                  items: ["Level decreasing", "Level ascending"]
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                      .toList(),
+                  onChanged: (e) {},
+                ),
+              ],
             ),
           ],
         ));

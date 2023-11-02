@@ -10,6 +10,7 @@ import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
 import 'package:lettutor/presentation/pages/Schedule/SchedulePage.dart';
 import 'package:lettutor/presentation/pages/TopicPage/TopicPage.dart';
 import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
+import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,9 +48,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: SafeArea(
-            child: TopicPage(
-          topic: topicList[0],
-        )
+            // child: VideoCallPage()
+            child: TopicPage(topic: topicList[0],)
             // child: CourseDetailPage(course: courseList[0],),
             // child: CoursesPage(),
             // child: HistoryPage(),

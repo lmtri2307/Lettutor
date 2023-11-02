@@ -43,6 +43,7 @@ dependencies:
   chewie: ^1.7.1
   intl: ^0.18.1
   multi_select_flutter: ^4.1.3
+  syncfusion_flutter_pdfviewer: ^23.1.43
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -11,4 +11,11 @@ final topicList = [
   "Animated Movies And TV Series",
   "Movies Around the World",
   "The Future of Entertainment"
-].map((name) => Topic(name: name)).toList();
+]
+    .map((name) => Topic(
+        name: name,
+        fileUrl:
+            "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileYour%20Favorite%20Movie.pdf"
+            // "https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf"
+))
+    .toList();

@@ -32,8 +32,10 @@ class HistoryLessonCard extends StatelessWidget {
                   top: BorderSide(width: 1, color: Colors.grey.shade300)),
             ),
             alignment: Alignment.centerLeft,
-            child: Text("Tutor haven't reviewed yet",
-                style: TextStyle(color: Colors.grey.shade700)),
+            child: Text(
+              "No request for lesson",
+              style: TextStyle(color: Colors.grey.shade700),
+            ),
           ),
           Container(
             height: 40,
@@ -43,10 +45,8 @@ class HistoryLessonCard extends StatelessWidget {
                   top: BorderSide(width: 1, color: Colors.grey.shade300)),
             ),
             alignment: Alignment.centerLeft,
-            child: Text(
-              "No request for lesson",
-              style: TextStyle(color: Colors.grey.shade700),
-            ),
+            child: Text("Tutor haven't reviewed yet",
+                style: TextStyle(color: Colors.grey.shade700)),
           ),
           Container(
             height: 40,

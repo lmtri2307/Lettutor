@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/dummy/tutor.dart';
+import 'package:lettutor/presentation/pages/CoursesPage/CoursesPage.dart';
 import 'package:lettutor/presentation/pages/HistoryPage/HistoryPage.dart';
 import 'package:lettutor/presentation/pages/Home/HomePage.dart';
 import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: SafeArea(
-        child: HistoryPage(),
+        child: CoursesPage(),
+        // child: HistoryPage(),
         // child: SchedulePage(),
         // child: TutorPage(tutor: tutorList[0],),
         // child: LoginPage(),

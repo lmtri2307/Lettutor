@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/widgets/AppBar/AppBar.dart';
+import 'package:lettutor/presentation/widgets/LettutorAppBar/LettutorAppBar.dart';
 import 'package:lettutor/presentation/pages/Login/LoginForm.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
 

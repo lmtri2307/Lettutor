@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/widgets/AppBar/AppBar.dart';
+import 'package:lettutor/presentation/widgets/LettutorAppBar/LettutorAppBar.dart';
 import 'package:lettutor/presentation/pages/Home/RecommendedTutors/RecommendedTutors.dart';
 import 'package:lettutor/presentation/pages/Home/TutorSearch/TutorSearch.dart';
 import 'package:lettutor/presentation/pages/Home/UpcomingLessonNotification.dart';

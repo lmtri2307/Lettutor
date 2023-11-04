@@ -36,7 +36,9 @@ class UpcomingLessonCard extends StatelessWidget {
                   child: TextButton(
                     style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder()),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/call");
+                    },
                     child: Text(
                       'Go to meeting',
                       textAlign: TextAlign.center,

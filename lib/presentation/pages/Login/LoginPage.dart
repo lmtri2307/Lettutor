@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/widgets/LettutorAppBar/LettutorAppBar.dart';
+import 'package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart';
 import 'package:lettutor/presentation/pages/Login/LoginForm.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
 
@@ -9,7 +9,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: const LetTutorAppBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -52,7 +52,9 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   TextButton(
-                    onPressed: null,
+                    onPressed: (){
+                      Navigator.pushReplacementNamed(context, "/");
+                    },
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),

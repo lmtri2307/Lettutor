@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/widgets/LettutorAppBar/LettutorAppBar.dart';
+import 'package:lettutor/presentation/widgets/LettutorAppBar/LetTutorAppBar.dart';
 import 'package:lettutor/presentation/pages/Home/RecommendedTutors/RecommendedTutors.dart';
 import 'package:lettutor/presentation/pages/Home/TutorSearch/TutorSearch.dart';
 import 'package:lettutor/presentation/pages/Home/UpcomingLessonNotification.dart';
@@ -10,8 +10,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: MyAppBar(
-        isLogined: true,
+      appBar: LetTutorAppBar(
+        isLoggedIn: true,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

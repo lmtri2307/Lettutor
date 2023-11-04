@@ -19,13 +19,11 @@ class TutorCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TutorProfile(
+              onTap: (){
+                Navigator.pushNamed(context, "/tutor", arguments: tutor);
+              },
               tutor: tutor,
             ),
-            // InkWell(
-            //   child: TutorProfile(
-            //     tutor: tutor,
-            //   ),
-            // ),
             const SizedBox(
               height: 10,
             ),

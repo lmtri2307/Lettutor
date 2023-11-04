@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/enums/language.dart';
-import 'package:lettutor/presentation/widgets/LettutorAppBar/LanguageOption.dart';
+import 'package:lettutor/presentation/widgets/LetTutorAppBar/LanguageOption.dart';
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MyAppBar({super.key, this.isLogined = false});
+class LetTutorAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const LetTutorAppBar({super.key, this.isLoggedIn = false});
 
-  final bool isLogined;
+  final bool isLoggedIn;
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
@@ -25,6 +25,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       child: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: double.infinity,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
@@ -72,7 +73,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(
             width: 8,
           ),
-          if (isLogined)
+          if (isLoggedIn)
             Container(
               decoration: const BoxDecoration(
                 color: Color.fromARGB(225, 228, 230, 235),

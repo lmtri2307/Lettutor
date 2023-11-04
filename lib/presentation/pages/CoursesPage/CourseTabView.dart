@@ -14,13 +14,17 @@ class CourseTabView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: courseList
-          .map((course) => PreviewCard(
-                imageUrl: course.imageUrl,
-                title: course.name,
-                description: course.description,
-                additionalDetail:
-                    '${course.level.name} • ${course.topicList.length} lessons',
-              ))
+          .map((course) =>
+          PreviewCard(
+            onTap: () {
+              Navigator.pushNamed(context, "/course/detail", arguments: course);
+            },
+            imageUrl: course.imageUrl,
+            title: course.name,
+            description: course.description,
+            additionalDetail:
+            '${course.level.name} • ${course.topicList.length} lessons',
+          ))
           .toList(),
     );
   }

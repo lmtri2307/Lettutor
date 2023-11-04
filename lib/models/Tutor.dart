@@ -27,8 +27,8 @@ class Tutor {
   final String introduction;
   final List<Review>? reviewList;
   final String? videoUrl;
-  List<Language>? languageList;
-  List<Specialty>? specialtyList;
+  List<Language>? languageList = [];
+  List<Specialty>? specialtyList = [];
   String? interest;
   String? experience;
 

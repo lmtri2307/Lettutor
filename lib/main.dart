@@ -7,12 +7,15 @@ import 'package:lettutor/presentation/pages/CoursesPage/CoursesPage.dart';
 import 'package:lettutor/presentation/pages/HistoryPage/HistoryPage.dart';
 import 'package:lettutor/presentation/pages/Home/HomePage.dart';
 import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
-import 'package:lettutor/presentation/pages/Schedule/SchedulePage.dart';
+import 'package:lettutor/presentation/pages/SchedulePage/SchedulePage.dart';
 import 'package:lettutor/presentation/pages/TopicPage/TopicPage.dart';
 import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
 import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
+import 'package:lettutor/routing/RouteGenerator.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() {
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -23,40 +26,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primaryColor: const Color.fromARGB(255, 0, 113, 240),
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 0, 113, 240)),
-          textTheme: TextTheme(
-              headlineLarge: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontSize: 30,
+      onGenerateRoute: RouteGenerator.onGenerateRoute,
+      initialRoute: "/",
+
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primaryColor: const Color.fromARGB(255, 0, 113, 240),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 0, 113, 240)),
+        textTheme: TextTheme(
+            headlineLarge: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+            headlineMedium: TextStyle(
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
-              ),
-              headlineMedium: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor),
-              headlineSmall: const TextStyle(
-                fontSize: 20,
-              ),
-              bodyMedium: const TextStyle(
-                fontSize: 16,
-              ),
-              bodySmall: const TextStyle(fontSize: 14)),
-          useMaterial3: true,
-        ),
-        home: SafeArea(
-            // child: VideoCallPage()
-            child: TopicPage(topic: topicList[0],)
-            // child: CourseDetailPage(course: courseList[0],),
-            // child: CoursesPage(),
-            // child: HistoryPage(),
-            // child: SchedulePage(),
-            // child: TutorPage(tutor: tutorList[0],),
-            // child: LoginPage(),
-            // child: Home(),
-            ));
+                color: Theme.of(context).primaryColor),
+            headlineSmall: const TextStyle(
+              fontSize: 20,
+            ),
+            bodyMedium: const TextStyle(
+              fontSize: 16,
+            ),
+            bodySmall: const TextStyle(fontSize: 14)),
+        useMaterial3: true,
+      ),
+    );
   }
 }

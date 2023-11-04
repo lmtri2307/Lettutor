@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   flutter_svg: ^2.0.5
   font_awesome_flutter: ^9.1.0
   avatars: ^3.0.0

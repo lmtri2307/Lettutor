@@ -12,12 +12,13 @@ class TopicCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Card(
-
         elevation: 1.5,
         surfaceTintColor: Colors.white,
         child: ListTile(
           title: Text('${index + 1}. ${topic.name}'),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, "/topic", arguments: topic);
+          },
         ),
       ),
     );

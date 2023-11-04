@@ -65,11 +65,12 @@ class TutorPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Center(
-                child: AssetVideo(
-                  url: "assets/videos/tutor.mp4",
+              if(tutor.videoUrl != null)
+                Center(
+                  child: AssetVideo(
+                    url: tutor.videoUrl!,
+                  ),
                 ),
-              ),
               const SizedBox(
                 height: 10,
               ),

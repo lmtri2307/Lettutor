@@ -34,7 +34,7 @@ class HistoryPage extends StatelessWidget {
                 height: 24,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/dummy/lesson.dart';
-import 'package:lettutor/presentation/pages/Schedule/UpcomingLessonCard.dart';
+import 'package:lettutor/presentation/pages/SchedulePage/UpcomingLessonCard.dart';
 import 'package:lettutor/presentation/widgets/DateCard/DateCard.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/presentation/widgets/PageOverview/PageOverview.dart';
@@ -33,7 +33,7 @@ class SchedulePage extends StatelessWidget {
                 height: 24,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,

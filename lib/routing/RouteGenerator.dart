@@ -23,7 +23,7 @@ class RouteGenerator {
         "/login" => const LoginPage(),
         "/tutor" =>
             TutorPage(tutor: calculatedSettings.arguments! as Tutor),
-        "/course/detail" =>
+        "/course" =>
             CourseDetailPage(
               course: calculatedSettings.arguments! as Course,
             ),

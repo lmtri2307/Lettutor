@@ -7,18 +7,12 @@ class VideoCallPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                'Lesson is starting in\n00:59:59',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, color: Colors.white60),
-              ),
-            ),
-          ),
-        ],
+      body: Center(
+        child: Text(
+          'Lesson is starting in\n00:59:59',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, color: Colors.white60),
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(vertical: 12),

@@ -4,7 +4,6 @@ import "package:lettutor/presentation/pages/HistoryPage/HistoryPage.dart";
 import "package:lettutor/presentation/pages/Home/HomePage.dart";
 import "package:lettutor/presentation/pages/SchedulePage/SchedulePage.dart";
 
-import "../SchedulePage/SchedulePage.dart";
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});

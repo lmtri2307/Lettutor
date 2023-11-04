@@ -1,16 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/dummy/course.dart';
-import 'package:lettutor/dummy/topic.dart';
-import 'package:lettutor/dummy/tutor.dart';
-import 'package:lettutor/presentation/pages/CourseDetailPage/CourseDetailPage.dart';
-import 'package:lettutor/presentation/pages/CoursesPage/CoursesPage.dart';
-import 'package:lettutor/presentation/pages/HistoryPage/HistoryPage.dart';
-import 'package:lettutor/presentation/pages/Home/HomePage.dart';
-import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
-import 'package:lettutor/presentation/pages/SchedulePage/SchedulePage.dart';
-import 'package:lettutor/presentation/pages/TopicPage/TopicPage.dart';
-import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
-import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
 import 'package:lettutor/routing/RouteGenerator.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 

@@ -17,7 +17,7 @@ class CourseTabView extends StatelessWidget {
           .map((course) =>
           PreviewCard(
             onTap: () {
-              Navigator.pushNamed(context, "/course/detail", arguments: course);
+              Navigator.pushNamed(context, "/course", arguments: course);
             },
             imageUrl: course.imageUrl,
             title: course.name,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart';
 import 'package:lettutor/presentation/pages/Login/LoginForm.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
+import 'package:lettutor/routing/RouteGenerator.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -53,6 +54,7 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   TextButton(
                     onPressed: (){
+                      RouteGenerator.idLoggedIn = true;
                       Navigator.pushReplacementNamed(context, "/");
                     },
                     style: TextButton.styleFrom(

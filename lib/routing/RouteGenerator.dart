@@ -10,11 +10,11 @@ import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
 import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
 
 class RouteGenerator {
+  static bool idLoggedIn = false;
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    bool isLoggedIn = true;
 
     final calculatedSettings = RouteSettings(
-        name: isLoggedIn ? settings.name : "/login",
+        name: idLoggedIn ? settings.name : "/login",
         arguments: settings.arguments);
 
     try {

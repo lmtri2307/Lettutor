@@ -42,7 +42,9 @@ class UpcomingLessonNotification extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 16),
                       backgroundColor: Colors.white),
-                  onPressed: null,
+                  onPressed: (){
+                    Navigator.pushNamed(context, "/call");
+                  },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

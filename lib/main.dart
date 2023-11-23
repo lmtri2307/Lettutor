@@ -1,22 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/repository/AuthRepository.dart';
 import 'package:lettutor/routing/RouteGenerator.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   usePathUrlStrategy();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => AuthRepository(),
+      )
+    ],
+    child: const MyApp(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  String currentRoute = "/";
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: RouteGenerator.onGenerateRoute,
-      initialRoute: "/",
+    final authRepository = context.watch<AuthRepository>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (authRepository.isLoggedIn) {
+        if (currentRoute == "/login" ||
+            currentRoute == "/" ||
+            currentRoute == "/signup") {
+          navigatorKey.currentState!
+              .pushNamedAndRemoveUntil("/home", (route) => false);
+        }
+        return;
+      }
 
+      if (currentRoute != "/login" && currentRoute != "/signup") {
+        navigatorKey.currentState!
+            .pushNamedAndRemoveUntil("/login", (route) => false);
+      }
+    });
+
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      onGenerateRoute: (settings) {
+        final route = authRepository.isLoggedIn
+            ? settings.name != "/login" || settings.name != "/signup"
+                ? RouteGenerator.onGenerateRoute(
+                    RouteSettings(name: "/home", arguments: settings.arguments))
+                : RouteGenerator.onGenerateRoute(settings)
+            : settings.name != "/login" && settings.name != "/signup"
+                ? RouteGenerator.onGenerateRoute(RouteSettings(
+                    name: "/login", arguments: settings.arguments))
+                : RouteGenerator.onGenerateRoute(settings);
+        currentRoute = route.settings.name!;
+        return route;
+      },
+      initialRoute: currentRoute,
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 0, 113, 240),

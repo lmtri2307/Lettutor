@@ -5,48 +5,47 @@ import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/pages/CourseDetailPage/CourseDetailPage.dart';
 import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
 import 'package:lettutor/presentation/pages/NavigationPage/NavigationPage.dart';
+import 'package:lettutor/presentation/pages/SignUpPage/SignUpPage.dart';
+import 'package:lettutor/presentation/pages/SplashPage/SplashPage.dart';
 import 'package:lettutor/presentation/pages/TopicPage/TopicPage.dart';
 import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
 import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
 
 class RouteGenerator {
-  static bool idLoggedIn = false;
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-
-    final calculatedSettings = RouteSettings(
-        name: idLoggedIn ? settings.name : "/login",
-        arguments: settings.arguments);
-
+    print(settings.name);
     try {
-      final page = switch (calculatedSettings.name) {
-        "/" => const NavigationPage(),
+      final page = switch (settings.name) {
+        "/" => const SplashPage(),
+        "/home" => const NavigationPage(),
         "/login" => const LoginPage(),
-        "/tutor" =>
-            TutorPage(tutor: calculatedSettings.arguments! as Tutor),
-        "/course" =>
-            CourseDetailPage(
-              course: calculatedSettings.arguments! as Course,
-            ),
-        "/topic" =>
-            TopicPage(
-              topic: calculatedSettings.arguments! as Topic,
-            ),
+        "/signup" => const SignUpPage(),
+        "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
+        "/course" => CourseDetailPage(
+            course: settings.arguments! as Course,
+          ),
+        "/topic" => TopicPage(
+            topic: settings.arguments! as Topic,
+          ),
         "/call" => const VideoCallPage(),
-        _ =>
-        const Center(
-          child: Text("404"),
-        )
+        _ => const Center(
+            child: Text("404"),
+          )
       };
       return MaterialPageRoute(
-          settings: calculatedSettings,
+          settings: settings,
           builder: (context) {
             return SafeArea(
               child: page,
+              // child: AuthNavigating(
+              //   child: page,
+              // ),
             );
           });
     } catch (e) {
+      print("catch");
       return onGenerateRoute(
-          RouteSettings(name: "/", arguments: settings.arguments));
+          RouteSettings(name: "/login", arguments: settings.arguments));
     }
   }
 }

@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/helpers/show_toast.dart';
-import 'package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart';
-import 'package:lettutor/presentation/widgets/AuthenticationForm/AuthenticationForm.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
+import 'package:lettutor/presentation/widgets/AuthenticationForm/AuthenticationForm.dart';
+import 'package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart';
 import 'package:lettutor/repository/AuthRepository.dart';
 import 'package:lettutor/service/AuthService.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   bool _isAuthenticating = false;
 
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
-  void _login(
+  void _signup(
       {required AuthRepository authRepository,
       required String email,
       required String password}) async {
     setState(() {
       _isAuthenticating = true;
     });
-    final user = await const AuthService()
-        .loginWithEmailAndPassword(email, password)
-        .onError((error, stackTrace) {
-      showErrorSnackBar(context, 'Log in failed! Incorrect email or password.');
-      return null;
+    const AuthService()
+        .signupWithEmailAndPassword(email, password)
+        .then((value) {
+      Navigator.pushNamed(context, "/login");
+      showSuccessSnackBar(context, 'Sign up successful! Please log in.');
+    }).onError((error, stackTrace) {
+      showErrorSnackBar(context, 'Sign up failed! Email has already taken.');
     });
-    authRepository.setUser(user);
-
     setState(() {
       _isAuthenticating = false;
     });
@@ -73,30 +73,12 @@ class _LoginPageState extends State<LoginPage> {
                     passwordEditingController: passwordEditingController,
                   ),
                   const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                      onPressed: null,
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Text(
-                        "Forgot Password?",
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: Theme.of(context).primaryColor),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
                   Consumer<AuthRepository>(
                     builder: (BuildContext context, AuthRepository value,
                         Widget? child) {
                       return TextButton(
                           onPressed: () {
-                            _login(
+                            _signup(
                                 authRepository: value,
                                 email: emailEditingController.text,
                                 password: passwordEditingController.text);
@@ -115,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Colors.white,
                           )
                         : Text(
-                            "Login",
+                            "Signup",
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -137,15 +119,15 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Not a member yet?",
+                        "Already have an account?",
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, "/signup");
+                            Navigator.pushNamed(context, "/login");
                           },
                           child: Text(
-                            "Sign up",
+                            "Log in",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall

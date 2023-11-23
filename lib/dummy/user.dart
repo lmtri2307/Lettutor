@@ -1,5 +1,6 @@
 import 'package:lettutor/models/User.dart';
 
-final userList = [
-  User(name: "Reviewer")
-];
+final userList = List.generate(
+    5,
+    (index) => User(
+        email: 'user$index@gmail.com', password: "123456", name: "User$index"));

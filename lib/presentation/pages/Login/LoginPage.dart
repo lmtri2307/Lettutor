@@ -76,7 +76,9 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton(
-                      onPressed: null,
+                      onPressed: (){
+                        Navigator.pushNamed(context, "/password");
+                      },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                       ),

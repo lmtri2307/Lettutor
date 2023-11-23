@@ -4,9 +4,11 @@ import 'package:lettutor/enums/language.dart';
 import 'package:lettutor/presentation/widgets/LetTutorAppBar/LanguageOption.dart';
 
 class LetTutorAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const LetTutorAppBar({super.key, this.isLoggedIn = false});
+  const LetTutorAppBar(
+      {super.key, this.isLoggedIn = false, this.hasBackButton = false});
 
   final bool isLoggedIn;
+  final bool hasBackButton;
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
@@ -25,7 +27,7 @@ class LetTutorAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       child: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: hasBackButton,
         toolbarHeight: double.infinity,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,

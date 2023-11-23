@@ -10,10 +10,14 @@ class AuthService {
   }
 
   Future<void> signupWithEmailAndPassword(String email, String password) async {
-    if(userList.map((user) => user.email).contains(email)){
+    if (userList.map((user) => user.email).contains(email)) {
       throw Exception("Email has been used");
     }
 
     userList.add(User(email: email, password: password));
+  }
+
+  Future<void> resetPassword(String email) async {
+    userList.firstWhere((element) => element.email == email);
   }
 }

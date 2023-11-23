@@ -43,7 +43,9 @@ class _MyAppState extends State<MyApp> {
         return;
       }
 
-      if (currentRoute != "/login" && currentRoute != "/signup") {
+      if (currentRoute != "/login" &&
+          currentRoute != "/signup" &&
+          currentRoute != "/password") {
         navigatorKey.currentState!
             .pushNamedAndRemoveUntil("/login", (route) => false);
       }
@@ -53,11 +55,15 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: navigatorKey,
       onGenerateRoute: (settings) {
         final route = authRepository.isLoggedIn
-            ? settings.name != "/login" || settings.name != "/signup"
+            ? settings.name == "/login" ||
+                    settings.name == "/signup" ||
+                    settings.name == "/password"
                 ? RouteGenerator.onGenerateRoute(
                     RouteSettings(name: "/home", arguments: settings.arguments))
                 : RouteGenerator.onGenerateRoute(settings)
-            : settings.name != "/login" && settings.name != "/signup"
+            : settings.name != "/login" &&
+                    settings.name != "/signup" &&
+                    settings.name != "/password"
                 ? RouteGenerator.onGenerateRoute(RouteSettings(
                     name: "/login", arguments: settings.arguments))
                 : RouteGenerator.onGenerateRoute(settings);

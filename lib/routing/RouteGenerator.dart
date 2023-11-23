@@ -3,6 +3,7 @@ import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/models/Topic.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/pages/CourseDetailPage/CourseDetailPage.dart';
+import 'package:lettutor/presentation/pages/ForgotPasswordPage/ForgotPasswordPage.dart';
 import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
 import 'package:lettutor/presentation/pages/NavigationPage/NavigationPage.dart';
 import 'package:lettutor/presentation/pages/SignUpPage/SignUpPage.dart';
@@ -19,6 +20,7 @@ class RouteGenerator {
         "/" => const SplashPage(),
         "/home" => const NavigationPage(),
         "/login" => const LoginPage(),
+        "/password" => const ForgotPasswordPage(),
         "/signup" => const SignUpPage(),
         "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
         "/course" => CourseDetailPage(

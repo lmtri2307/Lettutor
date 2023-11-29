@@ -1,3 +1,4 @@
+import 'package:avatars/avatars.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/widgets/TutorProfile/Rating.dart';
@@ -7,16 +8,18 @@ class TutorProfile extends StatelessWidget {
       {super.key,
       required this.tutor,
       this.showFavoriteButton = true,
-      this.showNumberOfReviews = false,
+      this.showNumOfReviews = false,
       this.onTap,
-      this.height});
+      this.height,
+      this.onToggleFavorite});
 
   final Tutor tutor;
-  final bool showNumberOfReviews;
   final bool showFavoriteButton;
+  final bool showNumOfReviews;
   final double? height;
   final double minHeight = 92;
   final void Function()? onTap;
+  final void Function()? onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,20 @@ class TutorProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Avatar
-              tutor.avatar,
+              FittedBox(
+                  child: SizedBox.square(
+                      child: CircleAvatar(
+                          child: tutor.avatar != null
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: AssetImage(tutor.avatar!),
+                                    ),
+                                  ),
+                                )
+                              : FittedBox(child: Avatar(name: tutor.name))))),
               const SizedBox(
                 width: 18,
               ),
@@ -53,7 +69,7 @@ class TutorProfile extends StatelessWidget {
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      tutor.country,
+                      tutor.country ?? "Unknown country",
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.grey.shade500,
                           fontWeight: FontWeight.bold),
@@ -64,12 +80,12 @@ class TutorProfile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Rating(rating: tutor.rating),
-                          ...showNumberOfReviews
+                          ...showNumOfReviews && tutor.numOfReviews != null
                               ? [
                                   const SizedBox(
                                     width: 8,
                                   ),
-                                  Text("(${tutor.reviewList?.length.toString()})",
+                                  Text("(${tutor.numOfReviews})",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall
@@ -91,11 +107,20 @@ class TutorProfile extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: IconButton(
-                      icon: Icon(
-                        Icons.favorite_border_rounded,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: () {},
+                      icon: tutor.isFavorite
+                          ? const Icon(
+                              Icons.favorite_rounded,
+                              color: Colors.red,
+                            )
+                          : Icon(
+                              Icons.favorite_border_rounded,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                      onPressed: () {
+                        if (onToggleFavorite != null) {
+                          onToggleFavorite!();
+                        }
+                      },
                     ),
                   ),
                 ),

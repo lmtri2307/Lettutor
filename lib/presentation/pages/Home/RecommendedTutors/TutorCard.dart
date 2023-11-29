@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/widgets/MultipleLabelsPicker/MultipleLabelPicker.dart';
 import 'package:lettutor/presentation/widgets/TutorProfile/TutorProfile.dart';
+import 'package:lettutor/providers/TutorListProvider.dart';
+import 'package:lettutor/service/TutorService.dart';
+import 'package:provider/provider.dart';
 
 class TutorCard extends StatelessWidget {
   const TutorCard({super.key, required this.tutor});
 
   final Tutor tutor;
+  final _tutorRepository = const TutorService();
+
+  void _onToggleFavorite(TutorListProvider tutorListProvider) async {
+    final newTutor = await _tutorRepository.toggleFavoriteTutor(tutor);
+    tutorListProvider.toggleFavoriteTutor(tutor);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final tutorListProvider = context.read<TutorListProvider>();
     return Card(
       surfaceTintColor: Colors.white,
       elevation: 3,
@@ -19,16 +29,17 @@ class TutorCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TutorProfile(
-              onTap: (){
+              onTap: () {
                 Navigator.pushNamed(context, "/tutor", arguments: tutor);
               },
               tutor: tutor,
+              onToggleFavorite: () => _onToggleFavorite(tutorListProvider),
             ),
             const SizedBox(
               height: 10,
             ),
             MultipleLabelsPicker(
-                labelList: tutor.specialtyList!.map((e) => e.name).toList(),
+                labelList: tutor.specialtyList,
                 defaultStyle: StateStyle(
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255),
                     textColor: Theme.of(context).primaryColor),
@@ -40,7 +51,7 @@ class TutorCard extends StatelessWidget {
               height: 8,
             ),
             Text(
-              tutor.introduction,
+              tutor.bio ?? "",
               style: Theme.of(context)
                   .textTheme
                   .bodySmall

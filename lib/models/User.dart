@@ -1,8 +1,8 @@
 class User {
-  User({this.email, this.id, this.name, this.avatar, this.password});
+  User({required this.email, required this.id, this.name, this.avatar, this.password});
 
-  String? id;
-  String? email;
+  String id;
+  String email;
   String? name;
   String? avatar;
   String? password;

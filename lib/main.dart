@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/repository/AuthRepository.dart';
+import 'package:lettutor/providers/AuthProvider.dart';
+import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:lettutor/routing/RouteGenerator.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +10,9 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (context) => AuthRepository(),
-      )
+        create: (context) => AuthProvider(),
+      ),
+      ChangeNotifierProvider(create: (context) => TutorListProvider(),)
     ],
     child: const MyApp(),
   ));
@@ -26,26 +28,26 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  String currentRoute = "/";
+  String _currentRoute = "/";
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final authRepository = context.watch<AuthRepository>();
+    final authRepository = context.watch<AuthProvider>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (authRepository.isLoggedIn) {
-        if (currentRoute == "/login" ||
-            currentRoute == "/" ||
-            currentRoute == "/signup") {
+        if (_currentRoute == "/login" ||
+            _currentRoute == "/" ||
+            _currentRoute == "/signup") {
           navigatorKey.currentState!
               .pushNamedAndRemoveUntil("/home", (route) => false);
         }
         return;
       }
 
-      if (currentRoute != "/login" &&
-          currentRoute != "/signup" &&
-          currentRoute != "/password") {
+      if (_currentRoute != "/login" &&
+          _currentRoute != "/signup" &&
+          _currentRoute != "/password") {
         navigatorKey.currentState!
             .pushNamedAndRemoveUntil("/login", (route) => false);
       }
@@ -67,10 +69,10 @@ class _MyAppState extends State<MyApp> {
                 ? RouteGenerator.onGenerateRoute(RouteSettings(
                     name: "/login", arguments: settings.arguments))
                 : RouteGenerator.onGenerateRoute(settings);
-        currentRoute = route.settings.name!;
+        _currentRoute = route.settings.name!;
         return route;
       },
-      initialRoute: currentRoute,
+      initialRoute: _currentRoute,
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 0, 113, 240),

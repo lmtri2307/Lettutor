@@ -3,7 +3,7 @@ import 'package:lettutor/helpers/show_toast.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
 import 'package:lettutor/presentation/widgets/AuthenticationForm/AuthenticationForm.dart';
 import 'package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart';
-import 'package:lettutor/repository/AuthRepository.dart';
+import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/service/AuthService.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final passwordEditingController = TextEditingController();
 
   void _signup(
-      {required AuthRepository authRepository,
+      {required AuthProvider authRepository,
       required String email,
       required String password}) async {
     setState(() {
@@ -73,8 +73,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     passwordEditingController: passwordEditingController,
                   ),
                   const SizedBox(height: 20),
-                  Consumer<AuthRepository>(
-                    builder: (BuildContext context, AuthRepository value,
+                  Consumer<AuthProvider>(
+                    builder: (BuildContext context, AuthProvider value,
                         Widget? child) {
                       return TextButton(
                           onPressed: () {

@@ -7,9 +7,9 @@ class TutorDetails extends StatelessWidget {
 
   final Tutor tutor;
 
-  @override
-  Widget build(BuildContext context) {
-    tutorDetailItem(String title, Widget detail) => Column(
+  Widget _tutorDetailItem(BuildContext context,
+      {required String title, Widget? widget}) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -22,17 +22,21 @@ class TutorDetails extends StatelessWidget {
         ),
         Container(
             margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            child: detail),
+            child: widget),
       ],
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        tutorDetailItem(
-          "Education",
-          Text(
+        _tutorDetailItem(
+          context,
+          title: "Education",
+          widget: Text(
             "BA",
             style: Theme.of(context)
                 .textTheme
@@ -43,11 +47,31 @@ class TutorDetails extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        tutorDetailItem(
-            "Language",
-            IgnorePointer(
+        _tutorDetailItem(
+          context,
+          title: "Language",
+          widget: tutor.detail != null
+              ? IgnorePointer(
+                  child: MultipleLabelsPicker(
+                    labelList: tutor.detail!.languageList,
+                    onSelected: (e) {},
+                    defaultStyle: StateStyle(
+                        textColor: Theme.of(context).primaryColor,
+                        backgroundColor:
+                            const Color.fromARGB(255, 221, 234, 255)),
+                    selectedStyle: StateStyle(
+                        textColor: Theme.of(context).primaryColor,
+                        backgroundColor:
+                            const Color.fromARGB(255, 221, 234, 255)),
+                  ),
+                )
+              : null,
+        ),
+        _tutorDetailItem(context,
+            title: "Specialties",
+            widget: IgnorePointer(
               child: MultipleLabelsPicker(
-                labelList: tutor.languageList!.map((e) => e.name).toList(),
+                labelList: tutor.specialtyList,
                 onSelected: (e) {},
                 defaultStyle: StateStyle(
                     textColor: Theme.of(context).primaryColor,
@@ -57,33 +81,21 @@ class TutorDetails extends StatelessWidget {
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255)),
               ),
             )),
-        tutorDetailItem(
-            "Specialties",
-            IgnorePointer(
-              child: MultipleLabelsPicker(
-                labelList: tutor.specialtyList!.map((e) => e.name).toList(),
-                onSelected: (e) {},
-                defaultStyle: StateStyle(
-                    textColor: Theme.of(context).primaryColor,
-                    backgroundColor: const Color.fromARGB(255, 221, 234, 255)),
-                selectedStyle: StateStyle(
-                    textColor: Theme.of(context).primaryColor,
-                    backgroundColor: const Color.fromARGB(255, 221, 234, 255)),
-              ),
-            )),
-        tutorDetailItem(
-            "Interests",
-            Text(
-              tutor.interest ?? "",
+        _tutorDetailItem(
+          context,
+            title: "Interests",
+            widget: Text(
+              tutor.detail?.interest ?? "",
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
                   ?.copyWith(color: Colors.grey.shade700),
             )),
-        tutorDetailItem(
-            "Teaching experience",
-            Text(
-              tutor.experience ?? "",
+        _tutorDetailItem(
+          context,
+            title: "Teaching experience",
+            widget: Text(
+              tutor.detail?.experience ?? "",
               style: Theme.of(context)
                   .textTheme
                   .bodySmall

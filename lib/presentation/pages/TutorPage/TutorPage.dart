@@ -5,14 +5,43 @@ import 'package:lettutor/presentation/widgets/AssetVideo/AssetVideo.dart';
 import 'package:lettutor/presentation/widgets/IconTextButton/IconTextButton.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/presentation/widgets/TutorProfile/TutorProfile.dart';
+import 'package:lettutor/providers/TutorListProvider.dart';
+import 'package:lettutor/service/TutorService.dart';
+import 'package:provider/provider.dart';
 
-class TutorPage extends StatelessWidget {
+class TutorPage extends StatefulWidget {
   const TutorPage({super.key, required this.tutor});
 
   final Tutor tutor;
 
   @override
-  Widget build(BuildContext context) {
+  State<TutorPage> createState() => _TutorPageState();
+}
+
+class _TutorPageState extends State<TutorPage> {
+  late Tutor _tutor;
+  late final TutorListProvider _tutorListProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _tutor = widget.tutor;
+    _tutorListProvider = context.read<TutorListProvider>();
+  }
+
+
+  final TutorService tutorService = const TutorService();
+
+  void _onFavorite() async {
+     final newTutor = await tutorService.toggleFavoriteTutor(_tutor);
+     _tutorListProvider.toggleFavoriteTutor(_tutor);
+
+     setState(() {
+       _tutor = newTutor;
+     });
+  }
+
+  Widget _uiBuild(BuildContext context) {
     return Scaffold(
       appBar: const PageAppBar(
         title: "Teacher Details",
@@ -27,16 +56,16 @@ class TutorPage extends StatelessWidget {
                 height: 10,
               ),
               TutorProfile(
-                tutor: tutor,
+                tutor: _tutor,
                 showFavoriteButton: false,
-                showNumberOfReviews: true,
+                showNumOfReviews: true,
                 height: 100,
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                tutor.introduction,
+                _tutor.bio ?? "",
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
@@ -48,10 +77,14 @@ class TutorPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+
                   IconTextButton(
-                      iconData: Icons.favorite_border_rounded,
+                      color: _tutor.isFavorite? Colors.red : null,
+                      iconData: _tutor.isFavorite
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
                       label: 'Favorite',
-                      onPressed: () {}),
+                      onPressed: _onFavorite),
                   IconTextButton(
                       iconData: Icons.reviews_outlined,
                       label: 'Review',
@@ -65,18 +98,32 @@ class TutorPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              if(tutor.videoUrl != null)
+              if (_tutor.detail?.videoUrl != null)
                 Center(
                   child: AssetVideo(
-                    url: tutor.videoUrl!,
+                    url: _tutor.detail!.videoUrl!,
                   ),
                 ),
               const SizedBox(
                 height: 10,
               ),
-              TutorDetails(tutor: tutor)
+              TutorDetails(tutor: _tutor),
             ],
           )),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: tutorService.getTutorDetail(_tutor),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return _uiBuild(context);
+        }
+
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
 }

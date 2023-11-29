@@ -13,8 +13,12 @@ class AuthService {
     if (userList.map((user) => user.email).contains(email)) {
       throw Exception("Email has been used");
     }
-
-    userList.add(User(email: email, password: password));
+    final lastUser = userList.last;
+    userList.add(User(
+      id: (int.tryParse(lastUser.id)! + 1).toString(),
+      email: email,
+      password: password,
+    ));
   }
 
   Future<void> resetPassword(String email) async {

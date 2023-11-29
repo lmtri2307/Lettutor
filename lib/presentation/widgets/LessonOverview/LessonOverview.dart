@@ -22,14 +22,14 @@ class LessonOverview extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                lesson.tutor.name,
+                lesson.tutor.name ?? "Unknown name",
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
-                lesson.tutor.country,
+                lesson.tutor.country ?? "Unknown country",
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall

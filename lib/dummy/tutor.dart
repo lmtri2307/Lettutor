@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:lettutor/dummy/nationality.dart';
 import 'package:lettutor/dummy/specialty.dart';
 import 'package:lettutor/dummy/user.dart';
 import 'package:lettutor/models/Review.dart';
@@ -49,6 +50,7 @@ final tutorList = [
       experience:
           "Acadsoc - English Language Instruction Chinese based online English teaching platform. I taught EILTS as well as a wide age range of Children and adults of all levels. Sincewin - English Language InstructionOnline English lessons for whole kindergartenclasses. I taught basic phonics and vocabulary using songs,TPR and puppets",
     ),
+    nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
   Tutor(
     id: "2",
@@ -59,6 +61,7 @@ final tutorList = [
     rating: 3.5,
     detail: TutorDetail(
         videoUrl: "assets/videos/tutor.mp4", languages: "Northern Ndebele"),
+    nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
   Tutor(
     id: "3",
@@ -74,6 +77,7 @@ final tutorList = [
       experience:
           "Acadsoc - English Language Instruction Chinese based online English teaching platform. I taught EILTS as well as a wide age range of Children and adults of all levels. Sincewin - English Language InstructionOnline English lessons for whole kindergartenclasses. I taught basic phonics and vocabulary using songs,TPR and puppets",
     ),
+    nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
   Tutor(
     id: "4",
@@ -81,6 +85,7 @@ final tutorList = [
     numOfReviews: getRandomReviewList().length,
     specialties:
         getRandomSubList(specialtyList).map((e) => e.name).toList().join(","),
+    nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
   Tutor(
     id: "5",
@@ -88,5 +93,6 @@ final tutorList = [
     numOfReviews: getRandomReviewList().length,
     specialties:
         getRandomSubList(specialtyList).map((e) => e.name).toList().join(","),
+    nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
 ];

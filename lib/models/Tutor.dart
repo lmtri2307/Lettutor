@@ -1,3 +1,4 @@
+import 'package:lettutor/models/Nationality.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/TutorDetail.dart';
 
@@ -12,6 +13,7 @@ class Tutor {
       this.rating,
       this.numOfReviews,
       this.detail,
+      this.nationality,
       this.isFavorite = false});
 
   String id;
@@ -24,8 +26,10 @@ class Tutor {
   int? numOfReviews;
   bool isFavorite;
   TutorDetail? detail;
+  Nationality? nationality;
 
-  List<Specialty> get specialtyList => specialties?.split(",").map((e) => Specialty(e)).toList() ?? [];
+  List<Specialty> get specialtyList =>
+      specialties?.split(",").map((e) => Specialty(e)).toList() ?? [];
 
   Tutor copyWith({
     String? id,

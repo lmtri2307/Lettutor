@@ -1,8 +1,11 @@
 import 'package:lettutor/dummy/specialty.dart';
 import 'package:lettutor/dummy/tutor.dart';
+import 'package:lettutor/dummy/nationality.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/models/TutorDetail.dart';
+import 'package:lettutor/models/Nationality.dart';
+import 'package:lettutor/models/TutorSearchFormData.dart';
 
 class TutorService {
   const TutorService();
@@ -12,8 +15,7 @@ class TutorService {
     return specialtyList;
   }
 
-  Future<List<Tutor>> getTutorList() async {
-    await Future.delayed(const Duration(seconds: 2));
+  List<Tutor> _sortTutorList(List<Tutor> tutorList) {
     final copyList = [...tutorList];
     copyList.sort(
       (a, b) {
@@ -32,10 +34,12 @@ class TutorService {
         }
       },
     );
-    return Future.delayed(
-      const Duration(seconds: 2),
-      () => copyList,
-    );
+    return copyList;
+  }
+
+  Future<List<Tutor>> getTutorList() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return _sortTutorList(tutorList);
   }
 
   Future<List<Tutor>> searchByFilter(Specialty specialty) async {
@@ -64,5 +68,32 @@ class TutorService {
   Future<List<Tutor>> searchTutorByName(String name) async {
     await Future.delayed(const Duration(seconds: 2));
     return tutorList.where((tutor) => tutor.name.contains(name)).toList();
+  }
+
+  Future<List<Nationality>> getAllNationality() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return nationalityList;
+  }
+
+  Future<List<Tutor>> search(TutorSearchFormData formData) async {
+    await Future.delayed(const Duration(seconds: 2));
+    var result = tutorList;
+    if (formData.name != null) {
+      result = result
+          .where((tutor) =>
+              tutor.name.toLowerCase().contains(formData.name!.toLowerCase()))
+          .toList();
+    }
+    if (formData.specialty != null && formData.specialty != Specialty.all) {
+      result = result
+          .where((tutor) => tutor.specialtyList
+              .any((specialty) => specialty.name == formData.specialty!.name))
+          .toList();
+    }
+    if(formData.tutorNationality != null){
+      result = result.where((tutor) => tutor.nationality == formData.tutorNationality).toList();
+    }
+
+    return _sortTutorList(result);
   }
 }

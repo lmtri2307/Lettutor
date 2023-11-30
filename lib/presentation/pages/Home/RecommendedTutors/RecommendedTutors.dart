@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/pages/Home/RecommendedTutors/TutorCard.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
-import 'package:lettutor/service/TutorService.dart';
 import 'package:provider/provider.dart';
 
 class RecommendedTutors extends StatelessWidget {

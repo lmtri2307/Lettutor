@@ -53,8 +53,9 @@ class TutorDetails extends StatelessWidget {
           widget: tutor.detail != null
               ? IgnorePointer(
                   child: MultipleLabelsPicker(
-                    labelList: tutor.detail!.languageList,
-                    onSelected: (e) {},
+                    itemList: tutor.detail!.languageList,
+                    getLabelFromItem: (item) => item,
+                    onItemSelected: (e) {},
                     defaultStyle: StateStyle(
                         textColor: Theme.of(context).primaryColor,
                         backgroundColor:
@@ -71,8 +72,9 @@ class TutorDetails extends StatelessWidget {
             title: "Specialties",
             widget: IgnorePointer(
               child: MultipleLabelsPicker(
-                labelList: tutor.specialtyList,
-                onSelected: (e) {},
+                itemList: tutor.specialtyList,
+                getLabelFromItem: (item) => item.name,
+                onItemSelected: (e) {},
                 defaultStyle: StateStyle(
                     textColor: Theme.of(context).primaryColor,
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255)),

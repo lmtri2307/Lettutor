@@ -3,9 +3,24 @@ import 'package:lettutor/models/Tutor.dart';
 
 class TutorListProvider extends ChangeNotifier {
   List<Tutor> tutorList = [];
+  bool isFetching = false;
 
   void setTutorList(List<Tutor> tutorList) {
     this.tutorList = tutorList;
+    notifyListeners();
+  }
+
+  void setTutorListFuture(Future<List<Tutor>> tutorListFuture) async {
+    isFetching = true;
+    notifyListeners();
+    final tutorList = await tutorListFuture;
+    this.tutorList = tutorList;
+    isFetching = false;
+    notifyListeners();
+  }
+
+  void setIsFetching(bool isFetching) {
+    this.isFetching = isFetching;
     notifyListeners();
   }
 
@@ -13,16 +28,7 @@ class TutorListProvider extends ChangeNotifier {
     var tutorInList = tutorList.firstWhere(
       (element) => element.id == tutor.id,
     );
-    print(tutorInList.isFavorite ? false : true);
     tutorInList.isFavorite = tutorInList.isFavorite ? false : true;
-    print(tutorInList.isFavorite);
-    // print(tutorList.elementAt(0).isFavorite);
     notifyListeners();
-    // print(index);
-    // if(index != -1){
-    //   final newTutor = tutorList[index].copyWith(isFavorite: !tutorList[index].isFavorite);
-    //   tutorList[index] = newTutor;
-    //   notifyListeners();
-    // }
   }
 }

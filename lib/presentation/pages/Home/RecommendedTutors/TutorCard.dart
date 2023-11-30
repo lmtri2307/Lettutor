@@ -39,14 +39,15 @@ class TutorCard extends StatelessWidget {
               height: 10,
             ),
             MultipleLabelsPicker(
-                labelList: tutor.specialtyList,
+              itemList: tutor.specialtyList,
+                getLabelFromItem: (specialty) => specialty.name,
                 defaultStyle: StateStyle(
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255),
                     textColor: Theme.of(context).primaryColor),
                 selectedStyle: StateStyle(
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255),
                     textColor: Theme.of(context).primaryColor),
-                onSelected: (e) {}),
+                onItemSelected: (e) {}),
             const SizedBox(
               height: 8,
             ),

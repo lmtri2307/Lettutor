@@ -1,5 +1,7 @@
 class Specialty {
   final String name;
 
-  Specialty(this.name);
+  const Specialty(this.name);
+
+  static Specialty all = const Specialty("All");
 }

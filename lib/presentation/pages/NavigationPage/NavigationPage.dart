@@ -3,6 +3,7 @@ import "package:lettutor/presentation/pages/CoursesPage/CoursesPage.dart";
 import "package:lettutor/presentation/pages/HistoryPage/HistoryPage.dart";
 import "package:lettutor/presentation/pages/Home/HomePage.dart";
 import "package:lettutor/presentation/pages/SchedulePage/SchedulePage.dart";
+import "package:lettutor/presentation/pages/SettingPage/SettingPage.dart";
 
 
 class NavigationPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _NavigationPageState extends State<NavigationPage> {
     const SchedulePage(),
     const HistoryPage(),
     const CoursesPage(),
+    const SettingPage(),
   ];
   int _chosenPageIndex = 0;
   @override
@@ -40,7 +42,7 @@ class _NavigationPageState extends State<NavigationPage> {
           BottomNavigationBarItem(icon: Icon(Icons.schedule_outlined), label: 'Schedule'),
           BottomNavigationBarItem(icon: Icon(Icons.history_edu), label: 'History'),
           BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Courses'),
-          // BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:lettutor/models/Tutor.dart';
 class TutorListProvider extends ChangeNotifier {
   List<Tutor> tutorList = [];
   bool isFetching = false;
+  Future<List<Tutor>>? _tutorListFuture;
 
   void setTutorList(List<Tutor> tutorList) {
     this.tutorList = tutorList;
@@ -13,10 +14,13 @@ class TutorListProvider extends ChangeNotifier {
   void setTutorListFuture(Future<List<Tutor>> tutorListFuture) async {
     isFetching = true;
     notifyListeners();
+    _tutorListFuture = tutorListFuture;
     final tutorList = await tutorListFuture;
-    this.tutorList = tutorList;
-    isFetching = false;
-    notifyListeners();
+    if(_tutorListFuture == tutorListFuture){
+      this.tutorList = tutorList;
+      isFetching = false;
+      notifyListeners();
+    }
   }
 
   void setIsFetching(bool isFetching) {

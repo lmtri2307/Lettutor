@@ -60,4 +60,9 @@ class TutorService {
       () => tutor.detail,
     );
   }
+
+  Future<List<Tutor>> searchTutorByName(String name) async {
+    await Future.delayed(const Duration(seconds: 2));
+    return tutorList.where((tutor) => tutor.name.contains(name)).toList();
+  }
 }

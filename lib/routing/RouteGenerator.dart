@@ -14,8 +14,47 @@ import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
 import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
 
 class RouteGenerator {
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+  RouteGenerator({required this.checkLoggedIn}) {
+    if (!isLoggedIn && !publicRoutes.contains(_currentRoute)) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          publicRoutes[0], (route) => false);
+    }
+
+    if (isLoggedIn && publicRoutes.contains(_currentRoute)) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          protectedRoutes[0], (route) => false);
+    }
+  }
+
+  final bool Function() checkLoggedIn;
+  static String? _currentRoute;
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<
+      NavigatorState>();
+
+  bool get isLoggedIn => checkLoggedIn();
+  final publicRoutes = const ["/login", "/password", "/signup"];
+  final protectedRoutes = const [
+    "/home",
+    "/tutor",
+    "/course",
+    "/topic",
+    "/call",
+    "/become-tutor"
+  ];
+
+  Route<dynamic> onGenerateRoute(RouteSettings settings) {
     print(settings.name);
+    _currentRoute = settings.name;
+    if (!isLoggedIn && !publicRoutes.contains(settings.name)) {
+      return onGenerateRoute(
+          RouteSettings(name: publicRoutes[0], arguments: settings.arguments));
+    }
+
+    if (isLoggedIn && publicRoutes.contains(settings.name)) {
+      return onGenerateRoute(
+          RouteSettings(
+              name: protectedRoutes[0], arguments: settings.arguments));
+    }
     try {
       final page = switch (settings.name) {
         "/" => const SplashPage(),
@@ -24,17 +63,20 @@ class RouteGenerator {
         "/password" => const ForgotPasswordPage(),
         "/signup" => const SignUpPage(),
         "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
-        "/course" => CourseDetailPage(
-            course: settings.arguments! as Course,
-          ),
-        "/topic" => TopicPage(
-            topic: settings.arguments! as Topic,
-          ),
+        "/course" =>
+            CourseDetailPage(
+              course: settings.arguments! as Course,
+            ),
+        "/topic" =>
+            TopicPage(
+              topic: settings.arguments! as Topic,
+            ),
         "/call" => const VideoCallPage(),
         "/become-tutor" => const BecomeTutorPage(),
-        _ => const Center(
-            child: Text("404"),
-          )
+        _ =>
+        const Center(
+          child: Text("404"),
+        )
       };
       return MaterialPageRoute(
           settings: settings,

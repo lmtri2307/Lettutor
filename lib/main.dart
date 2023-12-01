@@ -26,53 +26,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-  String _currentRoute = "/";
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     final authRepository = context.watch<AuthProvider>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (authRepository.isLoggedIn) {
-        if (_currentRoute == "/login" ||
-            _currentRoute == "/" ||
-            _currentRoute == "/signup") {
-          navigatorKey.currentState!
-              .pushNamedAndRemoveUntil("/home", (route) => false);
-        }
-        return;
-      }
-
-      if (_currentRoute != "/login" &&
-          _currentRoute != "/signup" &&
-          _currentRoute != "/password") {
-        navigatorKey.currentState!
-            .pushNamedAndRemoveUntil("/login", (route) => false);
-      }
-    });
-
+    final routeGenerator = RouteGenerator(checkLoggedIn: () => authRepository.isLoggedIn,);
     return MaterialApp(
-      navigatorKey: navigatorKey,
-      onGenerateRoute: (settings) {
-        final route = authRepository.isLoggedIn
-            ? settings.name == "/login" ||
-                    settings.name == "/signup" ||
-                    settings.name == "/password"
-                ? RouteGenerator.onGenerateRoute(
-                    RouteSettings(name: "/home", arguments: settings.arguments))
-                : RouteGenerator.onGenerateRoute(settings)
-            : settings.name != "/login" &&
-                    settings.name != "/signup" &&
-                    settings.name != "/password"
-                ? RouteGenerator.onGenerateRoute(RouteSettings(
-                    name: "/login", arguments: settings.arguments))
-                : RouteGenerator.onGenerateRoute(settings);
-        _currentRoute = route.settings.name!;
-        return route;
-      },
-      initialRoute: _currentRoute,
+      navigatorKey: RouteGenerator.navigatorKey,
+      onGenerateRoute: routeGenerator.onGenerateRoute,
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 0, 113, 240),

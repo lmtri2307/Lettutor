@@ -1,14 +1,19 @@
 import 'package:lettutor/models/Review.dart';
-
-import 'OldTutor.dart';
+import 'package:lettutor/models/Tutor.dart';
 
 class Lesson {
-  Lesson(this.tutor, this.startTime, this.duration, {this.review});
+  const Lesson(
+      {required this.tutor,
+      required this.startTime,
+      required this.duration,
+      this.review,
+      this.isAvailable = true});
 
-  final OldTutor tutor;
+  final Tutor tutor;
   final DateTime startTime;
   final Duration duration;
   final Review? review;
+  final bool isAvailable;
 
   DateTime get endTime => startTime.add(duration);
 }

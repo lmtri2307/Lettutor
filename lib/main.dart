@@ -30,31 +30,33 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final authRepository = context.watch<AuthProvider>();
     final routeGenerator = RouteGenerator(checkLoggedIn: () => authRepository.isLoggedIn,);
+
+    const primaryColor = Color.fromARGB(255, 0, 113, 240);
     return MaterialApp(
       navigatorKey: RouteGenerator.navigatorKey,
       onGenerateRoute: routeGenerator.onGenerateRoute,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 0, 113, 240),
+        primaryColor: primaryColor,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 0, 113, 240)),
-        textTheme: TextTheme(
+            seedColor: primaryColor),
+        textTheme: const TextTheme(
             headlineLarge: TextStyle(
-              color: Theme.of(context).primaryColor,
+              color: primaryColor,
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
             headlineMedium: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor),
-            headlineSmall: const TextStyle(
+                color: primaryColor),
+            headlineSmall: TextStyle(
               fontSize: 20,
             ),
-            bodyMedium: const TextStyle(
+            bodyMedium: TextStyle(
               fontSize: 16,
             ),
-            bodySmall: const TextStyle(fontSize: 14)),
+            bodySmall: TextStyle(fontSize: 14)),
         useMaterial3: true,
       ),
     );

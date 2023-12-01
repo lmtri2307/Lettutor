@@ -11,35 +11,42 @@ import 'package:lettutor/presentation/pages/SignUpPage/SignUpPage.dart';
 import 'package:lettutor/presentation/pages/SplashPage/SplashPage.dart';
 import 'package:lettutor/presentation/pages/TopicPage/TopicPage.dart';
 import 'package:lettutor/presentation/pages/TutorPage/TutorPage.dart';
+import 'package:lettutor/presentation/pages/TutorSchedulePage/TutorSchedulePage.dart';
 import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
 
 class RouteGenerator {
   RouteGenerator({required this.checkLoggedIn}) {
     if (!isLoggedIn && !publicRoutes.contains(_currentRoute)) {
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          publicRoutes[0], (route) => false);
+      navigatorKey.currentState
+          ?.pushNamedAndRemoveUntil(publicRoutes[0], (route) => false);
     }
 
     if (isLoggedIn && publicRoutes.contains(_currentRoute)) {
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          protectedRoutes[0], (route) => false);
+      navigatorKey.currentState
+          ?.pushNamedAndRemoveUntil(protectedRoutes[0], (route) => false);
     }
   }
 
   final bool Function() checkLoggedIn;
   static String? _currentRoute;
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<
-      NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   bool get isLoggedIn => checkLoggedIn();
-  final publicRoutes = const ["/login", "/password", "/signup"];
+  final publicRoutes = const [
+    "/tutor-schedule",
+    "/login",
+    "/password",
+    "/signup"
+  ];
   final protectedRoutes = const [
     "/home",
     "/tutor",
     "/course",
     "/topic",
     "/call",
-    "/become-tutor"
+    "/become-tutor",
+    "/tutor-schedule"
   ];
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -51,9 +58,8 @@ class RouteGenerator {
     }
 
     if (isLoggedIn && publicRoutes.contains(settings.name)) {
-      return onGenerateRoute(
-          RouteSettings(
-              name: protectedRoutes[0], arguments: settings.arguments));
+      return onGenerateRoute(RouteSettings(
+          name: protectedRoutes[0], arguments: settings.arguments));
     }
     try {
       final page = switch (settings.name) {
@@ -63,20 +69,18 @@ class RouteGenerator {
         "/password" => const ForgotPasswordPage(),
         "/signup" => const SignUpPage(),
         "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
-        "/course" =>
-            CourseDetailPage(
-              course: settings.arguments! as Course,
-            ),
-        "/topic" =>
-            TopicPage(
-              topic: settings.arguments! as Topic,
-            ),
+        "/course" => CourseDetailPage(
+            course: settings.arguments! as Course,
+          ),
+        "/topic" => TopicPage(
+            topic: settings.arguments! as Topic,
+          ),
         "/call" => const VideoCallPage(),
         "/become-tutor" => const BecomeTutorPage(),
-        _ =>
-        const Center(
-          child: Text("404"),
-        )
+        "/tutor-schedule" => TutorSchedulePage(),
+        _ => const Center(
+            child: Text("404"),
+          )
       };
       return MaterialPageRoute(
           settings: settings,

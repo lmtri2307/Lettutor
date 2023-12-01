@@ -34,9 +34,12 @@ class SettingPage extends StatelessWidget {
                   icon: Icons.manage_accounts,
                   label: "Edit your account",
                 ),
-                const AccountOperationTile(
+                AccountOperationTile(
                   icon: Icons.assignment,
                   label: "Become a tutor",
+                  onTap: () {
+                    Navigator.pushNamed(context, "/become-tutor");
+                  },
                 ),
                 const AccountOperationTile(
                   icon: Icons.settings,
@@ -113,44 +116,37 @@ class AccountInfo extends StatelessWidget {
 
 class AccountOperationTile extends StatelessWidget {
   const AccountOperationTile(
-      {super.key, required this.icon, required this.label});
+      {super.key, required this.icon, required this.label, this.onTap});
 
   final IconData icon;
   final String label;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: InkWell(
-        onTap: () {},
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(0, 0),
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                  color: Colors.black26,
-                ),
-              ]),
-          child: Row(
-            children: [
-              Icon(icon, color: theme.primaryColor),
-              const SizedBox(
-                width: 12,
-              ),
-              Text(
-                label,
-                style: theme.textTheme.bodySmall,
-              )
-            ],
-          ),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            side: const BorderSide(
+                color: Colors.black26, width: 1, style: BorderStyle.solid)),
+        onPressed: onTap ?? () {},
+        child: Row(
+          children: [
+            Icon(icon, color: theme.primaryColor),
+            const SizedBox(
+              width: 12,
+            ),
+            Text(
+              label,
+              style: theme.textTheme.bodySmall,
+            )
+          ],
         ),
       ),
     );

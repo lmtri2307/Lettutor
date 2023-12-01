@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/models/Topic.dart';
 import 'package:lettutor/models/Tutor.dart';
+import 'package:lettutor/presentation/pages/BecomeTutorPage/BecomeTutorPage.dart';
 import 'package:lettutor/presentation/pages/CourseDetailPage/CourseDetailPage.dart';
 import 'package:lettutor/presentation/pages/ForgotPasswordPage/ForgotPasswordPage.dart';
 import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
@@ -30,6 +31,7 @@ class RouteGenerator {
             topic: settings.arguments! as Topic,
           ),
         "/call" => const VideoCallPage(),
+        "/become-tutor" => const BecomeTutorPage(),
         _ => const Center(
             child: Text("404"),
           )

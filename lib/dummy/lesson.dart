@@ -48,7 +48,8 @@ final lessonList = generateSortedRandomListOfFutureDate()
         review: Review(
             author: userList[0],
             comment: "Sample Comment",
-            rating: Random().nextInt(10) / 2)))
+            rating: Random().nextInt(10) / 2,
+            createdAt: DateTime.parse('2023-12-07 09:30:00'))))
     .toList();
 
 final lessonListGroupedByDate = groupByDate(lessonList);

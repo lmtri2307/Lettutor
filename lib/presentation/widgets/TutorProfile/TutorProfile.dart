@@ -1,6 +1,6 @@
-import 'package:avatars/avatars.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Tutor.dart';
+import 'package:lettutor/presentation/widgets/AvatarWidget/AvatarWidget.dart';
 import 'package:lettutor/presentation/widgets/TutorProfile/Rating.dart';
 
 class TutorProfile extends StatelessWidget {
@@ -38,20 +38,10 @@ class TutorProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Avatar
-              FittedBox(
-                  child: SizedBox.square(
-                      child: CircleAvatar(
-                          child: tutor.avatar != null
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage(tutor.avatar!),
-                                    ),
-                                  ),
-                                )
-                              : FittedBox(child: Avatar(name: tutor.name))))),
+              AvatarWidget(
+                name: tutor.name,
+                avatarUrl: tutor.avatar,
+              ),
               const SizedBox(
                 width: 18,
               ),
@@ -80,7 +70,8 @@ class TutorProfile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Rating(rating: tutor.rating),
-                          ...showNumOfReviews && tutor.numOfReviews != null
+                          ...showNumOfReviews &&
+                                  tutor.numOfReviews != null
                               ? [
                                   const SizedBox(
                                     width: 8,

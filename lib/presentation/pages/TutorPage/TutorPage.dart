@@ -3,6 +3,7 @@ import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/models/TutorDetail.dart';
 import 'package:lettutor/presentation/pages/TutorPage/TutorDetails.dart';
 import 'package:lettutor/presentation/pages/TutorPage/TutorReportDialog.dart';
+import 'package:lettutor/presentation/pages/TutorPage/TutorReviewsDialog.dart';
 import 'package:lettutor/presentation/widgets/AssetVideo/AssetVideo.dart';
 import 'package:lettutor/presentation/widgets/IconTextButton/IconTextButton.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
@@ -74,7 +75,13 @@ class TutorPage extends StatelessWidget {
                     IconTextButton(
                         iconData: Icons.reviews_outlined,
                         label: 'Review',
-                        onPressed: () {}),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                TutorReviewsDialog(tutor: tutor),
+                          );
+                        }),
                     IconTextButton(
                         iconData: Icons.report_outlined,
                         label: 'Report',
@@ -90,7 +97,29 @@ class TutorPage extends StatelessWidget {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: const Text('Report Success'),
+                                    title: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle_outline,
+                                          color: Colors.green,
+                                          size: theme.textTheme.headlineMedium
+                                              ?.fontSize,
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          'Report Success',
+                                          style: theme.textTheme.headlineMedium
+                                              ?.copyWith(
+                                                  color: Colors.black,
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
                                     actions: [
                                       TextButton(
                                           onPressed: () {

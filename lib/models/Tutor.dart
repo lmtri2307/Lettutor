@@ -2,19 +2,20 @@ import 'package:lettutor/models/Nationality.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/TutorDetail.dart';
 
-class Tutor {
-  Tutor(
-      {required this.id,
-      required this.specialties,
-      this.avatar,
-      required this.name,
-      this.country,
-      this.bio,
-      this.rating,
-      this.numOfReviews,
-      this.detail,
-      this.nationality,
-      this.isFavorite = false});
+class Tutor{
+  Tutor({
+    required this.id,
+    required this.specialties,
+    this.avatar,
+    required this.name,
+    this.country,
+    this.bio,
+    this.rating,
+    this.numOfReviews,
+    this.detail,
+    this.nationality,
+    this.isFavorite = false,
+  });
 
   String id;
   String? specialties;
@@ -27,7 +28,6 @@ class Tutor {
   bool isFavorite;
   TutorDetail? detail;
   Nationality? nationality;
-
   List<Specialty> get specialtyList =>
       specialties?.split(",").map((e) => Specialty(e)).toList() ?? [];
 

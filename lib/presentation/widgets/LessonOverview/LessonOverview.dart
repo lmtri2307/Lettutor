@@ -1,7 +1,7 @@
-import 'package:avatars/avatars.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lettutor/models/Lesson.dart';
+import 'package:lettutor/presentation/widgets/AvatarWidget/AvatarWidget.dart';
 
 class LessonOverview extends StatelessWidget {
   const LessonOverview({super.key, required this.lesson});
@@ -14,20 +14,7 @@ class LessonOverview extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        FittedBox(
-            child: SizedBox.square(
-                child: CircleAvatar(
-                    child: lesson.tutor.avatar != null
-                        ? Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.contain,
-                                image: AssetImage(lesson.tutor.avatar!),
-                              ),
-                            ),
-                          )
-                        : FittedBox(child: Avatar(name: lesson.tutor.name))))),
+        AvatarWidget(name: lesson.tutor.name, avatarUrl: lesson.tutor.avatar,),
         const SizedBox(
           width: 18,
         ),

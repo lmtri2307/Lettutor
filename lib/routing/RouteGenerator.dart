@@ -33,12 +33,7 @@ class RouteGenerator {
       GlobalKey<NavigatorState>();
 
   bool get isLoggedIn => checkLoggedIn();
-  final publicRoutes = const [
-    "/tutor-schedule",
-    "/login",
-    "/password",
-    "/signup"
-  ];
+  final publicRoutes = const ["/login", "/password", "/signup"];
   final protectedRoutes = const [
     "/home",
     "/tutor",
@@ -69,6 +64,7 @@ class RouteGenerator {
         "/password" => const ForgotPasswordPage(),
         "/signup" => const SignUpPage(),
         "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
+        // "/tutor" => TutorPage(tutor: tutorList[0]),
         "/course" => CourseDetailPage(
             course: settings.arguments! as Course,
           ),
@@ -77,7 +73,7 @@ class RouteGenerator {
           ),
         "/call" => const VideoCallPage(),
         "/become-tutor" => const BecomeTutorPage(),
-        "/tutor-schedule" => TutorSchedulePage(),
+        "/tutor-schedule" => const TutorSchedulePage(),
         _ => const Center(
             child: Text("404"),
           )

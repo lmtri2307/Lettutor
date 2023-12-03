@@ -7,4 +7,4 @@ final userList = List.generate(
       email: 'user$index@gmail.com',
       password: "123456",
       name: "User$index"),
-);
+).toList();

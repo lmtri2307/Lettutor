@@ -90,10 +90,16 @@ class TutorService {
               .any((specialty) => specialty.name == formData.specialty!.name))
           .toList();
     }
-    if(formData.tutorNationality != null){
-      result = result.where((tutor) => tutor.nationality == formData.tutorNationality).toList();
+    if (formData.tutorNationality != null) {
+      result = result
+          .where((tutor) => tutor.nationality == formData.tutorNationality)
+          .toList();
     }
 
     return _sortTutorList(result);
+  }
+
+  Future<void> report(Tutor tutor, String reportContent) async {
+    await Future.delayed(const Duration(seconds: 2));
   }
 }

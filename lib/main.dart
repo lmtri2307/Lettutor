@@ -18,14 +18,9 @@ void main() {
   ));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final authRepository = context.watch<AuthProvider>();
@@ -53,6 +48,9 @@ class _MyAppState extends State<MyApp> {
             headlineSmall: TextStyle(
               fontSize: 20,
             ),
+            bodyLarge: TextStyle(
+              fontSize: 18,
+            ),
             bodyMedium: TextStyle(
               fontSize: 16,
             ),
@@ -62,3 +60,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+

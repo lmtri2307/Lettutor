@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/dummy/tutor.dart';
 import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/models/Topic.dart';
 import 'package:lettutor/models/Tutor.dart';
@@ -33,7 +34,13 @@ class RouteGenerator {
       GlobalKey<NavigatorState>();
 
   bool get isLoggedIn => checkLoggedIn();
-  final publicRoutes = const ["/login", "/password", "/signup"];
+  final publicRoutes = const [
+    "/tutor",
+    "/tutor-schedule",
+    "/login",
+    "/password",
+    "/signup"
+  ];
   final protectedRoutes = const [
     "/home",
     "/tutor",
@@ -63,8 +70,8 @@ class RouteGenerator {
         "/login" => const LoginPage(),
         "/password" => const ForgotPasswordPage(),
         "/signup" => const SignUpPage(),
-        "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
-        // "/tutor" => TutorPage(tutor: tutorList[0]),
+        // "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
+        "/tutor" => TutorPage(tutor: tutorList[0]),
         "/course" => CourseDetailPage(
             course: settings.arguments! as Course,
           ),

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/service/TutorService.dart';
@@ -160,24 +158,22 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
           child: const Text('Cancel'),
         ),
         FilledButton(
-          style: FilledButton.styleFrom(
-              backgroundColor: theme.primaryColor),
+          style: FilledButton.styleFrom(backgroundColor: theme.primaryColor),
           onPressed: _isReporting ? () {} : _onSubmit,
-          child: Stack(
-              fit: StackFit.loose,
+          child: IndexedStack(
               alignment: Alignment.center,
+              index: _isReporting ? 1 : 0,
               children: [
                 Text(
                   'Submit',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                      color: _isReporting ? Colors.transparent : Colors.white),
+                  style:
+                      theme.textTheme.bodyLarge?.copyWith(color: Colors.white),
                 ),
-                if (_isReporting)
-                  const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.white,
-                      ))
+                const SizedBox.square(
+                    dimension: 20,
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ))
               ]),
         ),
       ],

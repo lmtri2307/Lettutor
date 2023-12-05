@@ -23,9 +23,7 @@ class TutorSchedulePage extends StatelessWidget {
   Widget _appointmentBuilder(BuildContext context,
       CalendarAppointmentDetails details) {
     final lesson = details.appointments.first as Lesson;
-    return SlotWidget(startTime: lesson.startTime,
-        endTime: lesson.endTime,
-        isAvailable: lesson.isAvailable);
+    return SlotWidget(lesson: lesson,);
   }
 
   @override

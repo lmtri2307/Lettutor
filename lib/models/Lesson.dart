@@ -2,7 +2,7 @@ import 'package:lettutor/models/Review.dart';
 import 'package:lettutor/models/Tutor.dart';
 
 class Lesson {
-  const Lesson(
+  Lesson(
       {required this.tutor,
       required this.startTime,
       required this.duration,
@@ -13,7 +13,7 @@ class Lesson {
   final DateTime startTime;
   final Duration duration;
   final Review? review;
-  final bool isAvailable;
+  bool isAvailable;
 
   DateTime get endTime => startTime.add(duration);
 }

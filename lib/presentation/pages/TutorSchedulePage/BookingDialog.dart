@@ -2,10 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:intl/intl.dart';
 
-class BookingDialog extends StatelessWidget {
-  const BookingDialog({super.key, required this.lesson});
+class BookingDialog extends StatefulWidget {
+  const BookingDialog({super.key, required this.lesson, required this.onBook});
 
   final Lesson lesson;
+  final Future<void> Function() onBook;
+
+  @override
+  State<BookingDialog> createState() => _BookingDialogState();
+}
+
+class _BookingDialogState extends State<BookingDialog> {
+  bool _isBooking = false;
+
+  void _onBook() {
+    setState(() {
+      _isBooking = true;
+    });
+    widget.onBook().then((value) => Navigator.pop(context));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +43,7 @@ class BookingDialog extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  BookingTime(lesson: lesson),
+                  BookingTime(lesson: widget.lesson),
                   const SizedBox(
                     height: 8,
                   ),
@@ -58,9 +73,9 @@ class BookingDialog extends StatelessWidget {
                   FilledButton(
                     style: FilledButton.styleFrom(
                         backgroundColor: theme.primaryColor),
-                    onPressed: () {},
-                    child: Stack(
-                        fit: StackFit.loose,
+                    onPressed: _isBooking ? () {} : () => _onBook(),
+                    child: IndexedStack(
+                        index: _isBooking ? 1 : 0,
                         alignment: Alignment.center,
                         children: [
                           Text(
@@ -68,6 +83,11 @@ class BookingDialog extends StatelessWidget {
                             style: theme.textTheme.bodyLarge
                                 ?.copyWith(color: Colors.white),
                           ),
+                          const SizedBox.square(
+                              dimension: 20,
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                              ))
                         ]),
                   ),
                 ],
@@ -222,6 +242,5 @@ class Note extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

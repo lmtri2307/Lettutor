@@ -13,7 +13,6 @@ class TutorCard extends StatelessWidget {
   final _tutorRepository = const TutorService();
 
   void _onToggleFavorite(TutorListProvider tutorListProvider) async {
-    final newTutor = await _tutorRepository.toggleFavoriteTutor(tutor);
     tutorListProvider.toggleFavoriteTutor(tutor);
   }
 

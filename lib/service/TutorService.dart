@@ -58,8 +58,8 @@ class TutorService {
         .toList();
   }
 
-  Future<Tutor> toggleFavoriteTutor(Tutor tutor) async {
-    return tutor.copyWith(isFavorite: !tutor.isFavorite);
+  Future<void> toggleFavoriteTutor(Tutor tutor) async {
+    tutor.isFavorite = !tutor.isFavorite;
   }
 
   Future<TutorDetail?> getTutorDetail(Tutor tutor) async {

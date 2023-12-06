@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/dummy/tutor.dart';
 import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/models/Topic.dart';
 import 'package:lettutor/models/Tutor.dart';
@@ -17,7 +16,7 @@ import 'package:lettutor/presentation/pages/VideoCallPage/VideoCallPage.dart';
 
 class RouteGenerator {
   RouteGenerator({required this.checkLoggedIn}) {
-    if (!isLoggedIn && !publicRoutes.contains(_currentRoute)) {
+    if (!isLoggedIn && protectedRoutes.contains(_currentRoute)) {
       navigatorKey.currentState
           ?.pushNamedAndRemoveUntil(publicRoutes[0], (route) => false);
     }
@@ -35,8 +34,6 @@ class RouteGenerator {
 
   bool get isLoggedIn => checkLoggedIn();
   final publicRoutes = const [
-    "/tutor",
-    "/tutor-schedule",
     "/login",
     "/password",
     "/signup"
@@ -70,8 +67,8 @@ class RouteGenerator {
         "/login" => const LoginPage(),
         "/password" => const ForgotPasswordPage(),
         "/signup" => const SignUpPage(),
-        // "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
-        "/tutor" => TutorPage(tutor: tutorList[0]),
+        "/tutor" => TutorPage(tutor: settings.arguments! as Tutor),
+        // "/tutor" => TutorPage(tutor: tutorList[0]),
         "/course" => CourseDetailPage(
             course: settings.arguments! as Course,
           ),
@@ -80,7 +77,8 @@ class RouteGenerator {
           ),
         "/call" => const VideoCallPage(),
         "/become-tutor" => const BecomeTutorPage(),
-        "/tutor-schedule" => const TutorSchedulePage(),
+        "/tutor-schedule" => TutorSchedulePage(tutor: settings.arguments! as Tutor,),
+        // "/tutor-schedule" => TutorSchedulePage(tutor: tutorList[0],),
         _ => const Center(
             child: Text("404"),
           )

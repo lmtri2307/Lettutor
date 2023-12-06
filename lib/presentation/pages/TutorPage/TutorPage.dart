@@ -19,11 +19,10 @@ class TutorPage extends StatelessWidget {
   final TutorService _tutorService = const TutorService();
 
   void _onFavorite(TutorListProvider tutorListProvider) async {
-    final newTutor = await _tutorService.toggleFavoriteTutor(tutor);
     tutorListProvider.toggleFavoriteTutor(tutor);
   }
 
-  Widget _futureBuilder(
+  Widget _build(
       BuildContext context, AsyncSnapshot<TutorDetail?> snapshot) {
     final theme = Theme.of(context);
     if (snapshot.hasData) {
@@ -157,7 +156,8 @@ class TutorPage extends StatelessWidget {
                         side:
                             BorderSide(color: theme.primaryColor, width: 1.5)),
                     onPressed: () {
-                      Navigator.pushNamed(context, "/tutor-schedule");
+                      Navigator.pushNamed(context, "/tutor-schedule",
+                          arguments: tutor);
                     },
                     child: const Text(
                       'Book This Tutor',
@@ -175,6 +175,6 @@ class TutorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _tutorService.getTutorDetail(tutor), builder: _futureBuilder);
+        future: _tutorService.getTutorDetail(tutor), builder: _build);
   }
 }

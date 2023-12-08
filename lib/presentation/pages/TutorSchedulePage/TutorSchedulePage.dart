@@ -4,40 +4,49 @@ import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/pages/TutorSchedulePage/MonthCell.dart';
 import 'package:lettutor/presentation/pages/TutorSchedulePage/SlotWidget.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
+import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/providers/TutorLessonListProvider.dart';
 import 'package:lettutor/service/LessonService.dart';
 import 'package:provider/provider.dart';
 
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class TutorSchedulePage extends StatelessWidget {
+class TutorSchedulePage extends StatefulWidget {
   const TutorSchedulePage({super.key, required this.tutor});
 
-  final _lessonService = const LessonService();
   final Tutor tutor;
 
+  @override
+  State<TutorSchedulePage> createState() => _TutorSchedulePageState();
+}
+
+class _TutorSchedulePageState extends State<TutorSchedulePage> {
+  final _lessonService = const LessonService();
+
+
+  @override
+  void deactivate() {
+    final lessonProvider = context.read<LessonProvider>();
+    lessonProvider.tutorLessonListProvider = null;
+    super.deactivate();
+  }
+
   Widget _monthCellBuilder(BuildContext context, MonthCellDetails details) {
-    return Consumer<TutorLessonListProvider>(
-      builder: (context, value, child) {
-        final theme = Theme.of(context);
-        final markerColor = details.appointments.isEmpty
-            ? Colors.transparent
-            : details.appointments
-                    .any((element) => (element as Lesson).isAvailable)
-                ? theme.primaryColor
-                : Colors.grey;
-        return MonthCell(markerColor: markerColor, date: details.date);
-      },
-    );
+    final theme = Theme.of(context);
+    final markerColor = details.appointments.isEmpty
+        ? Colors.transparent
+        : details.appointments
+        .any((element) => (element as Lesson).isAvailable)
+        ? theme.primaryColor
+        : Colors.grey;
+    return MonthCell(markerColor: markerColor, date: details.date);
   }
 
   Widget _appointmentBuilder(
       BuildContext context, CalendarAppointmentDetails details) {
     final lesson = details.appointments.first as Lesson;
-    return Consumer<TutorLessonListProvider>(
-      builder: (context, value, child) => SlotWidget(
-        lesson: lesson,
-      ),
+    return SlotWidget(
+      lesson: lesson,
     );
   }
 
@@ -49,33 +58,39 @@ class TutorSchedulePage extends StatelessWidget {
 
   Widget _onHasData(BuildContext context, List<Lesson> lessonList) {
     final theme = Theme.of(context);
+    final tutorLessonListProvider =
+        TutorLessonListProvider(lessonList: lessonList);
+    final lessonLessonProvider = context.read<LessonProvider>();
+    lessonLessonProvider.tutorLessonListProvider = tutorLessonListProvider;
     return Scaffold(
       appBar: const PageAppBar(title: "Tutor Timetable", type: AppBarType.sub),
       body: ChangeNotifierProvider(
-        create: (context) => TutorLessonListProvider(lessonList: lessonList),
-        child: SfCalendar(
-          // monthViewSettings: ,
-          view: CalendarView.month,
-          showDatePickerButton: true,
-          dataSource: _LessonDataSource(lessonList),
-          firstDayOfWeek: 1,
-          todayHighlightColor: theme.primaryColor,
-          showCurrentTimeIndicator: false,
-          // onViewChanged: (viewChangedDetails){
-          //   print(viewChangedDetails.visibleDates.first);
-          //   print(viewChangedDetails.visibleDates.last);
-          // },
-          showTodayButton: true,
-          cellBorderColor: Colors.red,
-          showNavigationArrow: true,
-          monthCellBuilder: _monthCellBuilder,
-          monthViewSettings: const MonthViewSettings(
-            appointmentDisplayCount: 1,
-            appointmentDisplayMode: MonthAppointmentDisplayMode.none,
-            showAgenda: true,
-            numberOfWeeksInView: 4,
+        create: (context) => tutorLessonListProvider,
+        child: Consumer<TutorLessonListProvider>(
+          builder: (context, value, child) => SfCalendar(
+            // monthViewSettings: ,
+            view: CalendarView.month,
+            showDatePickerButton: true,
+            dataSource: _LessonDataSource(value.lessonList),
+            firstDayOfWeek: 1,
+            todayHighlightColor: theme.primaryColor,
+            showCurrentTimeIndicator: false,
+            // onViewChanged: (viewChangedDetails){
+            //   print(viewChangedDetails.visibleDates.first);
+            //   print(viewChangedDetails.visibleDates.last);
+            // },
+            showTodayButton: true,
+            cellBorderColor: Colors.red,
+            showNavigationArrow: true,
+            monthCellBuilder: _monthCellBuilder,
+            monthViewSettings: const MonthViewSettings(
+              appointmentDisplayCount: 1,
+              appointmentDisplayMode: MonthAppointmentDisplayMode.none,
+              showAgenda: true,
+              numberOfWeeksInView: 4,
+            ),
+            appointmentBuilder: _appointmentBuilder,
           ),
-          appointmentBuilder: _appointmentBuilder,
         ),
       ),
     );
@@ -84,7 +99,7 @@ class TutorSchedulePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _lessonService.getLessonListOfTutor(tutor),
+      future: _lessonService.getLessonListOfTutor(widget.tutor),
       builder: (context, snapshot) {
         return snapshot.data == null
             ? _onFetching()

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/pages/TutorSchedulePage/BookingDialog.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
+import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/providers/TutorLessonListProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -11,14 +12,14 @@ class SlotWidget extends StatelessWidget {
 
   final Lesson lesson;
 
-  void _onBook(BuildContext context, TutorLessonListProvider lessonListProvider,
+  void _onBook(BuildContext context, LessonProvider lessonProvider,
       AuthProvider authProvider) {
     showDialog(
       context: context,
       builder: (context) => BookingDialog(
         lesson: lesson,
         onBook: () async {
-          await lessonListProvider.bookLesson(lesson, authProvider.user!);
+          await lessonProvider.bookLesson(lesson, authProvider.user!);
         },
       ),
     );
@@ -27,7 +28,7 @@ class SlotWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final lessonListProvider = context.read<TutorLessonListProvider>();
+    final lessonProvider = context.read<LessonProvider>();
     final authProvider = context.read<AuthProvider>();
     return FilledButton(
       style: FilledButton.styleFrom(
@@ -37,7 +38,7 @@ class SlotWidget extends StatelessWidget {
           backgroundColor:
               lesson.isAvailable ? theme.primaryColor : Colors.grey),
       onPressed: lesson.isAvailable
-          ? () => _onBook(context, lessonListProvider, authProvider)
+          ? () => _onBook(context, lessonProvider, authProvider)
           : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

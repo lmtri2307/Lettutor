@@ -51,5 +51,6 @@ final lessonList = generateSortedRandomListOfFutureDate()
             rating: Random().nextInt(10) / 2,
             createdAt: DateTime.parse('2023-12-07 09:30:00'))))
     .toList();
+final bookedLessonList = <Lesson>[];
 
 final lessonListGroupedByDate = groupByDate(lessonList);

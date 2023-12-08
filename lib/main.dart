@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
+import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:lettutor/routing/RouteGenerator.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -12,7 +13,8 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => AuthProvider(),
       ),
-      ChangeNotifierProvider(create: (context) => TutorListProvider(),)
+      ChangeNotifierProvider(create: (context) => TutorListProvider(),),
+      ChangeNotifierProvider(create: (context) => LessonProvider(),)
     ],
     child: const MyApp(),
   ));

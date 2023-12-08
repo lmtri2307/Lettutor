@@ -7,10 +7,18 @@ import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:lettutor/service/TutorService.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final _tutorService = const TutorService();
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +39,7 @@ class Home extends StatelessWidget {
             UpcomingLessonNotification(),
             Padding(
               padding:
-                  EdgeInsets.only(top: 33, left: 30, right: 30, bottom: 49),
+              EdgeInsets.only(top: 33, left: 30, right: 30, bottom: 49),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

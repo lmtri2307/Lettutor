@@ -4,7 +4,6 @@ import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/pages/TutorSchedulePage/BookingDialog.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/providers/LessonProvider.dart';
-import 'package:lettutor/providers/TutorLessonListProvider.dart';
 import 'package:provider/provider.dart';
 
 class SlotWidget extends StatelessWidget {

@@ -1,65 +1,110 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/dummy/lesson.dart';
+import 'package:lettutor/helpers/date_helper.dart';
+import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/pages/HistoryPage/HistoryLessonCard.dart';
 import 'package:lettutor/presentation/widgets/DateCard/DateCard.dart';
+import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/presentation/widgets/PageOverview/PageOverview.dart';
-
-import '../../widgets/PageAppBar/PageAppBar.dart';
+import 'package:lettutor/providers/AuthProvider.dart';
+import 'package:lettutor/service/LessonService.dart';
+import 'package:provider/provider.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
+  final _lessonService = const LessonService();
+
+  Widget _build(
+      BuildContext context, List<List<Lesson>> lessonListGroupedByDate) {
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 35),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PageOverview(
+              image: SvgPicture.asset("assets/images/history.svg"),
+              title: "History",
+              overview:
+                  "The following is a list of lessons you have attended.\n"
+                  "You can review the details of the lessons you have attended",
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            lessonListGroupedByDate.isEmpty
+                ? Center(
+                    child: Column(children: [
+                      Image.asset(
+                        "assets/images/empty_lesson_list.png",
+                        height: 80,
+                        fit: BoxFit.contain,
+                      ),
+                      Text(
+                        "There is no lesson schedule yet!",
+                        style: theme.textTheme.bodySmall,
+                      )
+                    ]),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => DateCard(
+                              dateTime:
+                                  lessonListGroupedByDate[index][0].startTime,
+                              child: ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) =>
+                                      HistoryLessonCard(
+                                          lesson: lessonList[index]),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                  itemCount: lessonList.length),
+                            ),
+                        separatorBuilder: (context, index) => const SizedBox(
+                              height: 24,
+                            ),
+                        itemCount: lessonListGroupedByDate.length),
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthProvider>().user;
     return Scaffold(
       appBar: const PageAppBar(
         type: AppBarType.main,
         title: "History",
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 35),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PageOverview(
-                image: SvgPicture.asset("assets/images/history.svg"),
-                title: "History",
-                overview: "The following is a list of lessons you have attended.\n"
-                    "You can review the details of the lessons you have attended",
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => DateCard(
-                      dateTime: lessonListGroupedByDate[index][0].startTime,
-                      child: ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) =>
-                              HistoryLessonCard(lesson: lessonList[index]),
-                          separatorBuilder: (context, index) => const SizedBox(
-                            height: 8,
-                          ),
-                          itemCount: lessonList.length),
-                    ),
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 24,
-                    ),
-                    itemCount: lessonListGroupedByDate.length),
-              )
-            ],
-          ),
-        ),
+      body: FutureBuilder(
+        future: _lessonService.getBookedLessonList(user!),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return _build(
+              context,
+              const DateHelper()
+                  .groupByDate(snapshot.data!, (p0) => p0.startTime));
+        },
       ),
     );
   }

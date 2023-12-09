@@ -25,7 +25,7 @@ class LessonOverview extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                lesson.tutor.name ?? "Unknown name",
+                lesson.tutor.name,
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall

@@ -51,8 +51,11 @@ class UpcomingLessonNotification extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.white,
+                      child: SizedBox.square(
+                        dimension: 20,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        ),
                       ),
                     );
                   }
@@ -78,6 +81,8 @@ class _Notification extends StatefulWidget {
 }
 
 class _NotificationState extends State<_Notification> {
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
@@ -85,9 +90,16 @@ class _NotificationState extends State<_Notification> {
   }
 
   void _startTimer() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {});
     });
+  }
+
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   String _getLessonTime(Lesson lesson) {

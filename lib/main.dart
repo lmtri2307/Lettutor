@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/dummy/user.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
@@ -11,7 +12,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (context) => AuthProvider(),
+        create: (context) => AuthProvider(user: userList[0]),
       ),
       ChangeNotifierProvider(create: (context) => TutorListProvider(),),
       ChangeNotifierProvider(create: (context) => LessonProvider(),)

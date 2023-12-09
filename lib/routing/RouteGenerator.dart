@@ -56,7 +56,7 @@ class RouteGenerator {
           RouteSettings(name: publicRoutes[0], arguments: settings.arguments));
     }
 
-    if (isLoggedIn && publicRoutes.contains(settings.name)) {
+    if (isLoggedIn && !protectedRoutes.contains(settings.name)) {
       return onGenerateRoute(RouteSettings(
           name: protectedRoutes[0], arguments: settings.arguments));
     }

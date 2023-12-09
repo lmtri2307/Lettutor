@@ -3,14 +3,12 @@ import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/widgets/MultipleLabelsPicker/MultipleLabelPicker.dart';
 import 'package:lettutor/presentation/widgets/TutorProfile/TutorProfile.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
-import 'package:lettutor/service/TutorService.dart';
 import 'package:provider/provider.dart';
 
 class TutorCard extends StatelessWidget {
   const TutorCard({super.key, required this.tutor});
 
   final Tutor tutor;
-  final _tutorRepository = const TutorService();
 
   void _onToggleFavorite(TutorListProvider tutorListProvider) async {
     tutorListProvider.toggleFavoriteTutor(tutor);
@@ -38,7 +36,7 @@ class TutorCard extends StatelessWidget {
               height: 10,
             ),
             MultipleLabelsPicker(
-              itemList: tutor.specialtyList,
+                itemList: tutor.specialtyList,
                 getLabelFromItem: (specialty) => specialty.name,
                 defaultStyle: StateStyle(
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255),
@@ -71,7 +69,10 @@ class TutorCard extends StatelessWidget {
                       .bodySmall
                       ?.copyWith(color: Theme.of(context).primaryColor),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "/tutor-schedule",
+                      arguments: tutor);
+                },
               ),
             )
           ],

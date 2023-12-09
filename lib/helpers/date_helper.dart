@@ -5,9 +5,14 @@ class DateHelper {
     return a.day == b.day && a.month == b.month && a.year == b.year;
   }
 
-  List<T> sortByDate<T>(List<T> itemList, DateTime Function(T item) getDate) {
+  List<T> sortByDate<T>(List<T> itemList, DateTime Function(T item) getDate,
+      {bool ascending = true}) {
     final copy = [...itemList];
-    copy.sort((a, b) => getDate(a).compareTo(getDate(b)));
+    if(ascending){
+      copy.sort((a, b) => getDate(a).compareTo(getDate(b)));
+    } else {
+      copy.sort((a, b) => -getDate(a).compareTo(getDate(b)));
+    }
     return copy;
   }
 

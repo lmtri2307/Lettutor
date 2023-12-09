@@ -8,20 +8,17 @@ class LessonService {
   const LessonService();
 
   Future<Lesson?> getUpcomingLesson(User user) async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (bookedLessonList.isEmpty) {
+    final scheduleLessonList = await getScheduleLessonList(user);
+    if (scheduleLessonList.isEmpty) {
       return null;
     } else {
-      bookedLessonList.sort((a, b) => a.startTime.compareTo(b.startTime));
-      return const DateHelper()
-          .sortByDate(bookedLessonList, (item) => item.startTime)
-          .firstWhere((element) => element.startTime.isAfter(DateTime.now()));
+      return scheduleLessonList[0];
     }
   }
 
   Future<List<Lesson>> getLessonListOfTutor(Tutor tutor) async {
     await Future.delayed(const Duration(seconds: 2));
-    return lessonList;
+    return lessonList.map((lesson) => lesson.copyWith(tutor: tutor)).toList();
   }
 
   Future<Lesson> bookLesson(Lesson lesson, User user) async {
@@ -36,8 +33,22 @@ class LessonService {
     return const Duration(hours: 6, minutes: 29);
   }
 
-  Future<List<Lesson>> getBookedLessonList(User user) async {
+  Future<List<Lesson>> getScheduleLessonList(User user) async {
     await Future.delayed(const Duration(seconds: 2));
-    return bookedLessonList;
+    final scheduleLessonList = bookedLessonList
+        .where((element) => element.startTime.isAfter(DateTime.now()))
+        .toList();
+    return const DateHelper()
+        .sortByDate(scheduleLessonList, (item) => item.startTime);
+  }
+
+  Future<List<Lesson>> getHistoryLessonList(User user) async {
+    await Future.delayed(const Duration(seconds: 2));
+    final historyLessonList = bookedLessonList
+        .where((element) => element.startTime.isBefore(DateTime.now()))
+        .toList();
+    return const DateHelper().sortByDate(
+        historyLessonList, (item) => item.startTime,
+        ascending: false);
   }
 }

@@ -63,14 +63,14 @@ class HistoryPage extends StatelessWidget {
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) =>
+                                  itemBuilder: (context, index2) =>
                                       HistoryLessonCard(
-                                          lesson: lessonList[index]),
+                                          lesson: lessonListGroupedByDate[index][index2]),
                                   separatorBuilder: (context, index) =>
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                  itemCount: lessonList.length),
+                                  itemCount: lessonListGroupedByDate[index].length),
                             ),
                         separatorBuilder: (context, index) => const SizedBox(
                               height: 24,
@@ -92,7 +92,7 @@ class HistoryPage extends StatelessWidget {
         title: "History",
       ),
       body: FutureBuilder(
-        future: _lessonService.getBookedLessonList(user!),
+        future: _lessonService.getHistoryLessonList(user!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

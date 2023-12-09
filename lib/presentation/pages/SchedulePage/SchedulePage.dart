@@ -93,7 +93,7 @@ class SchedulePage extends StatelessWidget {
         title: "Schedule",
       ),
       body: FutureBuilder(
-        future: _lessonService.getBookedLessonList(user!),
+        future: _lessonService.getScheduleLessonList(user!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

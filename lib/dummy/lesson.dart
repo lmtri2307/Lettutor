@@ -8,7 +8,18 @@ DateTime generateRandomFutureDate() {
   final random = Random();
   final now = DateTime.now();
   final randomDaysInFuture = random.nextInt(5); // for next 5 dáy
-  return now.add(Duration(days: randomDaysInFuture));
+  final randomHoursInFuture = random.nextInt(6); // for next 6 hours
+  return now
+      .add(Duration(days: randomDaysInFuture, hours: randomHoursInFuture));
+}
+
+DateTime generateRandomPastDate() {
+  final random = Random();
+  final now = DateTime.now();
+  final randomDaysInFuture = random.nextInt(5); // for next 5 dáy
+  final randomHoursInFuture = random.nextInt(6); // for next 6 hours
+  return now
+      .subtract(Duration(days: randomDaysInFuture, hours: randomHoursInFuture));
 }
 
 List<DateTime> generateSortedRandomListOfFutureDate() {
@@ -21,7 +32,7 @@ List<DateTime> generateSortedRandomListOfFutureDate() {
 
 final lessonList = generateSortedRandomListOfFutureDate()
     .map((timeInFuture) => Lesson(
-        tutor: tutorList[Random().nextInt(tutorList.length)],
+        tutor: tutorList[0],
         startTime: timeInFuture,
         duration: const Duration(minutes: 30),
         isAvailable: Random().nextInt(2) == 1,
@@ -31,4 +42,10 @@ final lessonList = generateSortedRandomListOfFutureDate()
             rating: Random().nextInt(10) / 2,
             createdAt: DateTime.parse('2023-12-07 09:30:00'))))
     .toList();
-final bookedLessonList = <Lesson>[];
+
+final bookedLessonList = List.generate(
+    5,
+    (index) => Lesson(
+        tutor: tutorList[0],
+        startTime: generateRandomPastDate(),
+        duration: const Duration(minutes: 30)));

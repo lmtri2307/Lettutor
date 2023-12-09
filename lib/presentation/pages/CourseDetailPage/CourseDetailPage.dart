@@ -3,14 +3,15 @@ import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/presentation/pages/CourseDetailPage/CourseDetailCard.dart';
 import 'package:lettutor/presentation/pages/CourseDetailPage/TopicCard.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
+import 'package:lettutor/service/CourseService.dart';
 
 class CourseDetailPage extends StatelessWidget {
   const CourseDetailPage({super.key, required this.course});
 
   final Course course;
+  final _courseService = const CourseService();
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildOnHasDetail(BuildContext context, Course course) {
     ThemeData theme = Theme.of(context);
     theme = theme.copyWith(
       textTheme: theme.textTheme.copyWith(
@@ -28,7 +29,8 @@ class CourseDetailPage extends StatelessWidget {
         type: AppBarType.sub,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(top:40 ,bottom: 56, left: 26, right: 26),
+        padding:
+            const EdgeInsets.only(top: 40, bottom: 56, left: 26, right: 26),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -55,7 +57,7 @@ class CourseDetailPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 35, bottom: 14),
               child: Text(
-                course.importance ?? "",
+                course.courseDetail?.importance ?? "",
                 style: theme.textTheme.bodySmall,
               ),
             ),
@@ -72,7 +74,7 @@ class CourseDetailPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 35, bottom: 14),
               child: Text(
-                course.importance ?? "",
+                course.courseDetail?.outcome ?? "",
                 style: theme.textTheme.bodySmall,
               ),
             ),
@@ -105,18 +107,35 @@ class CourseDetailPage extends StatelessWidget {
                 Icon(Icons.book_outlined, color: theme.primaryColor),
                 const SizedBox(width: 6),
                 Text(
-                  '${course.topicList.length} topics',
+                  '${course.numberOfTopic} topics',
                   style: theme.textTheme.bodyMedium,
                 ),
               ],
             ),
             ...List.generate(
-                course.topicList.length,
-                (index) =>
-                    TopicCard(topic: course.topicList[index], index: index))
+                course.numberOfTopic,
+                (index) => TopicCard(
+                    topic: course.courseDetail!.topicList[index], index: index))
           ],
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _courseService.getCourseDetail(course),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        course.courseDetail = snapshot.data!;
+        return _buildOnHasDetail(context, course);
+      },
     );
   }
 }

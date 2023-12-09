@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lettutor/dummy/lesson.dart';
 import 'package:lettutor/helpers/date_helper.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/pages/HistoryPage/HistoryLessonCard.dart';

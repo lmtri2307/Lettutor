@@ -1,31 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/PreviewCard.dart';
-
+import 'package:lettutor/service/CourseService.dart';
 
 class CourseTabView extends StatelessWidget {
-  const CourseTabView({super.key, required this.courseList});
+  const CourseTabView({super.key});
 
-  final List<Course> courseList;
+  final _courseService = const CourseService();
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildOnHasData(BuildContext context, List<Course> courseList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: courseList
-          .map((course) =>
-          PreviewCard(
-            onTap: () {
-              Navigator.pushNamed(context, "/course", arguments: course);
-            },
-            imageUrl: course.imageUrl,
-            title: course.name,
-            description: course.description,
-            additionalDetail:
-            '${course.level.name} • ${course.topicList.length} lessons',
-          ))
+          .map((course) => PreviewCard(
+                onTap: () {
+                  Navigator.pushNamed(context, "/course", arguments: course);
+                },
+                imageUrl: course.imageUrl,
+                title: course.name,
+                description: course.description,
+                additionalDetail:
+                    '${course.level.name} • ${course.numberOfTopic} lessons',
+              ))
           .toList(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _courseService.getCourseList(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return _buildOnHasData(context, snapshot.data!);
+      },
     );
   }
 }

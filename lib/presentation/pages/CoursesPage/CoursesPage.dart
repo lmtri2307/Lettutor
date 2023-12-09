@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/dummy/book.dart';
-import 'package:lettutor/dummy/course.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/BookTabView.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/CourseFilter.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/CourseTabView.dart';
@@ -58,6 +57,7 @@ class CoursesPage extends StatelessWidget {
                               height: 10,
                             ),
                             TabBar(
+                              tabAlignment: TabAlignment.start,
                               isScrollable: true,
                               tabs: [
                                 Tab(text: 'Course'),
@@ -81,10 +81,7 @@ class CoursesPage extends StatelessWidget {
               child: TabBarView(
                 // physics: NeverScrollableScrollPhysics(),
                 children: [
-                  SingleChildScrollView(
-                      child: CourseTabView(
-                    courseList: courseList,
-                  )),
+                  const SingleChildScrollView(child: CourseTabView()),
                   SingleChildScrollView(
                       child: BookTabView(
                     bookList: bookList,

@@ -2,6 +2,9 @@ import "package:country_code_picker/country_code_picker.dart";
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:lettutor/presentation/pages/BecomeTutorPage/sub_pages/widgets/NoteContainer.dart";
+import "package:lettutor/presentation/widgets/EditAvatarWidget/EditAvatarWidget.dart";
+import "package:lettutor/providers/AuthProvider.dart";
+import "package:provider/provider.dart";
 
 class BasicInfo extends StatefulWidget {
   const BasicInfo({super.key});
@@ -23,27 +26,10 @@ class _BasicInfoState extends State<BasicInfo> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final user = context.read<AuthProvider>().user!;
     return Column(
       children: [
-        CircleAvatar(
-            backgroundColor: Colors.blue,
-            backgroundImage: imageProvider,
-            radius: 50,
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: InkWell(
-                onTap: () async {},
-                child: const CircleAvatar(
-                  radius: 12,
-                  backgroundColor: Colors.blue,
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                ),
-              ),
-            )),
+        EditAvatarWidget(name: user.name!, avatarUrl: user.avatar, onChangeAvatar: (String path) async {  },),
         const SizedBox(
           height: 14,
         ),

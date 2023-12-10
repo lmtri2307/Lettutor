@@ -4,6 +4,7 @@ import 'package:lettutor/models/Topic.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/pages/BecomeTutorPage/BecomeTutorPage.dart';
 import 'package:lettutor/presentation/pages/CourseDetailPage/CourseDetailPage.dart';
+import 'package:lettutor/presentation/pages/EditProfilePage/EditProfilePage.dart';
 import 'package:lettutor/presentation/pages/ForgotPasswordPage/ForgotPasswordPage.dart';
 import 'package:lettutor/presentation/pages/Login/LoginPage.dart';
 import 'package:lettutor/presentation/pages/NavigationPage/NavigationPage.dart';
@@ -33,11 +34,7 @@ class RouteGenerator {
       GlobalKey<NavigatorState>();
 
   bool get isLoggedIn => checkLoggedIn();
-  final publicRoutes = const [
-    "/login",
-    "/password",
-    "/signup"
-  ];
+  final publicRoutes = const ["/login", "/password", "/signup"];
   final protectedRoutes = const [
     "/home",
     "/tutor",
@@ -45,7 +42,8 @@ class RouteGenerator {
     "/topic",
     "/call",
     "/become-tutor",
-    "/tutor-schedule"
+    "/tutor-schedule",
+    "/edit-profile"
   ];
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -77,8 +75,11 @@ class RouteGenerator {
           ),
         "/call" => const VideoCallPage(),
         "/become-tutor" => const BecomeTutorPage(),
-        "/tutor-schedule" => TutorSchedulePage(tutor: settings.arguments! as Tutor,),
+        "/tutor-schedule" => TutorSchedulePage(
+            tutor: settings.arguments! as Tutor,
+          ),
         // "/tutor-schedule" => TutorSchedulePage(tutor: tutorList[0],),
+        "/edit-profile" => const EditProfilePage(),
         _ => const Center(
             child: Text("404"),
           )

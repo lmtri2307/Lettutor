@@ -30,9 +30,12 @@ class SettingPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const AccountOperationTile(
+                AccountOperationTile(
                   icon: Icons.manage_accounts,
                   label: "Edit your account",
+                  onTap: () {
+                    Navigator.pushNamed(context, "/edit-profile");
+                  },
                 ),
                 AccountOperationTile(
                   icon: Icons.assignment,

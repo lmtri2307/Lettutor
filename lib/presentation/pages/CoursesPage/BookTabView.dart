@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/models/Book.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/PreviewCard.dart';
 import 'package:lettutor/service/BookSevice.dart';
 

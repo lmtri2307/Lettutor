@@ -58,6 +58,7 @@ class _BookingDialogState extends State<BookingDialog> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
                         side: BorderSide(color: theme.primaryColor),

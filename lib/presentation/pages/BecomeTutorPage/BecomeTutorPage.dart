@@ -39,41 +39,45 @@ class _BecomeTutorPageState extends State<BecomeTutorPage> {
                   style: TextStyle(color: Colors.white),
                 )),
           )
-        : Align(
-            alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
+        : _currentStepIndex == 2
+            ? const SizedBox()
+            : Align(
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _currentStepIndex = _currentStepIndex - 1;
+                          });
+                        },
+                        child: const Text(
+                          "Back",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    const SizedBox(
+                      width: 12,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _currentStepIndex = _currentStepIndex - 1;
-                      });
-                    },
-                    child: const Text(
-                      "Back",
-                      style: TextStyle(color: Colors.white),
-                    )),
-                const SizedBox(width: 12,),
-                ElevatedButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _currentStepIndex = _currentStepIndex + 1;
-                      });
-                    },
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(color: Colors.white),
-                    )),
-              ],
-            ),
-          );
+                    ElevatedButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _currentStepIndex = _currentStepIndex + 1;
+                          });
+                        },
+                        child: const Text(
+                          "Next",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ],
+                ),
+              );
   }
 
   @override
@@ -93,7 +97,7 @@ class _BecomeTutorPageState extends State<BecomeTutorPage> {
                 children: [
                   StepWidget(currentIndex: _currentStepIndex),
                   const SizedBox(
-                    height: 12,
+                    height: 60,
                   ),
                   widget._pages[_currentStepIndex],
                   Padding(

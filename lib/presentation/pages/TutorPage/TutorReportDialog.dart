@@ -75,79 +75,81 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
           )
         ],
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.info,
-                color: theme.primaryColor,
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.info,
+                  color: theme.primaryColor,
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Help us understand what's happening",
+                        maxLines: 2,
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            ...List<Widget>.generate(_choices.length, (index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "Help us understand what's happening",
-                      maxLines: 2,
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                    Checkbox(
+                      value: _choices[index],
+                      onChanged: (value) {
+                        if (value == null) return;
+                        _onChoose(index);
+                      },
                     ),
+                    Expanded(
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: GestureDetector(
+                              onTap: () => _onChoose(index),
+                              child: Text(
+                                _contents[index],
+                                style: theme.textTheme.bodySmall,
+                              ),
+                            ))),
                   ],
                 ),
+              );
+            }),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _controller,
+              minLines: 4,
+              maxLines: 5,
+              style: theme.textTheme.bodySmall,
+              onChanged: (value) => setState(() {}),
+              decoration: const InputDecoration(
+                hintText: 'Please let us know details about your problems',
+                hintStyle:
+                    TextStyle(fontWeight: FontWeight.w300, color: Colors.grey),
+                contentPadding: EdgeInsets.all(12),
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.all(Radius.circular(16))),
               ),
-            ],
-          ),
-          ...List<Widget>.generate(_choices.length, (index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Checkbox(
-                    value: _choices[index],
-                    onChanged: (value) {
-                      if (value == null) return;
-                      _onChoose(index);
-                    },
-                  ),
-                  Expanded(
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: GestureDetector(
-                            onTap: () => _onChoose(index),
-                            child: Text(
-                              _contents[index],
-                              style: theme.textTheme.bodySmall,
-                            ),
-                          ))),
-                ],
-              ),
-            );
-          }),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _controller,
-            minLines: 4,
-            maxLines: 5,
-            style: theme.textTheme.bodySmall,
-            onChanged: (value) => setState(() {}),
-            decoration: const InputDecoration(
-              hintText: 'Please let us know details about your problems',
-              hintStyle:
-                  TextStyle(fontWeight: FontWeight.w300, color: Colors.grey),
-              contentPadding: EdgeInsets.all(12),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.all(Radius.circular(16))),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       actions: [
         OutlinedButton(

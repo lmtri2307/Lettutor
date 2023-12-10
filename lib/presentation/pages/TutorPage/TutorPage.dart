@@ -22,8 +22,7 @@ class TutorPage extends StatelessWidget {
     tutorListProvider.toggleFavoriteTutor(tutor);
   }
 
-  Widget _build(
-      BuildContext context, AsyncSnapshot<TutorDetail?> snapshot) {
+  Widget _build(BuildContext context, AsyncSnapshot<TutorDetail?> snapshot) {
     final theme = Theme.of(context);
     if (snapshot.hasData) {
       return Scaffold(
@@ -169,7 +168,12 @@ class TutorPage extends StatelessWidget {
             )),
       );
     }
-    return const Center(child: CircularProgressIndicator());
+    return const Scaffold(
+        appBar: PageAppBar(
+          title: "Teacher Details",
+          type: AppBarType.sub,
+        ),
+        body: Center(child: CircularProgressIndicator()));
   }
 
   @override

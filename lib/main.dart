@@ -12,7 +12,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (context) => AuthProvider(user: userList[0]),
+        create: (context) => AuthProvider(),
       ),
       ChangeNotifierProvider(create: (context) => TutorListProvider(),),
       ChangeNotifierProvider(create: (context) => LessonProvider(),)

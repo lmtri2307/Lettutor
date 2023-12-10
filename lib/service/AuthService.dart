@@ -18,6 +18,7 @@ class AuthService {
       id: (int.tryParse(lastUser.id)! + 1).toString(),
       email: email,
       password: password,
+      name: email.substring(0, email.indexOf("@")),
     ));
   }
 

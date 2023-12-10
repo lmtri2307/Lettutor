@@ -23,7 +23,6 @@ class TutorSchedulePage extends StatefulWidget {
 class _TutorSchedulePageState extends State<TutorSchedulePage> {
   final _lessonService = const LessonService();
 
-
   @override
   void deactivate() {
     final lessonProvider = context.read<LessonProvider>();
@@ -35,10 +34,9 @@ class _TutorSchedulePageState extends State<TutorSchedulePage> {
     final theme = Theme.of(context);
     final markerColor = details.appointments.isEmpty
         ? Colors.transparent
-        : details.appointments
-        .any((element) => (element as Lesson).isAvailable)
-        ? theme.primaryColor
-        : Colors.grey;
+        : details.appointments.any((element) => (element as Lesson).isAvailable)
+            ? theme.primaryColor
+            : Colors.grey;
     return MonthCell(markerColor: markerColor, date: details.date);
   }
 
@@ -51,8 +49,11 @@ class _TutorSchedulePageState extends State<TutorSchedulePage> {
   }
 
   Widget _onFetching() {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return const Scaffold(
+      appBar: PageAppBar(title: "Tutor Timetable", type: AppBarType.sub),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 

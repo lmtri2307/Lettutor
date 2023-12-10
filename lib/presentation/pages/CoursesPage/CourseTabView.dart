@@ -33,8 +33,11 @@ class CourseTabView extends StatelessWidget {
       future: _courseService.getCourseList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
 

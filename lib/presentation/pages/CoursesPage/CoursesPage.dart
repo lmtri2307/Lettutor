@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lettutor/dummy/book.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/BookTabView.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/CourseFilter.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/CourseTabView.dart';
@@ -78,15 +77,14 @@ class CoursesPage extends StatelessWidget {
             child: ScrollConfiguration(
               behavior:
                   ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: TabBarView(
+              child: const TabBarView(
                 // physics: NeverScrollableScrollPhysics(),
                 children: [
-                  const SingleChildScrollView(child: CourseTabView()),
+                  SingleChildScrollView(child: CourseTabView()),
                   SingleChildScrollView(
                       child: BookTabView(
-                    bookList: bookList,
                   )),
-                  const Text('Interactive E-Book'),
+                  Text('Interactive E-Book'),
                 ],
               ),
             ),

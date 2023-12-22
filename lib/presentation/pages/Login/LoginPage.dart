@@ -20,6 +20,10 @@ class _LoginPageState extends State<LoginPage> {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
+  void _onLoginFail(String message){
+    showErrorSnackBar(context, 'Log in failed! $message');
+  }
+
   void _login(
       {required AuthProvider authRepository,
       required String email,
@@ -27,13 +31,14 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isAuthenticating = true;
     });
-    final user = await const AuthService()
-        .loginWithEmailAndPassword(email, password)
-        .onError((error, stackTrace) {
-      showErrorSnackBar(context, 'Log in failed! Incorrect email or password.');
-      return null;
-    });
-    authRepository.setUser(user);
+
+    try{
+      final user = await const AuthService()
+          .loginWithEmailAndPassword(email, password);
+      authRepository.setUser(user);
+    }catch(err){
+      _onLoginFail(err.toString().substring(11));
+    }
 
     setState(() {
       _isAuthenticating = false;

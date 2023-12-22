@@ -20,21 +20,29 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
-  void _signup(
+  void _onError(String message){
+    showErrorSnackBar(context, 'Sign up failed! $message.');
+  }
+
+  void _onSuccess(){
+    Navigator.pushNamed(context, "/login");
+    showSuccessSnackBar(context, 'Sign up successful! Please log in.');
+  }
+
+  Future<void> _signup(
       {required AuthProvider authRepository,
       required String email,
       required String password}) async {
     setState(() {
       _isAuthenticating = true;
     });
-    const AuthService()
-        .signupWithEmailAndPassword(email, password)
-        .then((value) {
-      Navigator.pushNamed(context, "/login");
-      showSuccessSnackBar(context, 'Sign up successful! Please log in.');
-    }).onError((error, stackTrace) {
-      showErrorSnackBar(context, 'Sign up failed! Email has already taken.');
-    });
+    try{
+      await const AuthService()
+          .signupWithEmailAndPassword(email, password);
+      _onSuccess();
+    } catch (e) {
+      _onError(e.toString().substring(11));
+    }
     setState(() {
       _isAuthenticating = false;
     });

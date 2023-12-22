@@ -50,6 +50,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^23.1.43
   syncfusion_flutter_calendar: ^23.1.43
   timeago: ^3.6.0
+  http: ^1.1.2
 #  syncfusion_flutter_datepicker: ^23.2.6
 #  flutter_advanced_calendar: ^1.4.1
 #  calendar_appbar: ^0.0.6
@@ -66,7 +67,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -51,6 +51,7 @@ dependencies:
   syncfusion_flutter_calendar: ^23.1.43
   timeago: ^3.6.0
   http: ^1.1.2
+  shared_preferences: ^2.2.2
 #  syncfusion_flutter_datepicker: ^23.2.6
 #  flutter_advanced_calendar: ^1.4.1
 #  calendar_appbar: ^0.0.6

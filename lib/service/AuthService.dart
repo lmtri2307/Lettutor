@@ -4,7 +4,6 @@ import 'package:lettutor/repository/AuthRepository.dart';
 
 class AuthService {
   final authRepository = const AuthRepository();
-
   const AuthService();
 
   Future<User> loginWithEmailAndPassword(String email, String password) async {
@@ -18,6 +17,14 @@ class AuthService {
   Future<void> signupWithEmailAndPassword(String email, String password) async {
     try{
       return await authRepository.signup(email, password);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<User> refreshSession() async {
+    try{
+      return await authRepository.refresh();
     } on Exception catch (e) {
       rethrow;
     }

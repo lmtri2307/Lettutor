@@ -5,14 +5,23 @@ import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:lettutor/routing/RouteGenerator.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:lettutor/service/AuthService.dart';
+import 'package:lettutor/service/UserService.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   usePathUrlStrategy();
+  final authProvider = AuthProvider();
+  try{
+    const AuthService().refreshSession()
+        .then((value) => authProvider.setUser(value));
+  } catch (e){
+    // ignore error
+  }
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (context) => AuthProvider(),
+        create: (context) => authProvider,
       ),
       ChangeNotifierProvider(create: (context) => TutorListProvider(),),
       ChangeNotifierProvider(create: (context) => LessonProvider(),)

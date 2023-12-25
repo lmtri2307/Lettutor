@@ -68,9 +68,14 @@ class AuthRepository {
   }
 
   Future<User> refresh() async {
+    final token = await getRefreshToken();
+    if(token == null){
+      throw Exception("No refresh token");
+    }
+
     final response =
         await apiClient.post(Uri.parse('$baseUrl/refresh-token'), body: {
-      "refreshToken": await getRefreshToken(),
+      "refreshToken": token,
       "timezone": '7',
     });
 
@@ -102,7 +107,16 @@ class AuthRepository {
     return user;
   }
 
-  Future<void> resetPassword(String username) async {
-    throw UnimplementedError();
+  Future<void> resetPassword(String email) async {
+    final response =
+    await apiClient.post(Uri.parse('user/forgotPassword'), body: {
+      "email" : email
+    });
+
+    final data = json.decode(response.body);
+
+    if (hasError(response.statusCode)) {
+      throw Exception(data['message']);
+    }
   }
 }

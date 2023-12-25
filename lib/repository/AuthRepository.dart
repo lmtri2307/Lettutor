@@ -109,7 +109,7 @@ class AuthRepository {
 
   Future<void> resetPassword(String email) async {
     final response =
-    await apiClient.post(Uri.parse('user/forgotPassword'), body: {
+    await apiClient.post(Uri.parse('/user/forgotPassword'), body: {
       "email" : email
     });
 

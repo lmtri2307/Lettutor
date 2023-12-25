@@ -16,13 +16,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool _hasSucceed = false;
 
   Future<void> _resetPassword(String email) async {
-    await Future.delayed(const Duration(seconds: 5));
     await const AuthService().resetPassword(email).then((value) {
       setState(() {
         _hasSucceed = true;
       });
     }).onError((error, stackTrace) {
-      showErrorSnackBar(context, "Email doesn't exist");
+      showErrorSnackBar(context,  error.toString().substring(11));
     });
   }
 

@@ -18,25 +18,27 @@ class RecommendedTutors extends StatelessWidget {
               ),
         ),
         Consumer<TutorListProvider>(
-          builder: (context, tutorListProvider, child) => tutorListProvider
-                  .isFetching
-              ? const Center(
-                  child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: CircularProgressIndicator(),
-                ))
-              : ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TutorCard(tutor: tutorListProvider.tutorList[index]);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 8);
-                  },
-                  itemCount: tutorListProvider.tutorList.length,
-                ),
-        )
+            builder: (context, tutorListProvider, child) => Column(children: [
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TutorCard(
+                          tutor: tutorListProvider.tutorList[index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: 8);
+                    },
+                    itemCount: tutorListProvider.tutorList.length,
+                  ),
+                  if (tutorListProvider.isFetching)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                ]))
       ],
     );
   }

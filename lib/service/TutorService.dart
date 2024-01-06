@@ -9,7 +9,14 @@ import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/models/TutorDetail.dart';
 import 'package:lettutor/models/Nationality.dart';
-import 'package:lettutor/models/TutorSearchFormData.dart';
+
+class TutorSearchFormData {
+  String? name;
+  Nationality? tutorNationality;
+  Specialty? specialty;
+
+  TutorSearchFormData({this.name, this.tutorNationality, this.specialty});
+}
 
 class TutorService {
   const TutorService();
@@ -41,7 +48,7 @@ class TutorService {
     return copyList;
   }
 
-  Future<List<Tutor>> getTutorList() async {
+  Future<List<Tutor>> getTutorList(int page, int limit) async {
     await Future.delayed(const Duration(seconds: 2));
     return _sortTutorList(tutorList);
   }

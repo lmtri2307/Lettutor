@@ -13,13 +13,18 @@ class TutorListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setTutorListFuture(Future<List<Tutor>> tutorListFuture) async {
+  void setTutorListFuture(Future<List<Tutor>> tutorListFuture,
+      {bool appendList = false}) async {
     isFetching = true;
     notifyListeners();
     _tutorListFuture = tutorListFuture;
     final tutorList = await tutorListFuture;
-    if(_tutorListFuture == tutorListFuture){
-      this.tutorList = tutorList;
+    if (_tutorListFuture == tutorListFuture) {
+      if (appendList) {
+        this.tutorList.addAll(tutorList);
+      } else {
+        this.tutorList = tutorList;
+      }
       isFetching = false;
       notifyListeners();
     }
@@ -33,5 +38,23 @@ class TutorListProvider extends ChangeNotifier {
   Future<void> toggleFavoriteTutor(Tutor tutor) async {
     await _tutorService.toggleFavoriteTutor(tutor);
     notifyListeners();
+  }
+
+  Future<void> fetchTutorList(int page, int limit) async {
+    isFetching = true;
+    notifyListeners();
+    final tutorList = await _tutorService.getTutorList(page, limit);
+    if (page == 1) {
+      this.tutorList = tutorList;
+    } else {
+      this.tutorList.addAll(tutorList);
+    }
+    isFetching = false;
+    notifyListeners();
+  }
+
+  Future<void> searchTutorList(TutorSearchFormData formData) async {
+    final tutorList = await _tutorService.search(formData);
+    setTutorList(tutorList);
   }
 }

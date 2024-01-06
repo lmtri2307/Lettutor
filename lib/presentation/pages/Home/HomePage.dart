@@ -16,30 +16,48 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _tutorService = const TutorService();
+  int page = 1;
+  int limit = 10;
+  late ScrollController scrollController;
 
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+    scrollController.addListener(_scrollListener);
+  }
 
+  @override
+  void dispose() {
+    scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
 
+  void _scrollListener() {
+    final tutorListProvider = context.read<TutorListProvider>();
+    if (scrollController.offset == scrollController.position.maxScrollExtent &&
+        tutorListProvider.isFetching == false) {
+      page++;
+      context.read<TutorListProvider>().fetchTutorList(page, limit);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final tutorListProvider = context.read<TutorListProvider>();
-      tutorListProvider.setTutorListFuture(_tutorService.getTutorList());
-    });
-
-    return const Scaffold(
-      appBar: LetTutorAppBar(
+    return Scaffold(
+      appBar: const LetTutorAppBar(
         isLoggedIn: true,
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         scrollDirection: Axis.vertical,
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             UpcomingLessonNotification(),
             Padding(
               padding:
-              EdgeInsets.only(top: 33, left: 30, right: 30, bottom: 49),
+                  EdgeInsets.only(top: 33, left: 30, right: 30, bottom: 49),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

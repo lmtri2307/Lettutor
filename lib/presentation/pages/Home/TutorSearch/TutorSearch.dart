@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Nationality.dart';
-import 'package:lettutor/models/TutorSearchFormData.dart';
 import 'package:lettutor/presentation/pages/Home/TutorSearch/TutorSearchFilterChoiceList.dart';
 import 'package:lettutor/presentation/widgets/TimeRangePickerFormField/TimeRangePickerFormField.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
@@ -38,7 +37,7 @@ class TutorSearchForm extends StatelessWidget {
   final _tutorService = const TutorService();
 
   void _onSearchTutor(TutorListProvider tutorListProvider) async {
-    tutorListProvider.setTutorListFuture(_tutorService.search(_searchFormData));
+    tutorListProvider.searchTutorList(_searchFormData);
   }
 
   void _onSearchByName(TutorListProvider tutorListProvider, String name) async {

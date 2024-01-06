@@ -15,15 +15,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int page = 1;
-  int limit = 10;
   late ScrollController scrollController;
+  late TutorListProvider tutorListProvider;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
+    tutorListProvider = context.read<TutorListProvider>();
+    tutorListProvider.resetPage();
   }
 
   @override
@@ -33,11 +34,9 @@ class _HomeState extends State<Home> {
   }
 
   void _scrollListener() {
-    final tutorListProvider = context.read<TutorListProvider>();
     if (scrollController.offset == scrollController.position.maxScrollExtent &&
         tutorListProvider.isFetching == false) {
-      tutorListProvider.fetchTutorList(page, limit);
-      page++;
+      tutorListProvider.fetchTutorList();
     }
   }
 

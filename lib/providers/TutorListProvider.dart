@@ -6,6 +6,8 @@ class TutorListProvider extends ChangeNotifier {
   List<Tutor> tutorList = [];
   bool isFetching = false;
   Future<List<Tutor>>? _tutorListFuture;
+  int page = 1;
+  final limit = 10;
   final _tutorService = const TutorService();
 
   void setTutorList(List<Tutor> tutorList) {
@@ -13,6 +15,9 @@ class TutorListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetPage() {
+    page = 1;
+  }
 
   void setIsFetching(bool isFetching) {
     this.isFetching = isFetching;
@@ -24,7 +29,7 @@ class TutorListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchTutorList(int page, int limit) async {
+  Future<void> fetchTutorList() async {
     isFetching = true;
     final fetchedTutorList = await _tutorService.getTutorList(page, limit);
     if (page == 1) {
@@ -32,6 +37,7 @@ class TutorListProvider extends ChangeNotifier {
     } else {
       tutorList.addAll(fetchedTutorList);
     }
+    page++;
     isFetching = false;
     notifyListeners();
   }

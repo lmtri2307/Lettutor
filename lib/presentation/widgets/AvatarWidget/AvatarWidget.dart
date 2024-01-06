@@ -31,8 +31,10 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 onForegroundImageError: isImageError
                     ? null
                     : (exception, stackTrace) {
-                        setState(() {
-                          isImageError = true;
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          setState(() {
+                            isImageError = true;
+                          });
                         });
                       },
                 child: isImageError

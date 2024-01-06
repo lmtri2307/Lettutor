@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/dummy/user.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:lettutor/routing/RouteGenerator.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:lettutor/service/AuthService.dart';
-import 'package:lettutor/service/UserService.dart';
 import 'package:provider/provider.dart';
 
 void main() {

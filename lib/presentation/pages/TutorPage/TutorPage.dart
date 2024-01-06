@@ -42,7 +42,7 @@ class TutorPage extends StatelessWidget {
                   tutor: tutor,
                   showFavoriteButton: false,
                   showNumOfReviews: true,
-                  height: 100,
+                  // height: 100,
                 ),
                 const SizedBox(
                   height: 10,

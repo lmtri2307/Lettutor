@@ -10,14 +10,11 @@ class TutorProfile extends StatelessWidget {
       this.showFavoriteButton = true,
       this.showNumOfReviews = false,
       this.onTap,
-      this.height,
       this.onToggleFavorite});
 
   final Tutor tutor;
   final bool showFavoriteButton;
   final bool showNumOfReviews;
-  final double? height;
-  final double minHeight = 92;
   final void Function()? onTap;
   final void Function()? onToggleFavorite;
 
@@ -28,73 +25,72 @@ class TutorProfile extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: height != null
-              ? height! < minHeight
-                  ? minHeight
-                  : height
-              : minHeight,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Avatar
-              AvatarWidget(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Avatar
+            Expanded(
+              child: AvatarWidget(
                 name: tutor.name,
                 avatarUrl: tutor.avatar,
               ),
-              const SizedBox(
-                width: 18,
+            ),
+            const SizedBox(
+              width: 18,
+            ),
+            // Information
+            Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    tutor.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    tutor.country ?? "Unknown country",
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Rating(rating: tutor.rating),
+                        ...showNumOfReviews &&
+                                tutor.numOfReviews != null
+                            ? [
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text("(${tutor.numOfReviews})",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: Colors.grey.shade500,
+                                          fontStyle: FontStyle.italic,
+                                        ))
+                              ]
+                            : [],
+                      ],
+                    ),
+                  )
+                ],
               ),
-              // Information
+            ),
+            // Favorite Button
+            if (showFavoriteButton)
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      tutor.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      tutor.country ?? "Unknown country",
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey.shade500,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 20,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Rating(rating: tutor.rating),
-                          ...showNumOfReviews &&
-                                  tutor.numOfReviews != null
-                              ? [
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text("(${tutor.numOfReviews})",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            color: Colors.grey.shade500,
-                                            fontStyle: FontStyle.italic,
-                                          ))
-                                ]
-                              : [],
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              // Favorite Button
-              if (showFavoriteButton)
-                Center(
+                flex: 1,
+                child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: IconButton(
@@ -115,8 +111,8 @@ class TutorProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );

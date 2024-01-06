@@ -15,7 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _tutorService = const TutorService();
   int page = 1;
   int limit = 10;
   late ScrollController scrollController;
@@ -37,8 +36,8 @@ class _HomeState extends State<Home> {
     final tutorListProvider = context.read<TutorListProvider>();
     if (scrollController.offset == scrollController.position.maxScrollExtent &&
         tutorListProvider.isFetching == false) {
+      tutorListProvider.fetchTutorList(page, limit);
       page++;
-      context.read<TutorListProvider>().fetchTutorList(page, limit);
     }
   }
 

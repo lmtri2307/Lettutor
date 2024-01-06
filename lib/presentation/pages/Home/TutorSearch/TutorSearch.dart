@@ -40,10 +40,6 @@ class TutorSearchForm extends StatelessWidget {
     tutorListProvider.searchTutorList(_searchFormData);
   }
 
-  void _onSearchByName(TutorListProvider tutorListProvider, String name) async {
-    tutorListProvider.setTutorListFuture(_tutorService.searchTutorByName(name));
-  }
-
   @override
   Widget build(BuildContext context) {
     final tutorListProvider = context.read<TutorListProvider>();

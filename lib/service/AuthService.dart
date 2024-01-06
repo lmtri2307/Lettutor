@@ -1,4 +1,3 @@
-import 'package:lettutor/dummy/user.dart';
 import 'package:lettutor/models/User.dart';
 import 'package:lettutor/repository/AuthRepository.dart';
 

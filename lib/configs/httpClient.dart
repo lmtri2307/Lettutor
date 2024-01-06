@@ -11,7 +11,8 @@ class ApiClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    final newRequest = http.Request(request.method, Uri.parse(baseUrl + request.url.path))
+
+    final newRequest = http.Request(request.method, Uri.parse(baseUrl + request.url.toString()))
       ..headers.addAll(request.headers);
     if(token != null){
       newRequest.headers['Authorization'] = 'Bearer $token';

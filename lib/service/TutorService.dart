@@ -9,6 +9,7 @@ import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/models/TutorDetail.dart';
 import 'package:lettutor/models/Nationality.dart';
+import 'package:lettutor/repository/TutorRepository.dart';
 
 class TutorSearchFormData {
   String? name;
@@ -19,6 +20,7 @@ class TutorSearchFormData {
 }
 
 class TutorService {
+  final tutorRepository = const TutorRepository();
   const TutorService();
 
   Future<List<Specialty>> getAllSpecialty() async {
@@ -49,8 +51,7 @@ class TutorService {
   }
 
   Future<List<Tutor>> getTutorList(int page, int limit) async {
-    await Future.delayed(const Duration(seconds: 2));
-    return _sortTutorList(tutorList);
+    return await tutorRepository.getTutorList(page, limit);
   }
 
   Future<List<Tutor>> searchByFilter(Specialty specialty) async {

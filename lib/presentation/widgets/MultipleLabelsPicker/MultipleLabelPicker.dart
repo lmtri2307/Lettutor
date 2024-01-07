@@ -8,12 +8,14 @@ class StateStyle {
 }
 
 class MultipleLabelsPicker<T> extends StatefulWidget {
-  const MultipleLabelsPicker({super.key,
+  const MultipleLabelsPicker({
+    super.key,
     required this.defaultStyle,
     required this.selectedStyle,
     required this.onItemSelected,
     required this.itemList,
-    required this.getLabelFromItem,});
+    required this.getLabelFromItem,
+  });
 
   final List<T> itemList;
   final String Function(T item) getLabelFromItem;
@@ -22,20 +24,34 @@ class MultipleLabelsPicker<T> extends StatefulWidget {
   final void Function(T item) onItemSelected;
 
   @override
-  State<MultipleLabelsPicker> createState() => _MultipleLabelsPickerState<T>();
+  State<MultipleLabelsPicker> createState() => MultipleLabelsPickerState<T>();
 }
 
-class _MultipleLabelsPickerState<T> extends State<MultipleLabelsPicker<T>> {
+class MultipleLabelsPickerState<T> extends State<MultipleLabelsPicker<T>> {
   int _chosenIndex = 0;
+
+  void reset() {
+    setState(() {
+      onSelect(widget.itemList[0]);
+    });
+  }
+
+  void onSelect(T item){
+    setState(() {
+      _chosenIndex = widget.itemList.indexOf(item);
+    });
+    widget.onItemSelected(item);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
         spacing: 5.0,
         runSpacing: 5.0,
-        children: widget.itemList.asMap()
-            .map((index, item) =>
-            MapEntry(index,
+        children: widget.itemList
+            .asMap()
+            .map((index, item) => MapEntry(
+                index,
                 SizedBox(
                   height: 32,
                   child: ChoiceChip(
@@ -48,14 +64,13 @@ class _MultipleLabelsPickerState<T> extends State<MultipleLabelsPicker<T>> {
                     selectedColor: widget.selectedStyle.backgroundColor,
                     label: Text(widget.getLabelFromItem(item)),
                     onSelected: (isSelected) {
-                      setState(() {
-                        _chosenIndex = index;
-                      });
-                      widget.onItemSelected(item);
+                      if (isSelected) {
+                        onSelect(item);
+                      }
                     },
                     selected: _chosenIndex == index,
                     labelStyle: TextStyle(color: MaterialStateColor.resolveWith(
-                          (states) {
+                      (states) {
                         if (states.contains(MaterialState.selected)) {
                           return widget.selectedStyle
                               .textColor; // Text color when selected
@@ -66,6 +81,7 @@ class _MultipleLabelsPickerState<T> extends State<MultipleLabelsPicker<T>> {
                     )),
                   ),
                 )))
-            .values.toList());
+            .values
+            .toList());
   }
 }

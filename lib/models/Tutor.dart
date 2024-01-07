@@ -2,10 +2,10 @@ import 'package:lettutor/models/Nationality.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/TutorDetail.dart';
 
-class Tutor{
+class Tutor {
   Tutor({
     required this.id,
-    required this.specialties,
+    required this.specialtyList,
     this.avatar,
     required this.name,
     this.country,
@@ -18,7 +18,6 @@ class Tutor{
   });
 
   String id;
-  String? specialties;
   String? avatar;
   String name;
   String? country;
@@ -28,12 +27,11 @@ class Tutor{
   bool isFavorite;
   TutorDetail? detail;
   Nationality? nationality;
-  List<Specialty> get specialtyList =>
-      specialties?.split(",").map((e) => Specialty(e)).toList() ?? [];
+  List<Specialty> specialtyList;
 
   Tutor copyWith({
     String? id,
-    String? specialties,
+    List<Specialty>? specialtyList,
     String? avatar,
     String? name,
     String? country,
@@ -45,7 +43,7 @@ class Tutor{
   }) {
     return Tutor(
         id: id ?? this.id,
-        specialties: specialties ?? this.specialties,
+        specialtyList: specialtyList ?? this.specialtyList,
         name: name ?? this.name,
         country: country ?? this.country,
         bio: bio ?? this.bio,

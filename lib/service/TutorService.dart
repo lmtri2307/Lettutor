@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:lettutor/dummy/review.dart';
-import 'package:lettutor/dummy/specialty.dart';
 import 'package:lettutor/dummy/tutor.dart';
 import 'package:lettutor/dummy/nationality.dart';
 import 'package:lettutor/models/Review.dart';
@@ -24,7 +23,6 @@ class TutorService {
   const TutorService();
 
   Future<List<Specialty>> getAllSpecialty() async {
-    await Future.delayed(const Duration(seconds: 2));
     return specialtyList;
   }
 
@@ -48,10 +46,6 @@ class TutorService {
       },
     );
     return copyList;
-  }
-
-  Future<List<Tutor>> getTutorList(int page, int limit) async {
-    return await tutorRepository.getTutorList(page, limit);
   }
 
   Future<List<Tutor>> searchByFilter(Specialty specialty) async {
@@ -87,28 +81,9 @@ class TutorService {
     return nationalityList;
   }
 
-  Future<List<Tutor>> search(TutorSearchFormData formData) async {
-    await Future.delayed(const Duration(seconds: 2));
-    var result = tutorList;
-    if (formData.name != null) {
-      result = result
-          .where((tutor) =>
-              tutor.name.toLowerCase().contains(formData.name!.toLowerCase()))
-          .toList();
-    }
-    if (formData.specialty != null && formData.specialty != Specialty.all) {
-      result = result
-          .where((tutor) => tutor.specialtyList
-              .any((specialty) => specialty.name == formData.specialty!.name))
-          .toList();
-    }
-    if (formData.tutorNationality != null) {
-      result = result
-          .where((tutor) => tutor.nationality == formData.tutorNationality)
-          .toList();
-    }
-
-    return _sortTutorList(result);
+  Future<List<Tutor>> search(TutorSearchFormData formData, int page, int limit) async {
+    final tutorList = await tutorRepository.searchTutorList(formData, page, limit);
+    return tutorList;
   }
 
   Future<void> report(Tutor tutor, String reportContent) async {

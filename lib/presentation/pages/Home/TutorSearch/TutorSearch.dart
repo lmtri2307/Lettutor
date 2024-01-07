@@ -151,19 +151,7 @@ class TutorSearchForm extends StatelessWidget {
               _onSearchTutor(tutorListProvider);
             },
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextButton(
-              style: TextButton.styleFrom(
-                  side: BorderSide(
-                      color: Theme.of(context).primaryColor.withOpacity(0.7))),
-              onPressed: () {},
-              child: Text(
-                "Reset result",
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor.withOpacity(0.7)),
-              )),
+
         ],
       )),
     );

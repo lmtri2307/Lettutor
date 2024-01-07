@@ -31,12 +31,13 @@ class RecommendedTutors extends StatelessWidget {
                     },
                     itemCount: tutorListProvider.tutorList.length,
                   ),
-                  const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: CircularProgressIndicator(),
+                  if (!tutorListProvider.isEndOfList)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
-                  ),
                 ]))
       ],
     );

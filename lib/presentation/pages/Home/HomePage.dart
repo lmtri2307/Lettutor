@@ -4,7 +4,6 @@ import 'package:lettutor/presentation/pages/Home/RecommendedTutors/RecommendedTu
 import 'package:lettutor/presentation/pages/Home/TutorSearch/TutorSearch.dart';
 import 'package:lettutor/presentation/pages/Home/UpcomingLessonNotification.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
-import 'package:lettutor/service/TutorService.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -25,6 +24,10 @@ class _HomeState extends State<Home> {
     scrollController.addListener(_scrollListener);
     tutorListProvider = context.read<TutorListProvider>();
     tutorListProvider.resetPage();
+    tutorListProvider.searchForm = null;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      tutorListProvider.fetchTutorList();
+    });
   }
 
   @override

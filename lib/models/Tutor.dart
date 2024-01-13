@@ -11,7 +11,6 @@ class Tutor {
     this.country,
     this.bio,
     this.rating,
-    this.numOfReviews,
     this.detail,
     this.nationality,
     this.isFavorite = false,
@@ -23,7 +22,7 @@ class Tutor {
   String? country;
   String? bio;
   double? rating;
-  int? numOfReviews;
+
   bool isFavorite;
   TutorDetail? detail;
   Nationality? nationality;
@@ -37,7 +36,6 @@ class Tutor {
     String? country,
     String? bio,
     double? rating,
-    int? numOfReviews,
     bool? isFavorite,
     TutorDetail? detail,
   }) {
@@ -49,7 +47,6 @@ class Tutor {
         bio: bio ?? this.bio,
         isFavorite: isFavorite ?? this.isFavorite,
         avatar: avatar ?? this.avatar,
-        numOfReviews: numOfReviews ?? this.numOfReviews,
         rating: rating ?? this.rating,
         detail: detail ?? this.detail);
   }

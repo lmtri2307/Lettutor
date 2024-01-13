@@ -65,12 +65,12 @@ class TutorProfile extends StatelessWidget {
                       children: [
                         Rating(rating: tutor.rating),
                         ...showNumOfReviews &&
-                                tutor.numOfReviews != null
+                                tutor.detail?.numOfReviews != null
                             ? [
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text("(${tutor.numOfReviews})",
+                                Text("(${tutor.detail?.numOfReviews})",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall

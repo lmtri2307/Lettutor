@@ -24,13 +24,12 @@ final tutorList = [
     name: "Le Minh Tri",
     avatar: "assets/images/keegan-avatar.png",
     rating: 5,
-    specialtyList:
-        getRandomSubList(specialtyList),
-    numOfReviews: Random().nextInt(reviewList.length),
+    specialtyList: getRandomSubList(specialtyList),
     bio:
         "I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.",
     isFavorite: true,
     detail: TutorDetail(
+      numOfReviews: Random().nextInt(reviewList.length),
       videoUrl: "assets/videos/tutor.mp4",
       languages: "English",
       interest:
@@ -43,19 +42,18 @@ final tutorList = [
   Tutor(
     id: "2",
     name: "Le Minh Tri",
-    numOfReviews: Random().nextInt(reviewList.length),
-    specialtyList:
-        getRandomSubList(specialtyList),
+    specialtyList: getRandomSubList(specialtyList),
     rating: 3.5,
     detail: TutorDetail(
-        videoUrl: "assets/videos/tutor.mp4", languages: "Northern Ndebele"),
+        numOfReviews: Random().nextInt(reviewList.length),
+        videoUrl: "assets/videos/tutor.mp4",
+        languages: "Northern Ndebele"),
     nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
   Tutor(
     id: "3",
     name: "Le Minh Tri",
-    specialtyList:
-        getRandomSubList(specialtyList),
+    specialtyList: getRandomSubList(specialtyList),
     rating: 4,
     detail: TutorDetail(
       videoUrl: "assets/videos/tutor.mp4",
@@ -70,17 +68,19 @@ final tutorList = [
   Tutor(
     id: "4",
     name: "Le Minh Tri",
-    numOfReviews: Random().nextInt(reviewList.length),
-    specialtyList:
-        getRandomSubList(specialtyList),
+    detail: TutorDetail(
+      numOfReviews: Random().nextInt(reviewList.length), languages: '',
+    ),
+    specialtyList: getRandomSubList(specialtyList),
     nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
   Tutor(
     id: "5",
     name: "Le Minh Tri",
-    numOfReviews: Random().nextInt(reviewList.length),
-    specialtyList:
-        getRandomSubList(specialtyList),
+    detail: TutorDetail(
+      numOfReviews: Random().nextInt(reviewList.length), languages: '',
+    ),
+    specialtyList: getRandomSubList(specialtyList),
     nationality: nationalityList[Random().nextInt(nationalityList.length)],
   ),
 ];

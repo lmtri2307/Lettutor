@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:lettutor/configs/httpClient.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/Tutor.dart';
+import 'package:lettutor/models/TutorDetail.dart';
 import 'package:lettutor/service/TutorService.dart';
 
 class TutorRepository {
@@ -77,6 +78,22 @@ class TutorRepository {
             ))
         .toList();
     return tutorList;
+  }
+
+  Future<TutorDetail> getTutorDetail(Tutor tutor) async {
+    // fetch api
+    final response = await apiClient.get(Uri.parse('$baseUrl/${tutor.id}'));
+    final data = json.decode(response.body);
+    // convert to model
+    final tutorDetail = TutorDetail(
+      videoUrl: data['video'],
+      languages: data['languages'],
+      interest: data['interests'],
+      experience: data['experience'],
+      education: data['education'],
+      numOfReviews: data['totalFeedback'],
+    );
+    return tutorDetail;
   }
 }
 

@@ -25,6 +25,7 @@ class TutorPage extends StatelessWidget {
   Widget _build(BuildContext context, AsyncSnapshot<TutorDetail?> snapshot) {
     final theme = Theme.of(context);
     if (snapshot.hasData) {
+      tutor.detail = snapshot.data;
       return Scaffold(
         appBar: const PageAppBar(
           title: "Teacher Details",

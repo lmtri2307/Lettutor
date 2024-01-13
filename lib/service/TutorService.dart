@@ -65,10 +65,8 @@ class TutorService {
   }
 
   Future<TutorDetail?> getTutorDetail(Tutor tutor) async {
-    return await Future.delayed(
-      const Duration(seconds: 3),
-      () => tutor.detail,
-    );
+    final tutorDetail = await tutorRepository.getTutorDetail(tutor);
+    return tutorDetail;
   }
 
   Future<List<Tutor>> searchTutorByName(String name) async {
@@ -93,7 +91,7 @@ class TutorService {
   Future<List<Review>> getReviewList(Tutor tutor) async {
     await Future.delayed(const Duration(seconds: 2));
     final copy = List<Review>.from(reviewList);
-    int length = tutor.numOfReviews ?? 0;
+    int length = tutor.detail?.numOfReviews ?? 0;
 
     return copy
       ..shuffle(Random())

@@ -37,7 +37,7 @@ class TutorDetails extends StatelessWidget {
           context,
           title: "Education",
           widget: Text(
-            "BA",
+            tutor.detail?.education ?? "",
             style: Theme.of(context)
                 .textTheme
                 .bodySmall

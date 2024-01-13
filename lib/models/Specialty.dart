@@ -7,6 +7,7 @@ class Specialty {
 }
 
 final specialtyList = [
+  const Specialty("English for kids"),
   const Specialty("English for Business"),
   const Specialty("Conversational"),
   const Specialty("STARTERS"),
@@ -17,5 +18,4 @@ final specialtyList = [
   const Specialty("IELTS"),
   const Specialty("TOEFL"),
   const Specialty("TOEIC"),
-  const Specialty("English for kids")
 ];

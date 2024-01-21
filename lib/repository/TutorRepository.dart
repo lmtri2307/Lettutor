@@ -11,31 +11,6 @@ class TutorRepository {
 
   final baseUrl = '/tutor';
 
-  // Future<List<Tutor>> getTutorList(int page, int limit) async {
-  //   // fetch api
-  //
-  //   final response = await apiClient
-  //       .get(Uri.parse('$baseUrl/more?perPage=$limit&page=$page'));
-  //   final data = json.decode(response.body);
-  //   // convert to model
-  //   final tutorList = data['tutors']['rows']
-  //       .map<Tutor>((tutor) => Tutor(
-  //             id: tutor['userId'],
-  //             name: tutor['name'],
-  //             avatar: tutor['avatar'],
-  //             rating: tutor['rating'],
-  //             isFavorite: data['favoriteTutor'].any((favoriteTutor) =>
-  //                 favoriteTutor['secondId'] == tutor['userId']),
-  //             specialties: tutor['specialties'],
-  //             // tutor['feedbacks'] is a list of feedbacks
-  //             numOfReviews: tutor['feedbacks'].length,
-  //             country: tutor['country'],
-  //             bio: tutor['bio'],
-  //           ))
-  //       .toList();
-  //   return tutorList;
-  // }
-
   Future<List<Tutor>> searchTutorList(
       TutorSearchFormData searchForm, int page, int limit) async {
     // build search request body
@@ -94,6 +69,20 @@ class TutorRepository {
       numOfReviews: data['totalFeedback'],
     );
     return tutorDetail;
+  }
+
+  Future<void> reportTutor(Tutor tutor, String content) async {
+    final Map<String, dynamic> body = {
+      'content': content,
+      'tutorId': tutor.id,
+    };
+
+    // fetch api
+    final response = await apiClient.post(Uri.parse('$baseUrl/report'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(body));
+    final data = json.decode(response.body);
+    return;
   }
 }
 

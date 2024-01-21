@@ -85,7 +85,7 @@ class TutorService {
   }
 
   Future<void> report(Tutor tutor, String reportContent) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await tutorRepository.reportTutor(tutor, reportContent);
   }
 
   Future<List<Review>> getReviewList(Tutor tutor) async {

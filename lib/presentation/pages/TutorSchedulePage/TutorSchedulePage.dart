@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:lettutor/helpers/date_helper.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/pages/TutorSchedulePage/MonthCell.dart';
@@ -6,7 +9,6 @@ import 'package:lettutor/presentation/pages/TutorSchedulePage/SlotWidget.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/providers/TutorLessonListProvider.dart';
-import 'package:lettutor/service/LessonService.dart';
 import 'package:provider/provider.dart';
 
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -21,7 +23,16 @@ class TutorSchedulePage extends StatefulWidget {
 }
 
 class _TutorSchedulePageState extends State<TutorSchedulePage> {
-  final _lessonService = const LessonService();
+  late final TutorLessonListProvider tutorLessonListProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    tutorLessonListProvider = TutorLessonListProvider(widget.tutor);
+    final lessonLessonProvider = context.read<LessonProvider>();
+    lessonLessonProvider.tutorLessonListProvider = tutorLessonListProvider;
+    tutorLessonListProvider.fetchTutorLessonList();
+  }
 
   @override
   void deactivate() {
@@ -32,9 +43,14 @@ class _TutorSchedulePageState extends State<TutorSchedulePage> {
 
   Widget _monthCellBuilder(BuildContext context, MonthCellDetails details) {
     final theme = Theme.of(context);
-    final markerColor = details.appointments.isEmpty
+
+    final date = details.date;
+    final dateLessonList = tutorLessonListProvider.lessonList
+        .where((element) => const DateHelper().isSameDate(element.startTime, date))
+        .toList();
+    final markerColor = dateLessonList.isEmpty
         ? Colors.transparent
-        : details.appointments.any((element) => (element as Lesson).isAvailable)
+        : dateLessonList.any((element) => element.isAvailable && element.startTime.isAfter(DateTime.now()))
             ? theme.primaryColor
             : Colors.grey;
     return MonthCell(markerColor: markerColor, date: details.date);
@@ -49,63 +65,57 @@ class _TutorSchedulePageState extends State<TutorSchedulePage> {
   }
 
   Widget _onFetching() {
-    return const Scaffold(
-      appBar: PageAppBar(title: "Tutor Timetable", type: AppBarType.sub),
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
-  Widget _onHasData(BuildContext context, List<Lesson> lessonList) {
-    final theme = Theme.of(context);
-    final tutorLessonListProvider =
-        TutorLessonListProvider(lessonList: lessonList);
-    final lessonLessonProvider = context.read<LessonProvider>();
-    lessonLessonProvider.tutorLessonListProvider = tutorLessonListProvider;
-    return Scaffold(
-      appBar: const PageAppBar(title: "Tutor Timetable", type: AppBarType.sub),
-      body: ChangeNotifierProvider(
-        create: (context) => tutorLessonListProvider,
-        child: Consumer<TutorLessonListProvider>(
-          builder: (context, value, child) => SfCalendar(
-            // monthViewSettings: ,
-            view: CalendarView.month,
-            showDatePickerButton: true,
-            dataSource: _LessonDataSource(value.lessonList),
-            firstDayOfWeek: 1,
-            todayHighlightColor: theme.primaryColor,
-            showCurrentTimeIndicator: false,
-            // onViewChanged: (viewChangedDetails){
-            //   print(viewChangedDetails.visibleDates.first);
-            //   print(viewChangedDetails.visibleDates.last);
-            // },
-            showTodayButton: true,
-            cellBorderColor: Colors.red,
-            showNavigationArrow: true,
-            monthCellBuilder: _monthCellBuilder,
-            monthViewSettings: const MonthViewSettings(
-              appointmentDisplayCount: 1,
-              appointmentDisplayMode: MonthAppointmentDisplayMode.none,
-              showAgenda: true,
-              numberOfWeeksInView: 4,
-            ),
-            appointmentBuilder: _appointmentBuilder,
-          ),
-        ),
-      ),
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _lessonService.getLessonListOfTutor(widget.tutor),
-      builder: (context, snapshot) {
-        return snapshot.data == null
-            ? _onFetching()
-            : _onHasData(context, snapshot.data!);
-      },
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: const PageAppBar(title: "Tutor Timetable", type: AppBarType.sub),
+      body: ChangeNotifierProvider(
+        create: (context) => tutorLessonListProvider,
+        child: Consumer<TutorLessonListProvider>(
+          builder: (context, value, child) =>
+              IndexedStack(index: value.isFetching ? 1 : 0, children: [
+            SfCalendar(
+              // monthViewSettings: ,
+              view: CalendarView.month,
+              showDatePickerButton: true,
+              dataSource: _LessonDataSource(value.lessonList),
+              firstDayOfWeek: 1,
+              todayHighlightColor: theme.primaryColor,
+              showCurrentTimeIndicator: false,
+              onViewChanged: (viewChangedDetails) async {
+                if(value.isFetching)  return;
+                if(value.isEndOfList) return;
+
+                final firstVisibleDate = viewChangedDetails.visibleDates.first;
+                final lastScheduleDate = value.lessonList.last.startTime;
+                while(firstVisibleDate.isAfter(lastScheduleDate)){
+                  await value.fetchTutorLessonList();
+                  if(value.isEndOfList) return;
+                }
+              },
+              showTodayButton: true,
+              cellBorderColor: Colors.red,
+              showNavigationArrow: true,
+              monthCellBuilder: _monthCellBuilder,
+              monthViewSettings: const MonthViewSettings(
+                // appointmentDisplayCount: 1,
+                appointmentDisplayMode: MonthAppointmentDisplayMode.none,
+                showAgenda: true,
+                numberOfWeeksInView: 4,
+              ),
+              appointmentBuilder: _appointmentBuilder,
+            ),
+            _onFetching()
+          ]),
+        ),
+      ),
     );
   }
 }

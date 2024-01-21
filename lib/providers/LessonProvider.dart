@@ -16,6 +16,7 @@ class LessonProvider extends ChangeNotifier{
     needFetchUpcomingLesson = false;
     notifyListeners();
   }
+
   Future<void> bookLesson(Lesson lesson, User user) async {
     final newLesson = await _lessonService.bookLesson(lesson, user);
     tutorLessonListProvider?.updateLesson(lesson, newLesson);

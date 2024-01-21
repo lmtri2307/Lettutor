@@ -35,8 +35,8 @@ class SlotWidget extends StatelessWidget {
           alignment: Alignment.centerLeft,
           // surfaceTintColor: isAvailable ? theme.primaryColor : Colors.grey,
           backgroundColor:
-              lesson.isAvailable ? theme.primaryColor : Colors.grey),
-      onPressed: lesson.isAvailable
+              lesson.isAvailable && lesson.startTime.isAfter(DateTime.now()) ? theme.primaryColor : Colors.grey),
+      onPressed: lesson.isAvailable && lesson.startTime.isAfter(DateTime.now())
           ? () => _onBook(context, lessonProvider, authProvider)
           : null,
       child: Column(
@@ -48,7 +48,7 @@ class SlotWidget extends StatelessWidget {
             child: Text(
               lesson.isAvailable ? "Available" : "Reserved",
               style: TextStyle(
-                color: lesson.isAvailable ? Colors.white : Colors.grey.shade500,
+                color: lesson.isAvailable && lesson.startTime.isAfter(DateTime.now()) ? Colors.white : Colors.grey.shade500,
               ),
             ),
           ),
@@ -56,7 +56,7 @@ class SlotWidget extends StatelessWidget {
             "${DateFormat("HH:mm").format(lesson.startTime)} - ${DateFormat("HH:mm").format(lesson.endTime)}",
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color:
-                    lesson.isAvailable ? Colors.white : Colors.grey.shade500),
+                lesson.isAvailable && lesson.startTime.isAfter(DateTime.now()) ? Colors.white : Colors.grey.shade500),
           )
         ],
       ),

@@ -32,20 +32,18 @@ List<DateTime> generateSortedRandomListOfFutureDate() {
 
 final lessonList = generateSortedRandomListOfFutureDate()
     .map((timeInFuture) => Lesson(
-        tutor: tutorList[0],
-        startTime: timeInFuture,
-        duration: const Duration(minutes: 30),
-        isAvailable: Random().nextInt(2) == 1,
-        review: Review(
-            author: userList[0],
-            comment: "Sample Comment",
-            rating: Random().nextInt(10) / 2,
-            createdAt: DateTime.parse('2023-12-07 09:30:00'))))
+          id: "randomId",
+          tutor: tutorList[0],
+          startTime: timeInFuture,
+          duration: const Duration(minutes: 30),
+          isAvailable: Random().nextInt(2) == 1,
+        ))
     .toList();
 
 final bookedLessonList = List.generate(
     5,
     (index) => Lesson(
+        id: "randomId",
         tutor: tutorList[0],
         startTime: generateRandomPastDate(),
         duration: const Duration(minutes: 30)));

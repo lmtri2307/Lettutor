@@ -5,18 +5,19 @@ class Lesson {
   Lesson({required this.tutor,
     required this.startTime,
     required this.duration,
-    this.review,
+    required this.id,
     this.isAvailable = true});
 
   final Tutor tutor;
   final DateTime startTime;
   final Duration duration;
-  final Review? review;
+  final String id;
   bool isAvailable;
 
   DateTime get endTime => startTime.add(duration);
 
   Lesson copyWith({
+    String? id,
     Tutor? tutor,
     DateTime? startTime,
     Duration? duration,
@@ -24,9 +25,9 @@ class Lesson {
     bool? isAvailable,
   }) {
     return Lesson(tutor: tutor ?? this.tutor,
+        id: id ?? this.id,
         startTime: startTime ?? this.startTime,
         duration: duration ?? this.duration,
-        review: review ?? this.review,
         isAvailable: isAvailable ?? this.isAvailable);
   }
 }

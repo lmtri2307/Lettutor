@@ -3,9 +3,11 @@ import 'package:lettutor/helpers/date_helper.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/models/User.dart';
+import 'package:lettutor/repository/LessonRepository.dart';
 
 class LessonService {
   const LessonService();
+  final _lessonRepository = const LessonRepository();
 
   Future<Lesson?> getUpcomingLesson(User user) async {
     final scheduleLessonList = await getScheduleLessonList(user);
@@ -16,9 +18,10 @@ class LessonService {
     }
   }
 
-  Future<List<Lesson>> getLessonListOfTutor(Tutor tutor) async {
-    await Future.delayed(const Duration(seconds: 2));
-    return lessonList.map((lesson) => lesson.copyWith(tutor: tutor)).toList();
+  Future<List<Lesson>> getLessonListOfTutor(Tutor tutor, int page) async {
+    final lessonList = await _lessonRepository.getLessonListOfTutor(tutor, page);
+    lessonList.sort((a, b) => a.startTime.compareTo(b.startTime));
+    return lessonList;
   }
 
   Future<Lesson> bookLesson(Lesson lesson, User user) async {

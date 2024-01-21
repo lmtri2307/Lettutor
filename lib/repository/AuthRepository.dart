@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:lettutor/configs/httpClient.dart';
+import 'package:lettutor/helpers/date_helper.dart';
 import 'package:lettutor/helpers/reponse_helper.dart';
 import 'package:lettutor/models/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +39,7 @@ class AuthRepository {
       name: data['user']['name'],
       avatar: data['user']['avatar'],
       detail: UserDetail(
-          birthday: DateTime.parse(data['user']['birthday']),
+          birthday: const DateHelper().parseDateString(data['user']['birthday']),
           country: data['user']['country'],
           phoneNumber: PhoneNumber(
             phoneNumber: data['user']['phone'],
@@ -91,7 +92,7 @@ class AuthRepository {
       name: data['user']['name'],
       avatar: data['user']['avatar'],
       detail: UserDetail(
-          birthday: DateTime.parse(data['user']['birthday']),
+          birthday: const DateHelper().parseDateString(data['user']['birthday']),
           country: data['user']['country'],
           phoneNumber: PhoneNumber(
             phoneNumber: data['user']['phone'],

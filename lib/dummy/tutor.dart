@@ -20,7 +20,7 @@ List<T> getRandomSubList<T>(List<T> list, [T? itemToExclude]) {
 
 final tutorList = [
   Tutor(
-    id: "1",
+    id: "4d54d3d7-d2a9-42e5-97a2-5ed38af5789a",
     name: "Le Minh Tri",
     avatar: "assets/images/keegan-avatar.png",
     rating: 5,

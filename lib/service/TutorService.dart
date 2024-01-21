@@ -61,6 +61,7 @@ class TutorService {
   }
 
   Future<void> toggleFavoriteTutor(Tutor tutor) async {
+    await tutorRepository.toggleFavoriteTutor(tutor);
     tutor.isFavorite = !tutor.isFavorite;
   }
 

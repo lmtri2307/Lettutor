@@ -84,6 +84,19 @@ class TutorRepository {
     final data = json.decode(response.body);
     return;
   }
+
+  Future<void> toggleFavoriteTutor(Tutor tutor) async {
+    final Map<String, dynamic> body = {
+      'tutorId': tutor.id,
+    };
+
+    // fetch api
+    final response = await apiClient.post(Uri.parse('/user/manageFavoriteTutor'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(body));
+    final data = json.decode(response.body);
+    return;
+  }
 }
 
 class SpecialtyMapper {

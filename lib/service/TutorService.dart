@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:lettutor/dummy/review.dart';
 import 'package:lettutor/dummy/tutor.dart';
 import 'package:lettutor/dummy/nationality.dart';
+import 'package:lettutor/helpers/date_helper.dart';
 import 'package:lettutor/models/Review.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/Tutor.dart';
@@ -90,12 +91,7 @@ class TutorService {
   }
 
   Future<List<Review>> getReviewList(Tutor tutor) async {
-    await Future.delayed(const Duration(seconds: 2));
-    final copy = List<Review>.from(reviewList);
-    int length = tutor.detail?.numOfReviews ?? 0;
-
-    return copy
-      ..shuffle(Random())
-      ..length = length;
+    final reviewList = await tutorRepository.getReviewsOfTutor(tutor);
+    return const DateHelper().sortByDate(reviewList, (item) => item.createdAt, ascending: false);
   }
 }

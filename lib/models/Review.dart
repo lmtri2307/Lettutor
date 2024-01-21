@@ -6,7 +6,6 @@ class Review {
       this.comment,
       required this.rating,
       required this.createdAt});
-
   final User author;
   final String? comment;
   final double rating;

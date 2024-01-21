@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:lettutor/configs/httpClient.dart';
+import 'package:lettutor/models/Review.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/models/TutorDetail.dart';
+import 'package:lettutor/models/User.dart';
 import 'package:lettutor/service/TutorService.dart';
 
 class TutorRepository {
@@ -31,10 +33,8 @@ class TutorRepository {
     }
 
     // fetch api
-    final response =
-        await apiClient.post(Uri.parse('$baseUrl/search'),
-            headers: {'Content-Type': 'application/json'},
-            body: json.encode(body));
+    final response = await apiClient.post(Uri.parse('$baseUrl/search'),
+        headers: {'Content-Type': 'application/json'}, body: json.encode(body));
     final data = json.decode(response.body);
     // convert to model
     final tutorList = data["rows"]
@@ -79,8 +79,7 @@ class TutorRepository {
 
     // fetch api
     final response = await apiClient.post(Uri.parse('$baseUrl/report'),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode(body));
+        headers: {'Content-Type': 'application/json'}, body: json.encode(body));
     final data = json.decode(response.body);
     return;
   }
@@ -91,11 +90,33 @@ class TutorRepository {
     };
 
     // fetch api
-    final response = await apiClient.post(Uri.parse('/user/manageFavoriteTutor'),
+    final response = await apiClient.post(
+        Uri.parse('/user/manageFavoriteTutor'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(body));
     final data = json.decode(response.body);
     return;
+  }
+
+  Future<List<Review>> getReviewsOfTutor(Tutor tutor) async {
+    // fetch api
+    final response = await apiClient.get(Uri.parse('/feedback/v2/${tutor.id}'));
+    final data = json.decode(response.body);
+    // convert to model
+    final reviewList = data['data']["rows"]
+        .map<Review>((review) => Review(
+              author: User(
+                id: review['firstId'],
+                email: "",
+                name: review['firstInfo']['name'],
+                avatar: review['avatar'],
+              ),
+              rating: review['rating'],
+              comment: review['content'],
+              createdAt: DateTime.parse(review['updatedAt']),
+            ))
+        .toList();
+    return reviewList;
   }
 }
 

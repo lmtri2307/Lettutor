@@ -28,7 +28,7 @@ class UpcomingLessonNotification extends StatelessWidget {
                 builder: (context, value, child) {
                   if (value.needFetchUpcomingLesson) {
                     return FutureBuilder(
-                      future: value.fetchUpcomingLesson(user!),
+                      future: value.fetchUpcomingLesson(),
                       builder: (context, snapshot) => const Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Center(

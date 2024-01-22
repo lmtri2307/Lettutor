@@ -9,8 +9,8 @@ class LessonService {
   const LessonService();
   final _lessonRepository = const LessonRepository();
 
-  Future<Lesson?> getUpcomingLesson(User user) async {
-    final scheduleLessonList = await getScheduleLessonList(user);
+  Future<Lesson?> getUpcomingLesson() async {
+    final scheduleLessonList = await getScheduleLessonList();
     if (scheduleLessonList.isEmpty) {
       return null;
     } else {
@@ -24,8 +24,9 @@ class LessonService {
     return lessonList;
   }
 
-  Future<Lesson> bookLesson(Lesson lesson, User user) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<Lesson> bookLesson(Lesson lesson, String note) async {
+    await _lessonRepository.bookLesson(lesson, note);
+
     final resultLesson = lesson.copyWith(isAvailable: false);
     bookedLessonList.add(resultLesson);
     return resultLesson;
@@ -36,7 +37,7 @@ class LessonService {
     return const Duration(hours: 6, minutes: 29);
   }
 
-  Future<List<Lesson>> getScheduleLessonList(User user) async {
+  Future<List<Lesson>> getScheduleLessonList() async {
     await Future.delayed(const Duration(seconds: 2));
     final scheduleLessonList = bookedLessonList
         .where((element) => element.startTime.isAfter(DateTime.now()))

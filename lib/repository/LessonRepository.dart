@@ -16,18 +16,31 @@ class LessonRepository {
 
     final lessonList = data['scheduleOfTutor']
         .map<Lesson>((lesson) => Lesson(
-              id: lesson['id'],
+              id: lesson['scheduleDetails'][0]['id'],
               tutor: tutor,
-              startTime: DateTime.fromMillisecondsSinceEpoch(
-                  lesson['startTimestamp']),
-              duration: DateTime.fromMillisecondsSinceEpoch(
-                      lesson['startTimestamp'])
-                  .difference(DateTime.fromMillisecondsSinceEpoch(
-                      lesson['endTimestamp']))
-                  .abs(),
+              startTime:
+                  DateTime.fromMillisecondsSinceEpoch(lesson['startTimestamp']),
+              duration:
+                  DateTime.fromMillisecondsSinceEpoch(lesson['startTimestamp'])
+                      .difference(DateTime.fromMillisecondsSinceEpoch(
+                          lesson['endTimestamp']))
+                      .abs(),
               isAvailable: !lesson['isBooked'],
             ))
         .toList();
     return lessonList;
+  }
+
+  Future<void> bookLesson(Lesson lesson, String note) async {
+    final body = {
+      'scheduleDetailIds': [lesson.id],
+      'note': note,
+    };
+    final response = await apiClient.post(Uri.parse('/booking'),
+        headers: {'Content-Type': 'application/json'}, body: json.encode(body));
+    final data = json.decode(response.body);
+    if (response.statusCode != 200) {
+      throw Exception(data['message']);
+    }
   }
 }

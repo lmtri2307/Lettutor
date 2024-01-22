@@ -6,6 +6,8 @@ import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../helpers/show_toast.dart';
+
 class SlotWidget extends StatelessWidget {
   const SlotWidget({super.key, required this.lesson});
 
@@ -17,8 +19,9 @@ class SlotWidget extends StatelessWidget {
       context: context,
       builder: (context) => BookingDialog(
         lesson: lesson,
-        onBook: () async {
-          await lessonProvider.bookLesson(lesson, authProvider.user!);
+        onBook: (String note) async {
+          await lessonProvider.bookLesson(lesson, note).catchError(
+              (e) => showErrorSnackBar(context, "Please complete your profile before booking a lesson."));
         },
       ),
     );
@@ -35,7 +38,9 @@ class SlotWidget extends StatelessWidget {
           alignment: Alignment.centerLeft,
           // surfaceTintColor: isAvailable ? theme.primaryColor : Colors.grey,
           backgroundColor:
-              lesson.isAvailable && lesson.startTime.isAfter(DateTime.now()) ? theme.primaryColor : Colors.grey),
+              lesson.isAvailable && lesson.startTime.isAfter(DateTime.now())
+                  ? theme.primaryColor
+                  : Colors.grey),
       onPressed: lesson.isAvailable && lesson.startTime.isAfter(DateTime.now())
           ? () => _onBook(context, lessonProvider, authProvider)
           : null,
@@ -48,15 +53,20 @@ class SlotWidget extends StatelessWidget {
             child: Text(
               lesson.isAvailable ? "Available" : "Reserved",
               style: TextStyle(
-                color: lesson.isAvailable && lesson.startTime.isAfter(DateTime.now()) ? Colors.white : Colors.grey.shade500,
+                color: lesson.isAvailable &&
+                        lesson.startTime.isAfter(DateTime.now())
+                    ? Colors.white
+                    : Colors.grey.shade500,
               ),
             ),
           ),
           Text(
             "${DateFormat("HH:mm").format(lesson.startTime)} - ${DateFormat("HH:mm").format(lesson.endTime)}",
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color:
-                lesson.isAvailable && lesson.startTime.isAfter(DateTime.now()) ? Colors.white : Colors.grey.shade500),
+                color: lesson.isAvailable &&
+                        lesson.startTime.isAfter(DateTime.now())
+                    ? Colors.white
+                    : Colors.grey.shade500),
           )
         ],
       ),

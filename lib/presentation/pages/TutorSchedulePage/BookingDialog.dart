@@ -6,7 +6,7 @@ class BookingDialog extends StatefulWidget {
   const BookingDialog({super.key, required this.lesson, required this.onBook});
 
   final Lesson lesson;
-  final Future<void> Function() onBook;
+  final Future<void> Function(String note) onBook;
 
   @override
   State<BookingDialog> createState() => _BookingDialogState();
@@ -14,13 +14,28 @@ class BookingDialog extends StatefulWidget {
 
 class _BookingDialogState extends State<BookingDialog> {
   bool _isBooking = false;
+  late final TextEditingController noteTextController;
 
-  void _onBook() {
+  @override
+  void initState() {
+    super.initState();
+    noteTextController = TextEditingController();
+  }
+
+
+  @override
+  void dispose() {
+    noteTextController.dispose();
+    super.dispose();
+  }
+
+  void _onBook(String note) {
     setState(() {
       _isBooking = true;
     });
-    widget.onBook().then((value) => Navigator.pop(context));
+    widget.onBook(note).then((value) => Navigator.pop(context));
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +64,7 @@ class _BookingDialogState extends State<BookingDialog> {
                   ),
                   const BalancePrice(),
                   const SizedBox(height: 48),
-                  const Note(),
+                  Note(noteTextController: noteTextController),
                 ],
               ),
             ),
@@ -74,7 +89,7 @@ class _BookingDialogState extends State<BookingDialog> {
                   FilledButton(
                     style: FilledButton.styleFrom(
                         backgroundColor: theme.primaryColor),
-                    onPressed: _isBooking ? () {} : () => _onBook(),
+                    onPressed: _isBooking ? () {} : () => _onBook(noteTextController.text),
                     child: IndexedStack(
                         index: _isBooking ? 1 : 0,
                         alignment: Alignment.center,
@@ -203,7 +218,8 @@ class BalancePrice extends StatelessWidget {
 }
 
 class Note extends StatelessWidget {
-  const Note({super.key});
+  const Note({super.key, this.noteTextController });
+  final TextEditingController? noteTextController;
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +244,7 @@ class Note extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
             child: TextField(
-                // controller: noteTextController,
+                controller: noteTextController,
                 minLines: 6,
                 maxLines: 6,
                 decoration: InputDecoration(

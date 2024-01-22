@@ -11,15 +11,15 @@ class LessonProvider extends ChangeNotifier{
   final LessonService _lessonService = const LessonService();
   LessonProvider();
 
-  Future<void> fetchUpcomingLesson(User user) async {
-    upcomingLesson = await _lessonService.getUpcomingLesson(user);
+  Future<void> fetchUpcomingLesson() async {
+    upcomingLesson = await _lessonService.getUpcomingLesson();
     needFetchUpcomingLesson = false;
     notifyListeners();
   }
 
-  Future<void> bookLesson(Lesson lesson, User user) async {
-    final newLesson = await _lessonService.bookLesson(lesson, user);
+  Future<void> bookLesson(Lesson lesson, String note) async {
+    final newLesson = await _lessonService.bookLesson(lesson, note);
     tutorLessonListProvider?.updateLesson(lesson, newLesson);
-    fetchUpcomingLesson(user);
+    fetchUpcomingLesson();
   }
 }

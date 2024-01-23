@@ -11,13 +11,18 @@ class LessonService {
   final _lessonRepository = const LessonRepository();
   final _userRepository = const UserRepository();
 
+  Future<List<Lesson>> getNextLessonList() async {
+    final lessonList = await _userRepository.getNextLessonList();
+    lessonList.sort((a, b) => a.startTime.compareTo(b.startTime));
+    return lessonList;
+  }
+
   Future<Lesson?> getUpcomingLesson() async {
-    final scheduleLessonList = await getScheduleLessonList();
-    if (scheduleLessonList.isEmpty) {
+    final lessonList = await getNextLessonList();
+    if (lessonList.isEmpty) {
       return null;
-    } else {
-      return scheduleLessonList[0];
     }
+    return lessonList.first;
   }
 
   Future<List<Lesson>> getLessonListOfTutor(Tutor tutor, int page) async {

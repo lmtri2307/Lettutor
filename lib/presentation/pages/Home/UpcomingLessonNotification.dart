@@ -16,7 +16,6 @@ class UpcomingLessonNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthProvider>().user;
     return Container(
       color: Theme.of(context).primaryColor,
       child: Center(
@@ -47,7 +46,7 @@ class UpcomingLessonNotification extends StatelessWidget {
                 height: 12,
               ),
               FutureBuilder(
-                future: _lessonService.getTotalLessonTime(user!),
+                future: _lessonService.getTotalLessonTime(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(

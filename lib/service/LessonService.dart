@@ -4,10 +4,12 @@ import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/models/User.dart';
 import 'package:lettutor/repository/LessonRepository.dart';
+import 'package:lettutor/repository/UserRepository.dart';
 
 class LessonService {
   const LessonService();
   final _lessonRepository = const LessonRepository();
+  final _userRepository = const UserRepository();
 
   Future<Lesson?> getUpcomingLesson() async {
     final scheduleLessonList = await getScheduleLessonList();
@@ -32,9 +34,8 @@ class LessonService {
     return resultLesson;
   }
 
-  Future<Duration> getTotalLessonTime(User user) async {
-    await Future.delayed(const Duration(seconds: 2));
-    return const Duration(hours: 6, minutes: 29);
+  Future<Duration> getTotalLessonTime() async {
+    return await _userRepository.getTotalLessonTime();
   }
 
   Future<List<Lesson>> getScheduleLessonList() async {

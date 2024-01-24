@@ -52,7 +52,9 @@ class SettingPage extends StatelessWidget {
                   height: 8,
                 ),
                 TextButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    await authProvider.logout();
+                  },
                   style: TextButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
                     backgroundColor: Colors.red.shade100,

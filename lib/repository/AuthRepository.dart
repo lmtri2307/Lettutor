@@ -155,4 +155,10 @@ class AuthRepository {
     setRefreshToken(data['tokens']['refresh']['token']);
     return user;
   }
+
+  Future<void> logout() async {
+    apiClient.token = null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('refreshToken');
+  }
 }

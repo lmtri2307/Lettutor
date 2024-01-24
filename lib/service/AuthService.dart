@@ -54,4 +54,8 @@ class AuthService {
   Future<void> resetPassword(String email) async {
     return await authRepository.resetPassword(email);
   }
+
+  Future<void> logout() async {
+    await authRepository.logout();
+  }
 }

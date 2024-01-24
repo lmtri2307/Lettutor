@@ -34,11 +34,10 @@ class AuthRepository {
     }
 
     final user = User(
-      id: data['user']['id'],
-      email: data["user"]["email"],
-      name: data['user']['name'],
-      avatar: data['user']['avatar']
-    );
+        id: data['user']['id'],
+        email: data["user"]["email"],
+        name: data['user']['name'],
+        avatar: data['user']['avatar']);
     // set access token
     final accessToken = data['tokens']['access']['token'];
     apiClient.token = accessToken;
@@ -63,7 +62,7 @@ class AuthRepository {
 
   Future<User> refresh() async {
     final token = await getRefreshToken();
-    if(token == null){
+    if (token == null) {
       throw Exception("No refresh token");
     }
 
@@ -85,7 +84,8 @@ class AuthRepository {
       name: data['user']['name'],
       avatar: data['user']['avatar'],
       detail: UserDetail(
-          birthday: const DateHelper().parseDateString(data['user']['birthday']),
+          birthday:
+              const DateHelper().parseDateString(data['user']['birthday']),
           country: data['user']['country'],
           phoneNumber: PhoneNumber(
             phoneNumber: data['user']['phone'],
@@ -102,15 +102,57 @@ class AuthRepository {
   }
 
   Future<void> resetPassword(String email) async {
-    final response =
-    await apiClient.post(Uri.parse('/user/forgotPassword'), body: {
-      "email" : email
-    });
+    final response = await apiClient
+        .post(Uri.parse('/user/forgotPassword'), body: {"email": email});
 
     final data = json.decode(response.body);
 
     if (hasError(response.statusCode)) {
       throw Exception(data['message']);
     }
+  }
+
+  Future<User> loginWithGoogle(String googleAccessToken) async {
+    final response = await apiClient.post(Uri.parse('$baseUrl/google'), body: {
+      'access_token': googleAccessToken,
+    });
+    final data = json.decode(response.body);
+    if (hasError(response.statusCode)) {
+      throw Exception(data['message']);
+    }
+    final user = User(
+        id: data['user']['id'],
+        email: data["user"]["email"],
+        name: data['user']['name'],
+        avatar: data['user']['avatar']);
+    // set access token
+    final accessToken = data['tokens']['access']['token'];
+    apiClient.token = accessToken;
+
+    // set refresh token
+    setRefreshToken(data['tokens']['refresh']['token']);
+    return user;
+  }
+
+  Future<User> loginWithFacebook(String facebookAccessToken) async {
+    final response = await apiClient.post(Uri.parse('$baseUrl/facebook'), body: {
+      'access_token': facebookAccessToken,
+    });
+    final data = json.decode(response.body);
+    if (hasError(response.statusCode)) {
+      throw Exception(data['message']);
+    }
+    final user = User(
+        id: data['user']['id'],
+        email: data["user"]["email"],
+        name: data['user']['name'],
+        avatar: data['user']['avatar']);
+    // set access token
+    final accessToken = data['tokens']['access']['token'];
+    apiClient.token = accessToken;
+
+    // set refresh token
+    setRefreshToken(data['tokens']['refresh']['token']);
+    return user;
   }
 }

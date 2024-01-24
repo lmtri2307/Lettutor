@@ -22,19 +22,40 @@ class TutorListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<Tutor> _sortTutorList(List<Tutor> tutorList) {
+    final copyList = [...tutorList];
+    copyList.sort((a, b) {
+      if (a.isFavorite && !b.isFavorite) {
+        return -1;
+      } else if (!a.isFavorite && b.isFavorite) {
+        return 1;
+      } else if (a.rating == null || b.rating == null) {
+        return a.rating == null && b.rating == null
+            ? 0
+            : a.rating == null
+                ? 1
+                : -1;
+      } else {
+        return b.rating!.compareTo(a.rating!);
+      }
+    });
+    return copyList;
+  }
+
   Future<void> fetchTutorList() async {
-    if(isEndOfList) return;
+    if (isEndOfList) return;
     isFetching = true;
     // if current page is 1, clear the list
-    if(page == 1){
+    if (page == 1) {
       tutorList = [];
       notifyListeners();
     }
 
     // fetch data
     late Future<List<Tutor>> fetchedTutorListFuture;
-    if(searchForm == null) {
-      fetchedTutorListFuture = _tutorService.search(TutorSearchFormData(), page, limit);
+    if (searchForm == null) {
+      fetchedTutorListFuture =
+          _tutorService.search(TutorSearchFormData(), page, limit);
     } else {
       fetchedTutorListFuture = _tutorService.search(searchForm!, page, limit);
     }
@@ -42,12 +63,12 @@ class TutorListProvider extends ChangeNotifier {
     final fetchedTutorList = await fetchedTutorListFuture;
 
     // if the future is not the latest one, ignore it
-    if(_runningFuture != fetchedTutorListFuture) return;
-    if(fetchedTutorList.length < limit){
+    if (_runningFuture != fetchedTutorListFuture) return;
+    if (fetchedTutorList.length < limit) {
       isEndOfList = true;
     }
 
-    tutorList.addAll(fetchedTutorList);
+    tutorList.addAll(_sortTutorList(fetchedTutorList));
     page++;
     isFetching = false;
     notifyListeners();

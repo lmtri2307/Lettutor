@@ -33,7 +33,7 @@ class PreviewCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset(
+            Image.network(
               imageUrl,
               height: 200,
               fit: BoxFit.contain,

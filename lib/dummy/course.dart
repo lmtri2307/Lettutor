@@ -7,6 +7,7 @@ import 'package:lettutor/models/Course.dart';
 final courseList = List.generate(
     5,
     (index) => Course(
+        id: 'example_id_$index',
         imageUrl: "assets/images/preview_course.png",
         name: "Life in the Internet Age",
         description: "Let's discuss how technology is changing the way we live",

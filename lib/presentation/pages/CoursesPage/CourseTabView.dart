@@ -30,7 +30,7 @@ class CourseTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _courseService.getCourseList(),
+      future: _courseService.getCourseList(1, 10),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Padding(
@@ -41,7 +41,7 @@ class CourseTabView extends StatelessWidget {
           );
         }
 
-        return _buildOnHasData(context, snapshot.data!);
+        return _buildOnHasData(context, snapshot.data!.$1);
       },
     );
   }

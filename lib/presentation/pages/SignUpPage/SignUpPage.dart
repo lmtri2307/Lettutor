@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/helpers/show_toast.dart';
+import 'package:lettutor/helpers/validator.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
 import 'package:lettutor/presentation/widgets/AuthenticationForm/AuthenticationForm.dart';
 import 'package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart';
@@ -19,26 +20,38 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
+  final validator = const Validator();
 
-  void _onError(String message){
+  void _onError(String message) {
     showErrorSnackBar(context, 'Sign up failed! $message.');
   }
 
-  void _onSuccess(){
+  void _onSuccess() {
     Navigator.pushNamed(context, "/login");
     showSuccessSnackBar(context, 'Sign up successful! Please log in.');
+  }
+
+  bool _validate({required String email}) {
+    final emailError = validator.validateEmail(email);
+    if (emailError != null) {
+      showErrorSnackBar(context, emailError);
+      return false;
+    }
+    return true;
   }
 
   Future<void> _signup(
       {required AuthProvider authRepository,
       required String email,
       required String password}) async {
+    if (!_validate(email: email)) {
+      return;
+    }
     setState(() {
       _isAuthenticating = true;
     });
-    try{
-      await const AuthService()
-          .signupWithEmailAndPassword(email, password);
+    try {
+      await const AuthService().signupWithEmailAndPassword(email, password);
       _onSuccess();
     } catch (e) {
       _onError(e.toString().substring(11));

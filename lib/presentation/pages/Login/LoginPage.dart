@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/helpers/show_toast.dart';
+import 'package:lettutor/helpers/validator.dart';
 import 'package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart';
 import 'package:lettutor/presentation/widgets/AuthenticationForm/AuthenticationForm.dart';
 import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
@@ -19,15 +20,30 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
+  final validator = const Validator();
 
   void _onLoginFail(String message){
     showErrorSnackBar(context, 'Log in failed! $message');
+  }
+
+  bool _validate({required String email}){
+    final emailError = validator.validateEmail(email);
+    if(emailError != null){
+      showErrorSnackBar(context, emailError);
+      return false;
+    }
+    return true;
   }
 
   void _login(
       {required AuthProvider authRepository,
       required String email,
       required String password}) async {
+
+    if(!_validate(email: email)){
+      return;
+    }
+
     setState(() {
       _isAuthenticating = true;
     });

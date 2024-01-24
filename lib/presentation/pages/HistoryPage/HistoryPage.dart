@@ -84,14 +84,13 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthProvider>().user;
     return Scaffold(
       appBar: const PageAppBar(
         type: AppBarType.main,
         title: "History",
       ),
       body: FutureBuilder(
-        future: _lessonService.getHistoryLessonList(user!),
+        future: _lessonService.getHistoryLessonList(1,10),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -102,7 +101,7 @@ class HistoryPage extends StatelessWidget {
           return _build(
               context,
               const DateHelper()
-                  .groupByDate(snapshot.data!, (p0) => p0.startTime));
+                  .groupByDate(snapshot.data!.$1, (p0) => p0.startTime));
         },
       ),
     );

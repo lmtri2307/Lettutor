@@ -55,13 +55,14 @@ class LessonService {
     );
   }
 
-  Future<List<Lesson>> getHistoryLessonList(User user) async {
-    await Future.delayed(const Duration(seconds: 2));
-    final historyLessonList = bookedLessonList
-        .where((element) => element.startTime.isBefore(DateTime.now()))
-        .toList();
-    return const DateHelper().sortByDate(
-        historyLessonList, (item) => item.startTime,
-        ascending: false);
+  Future<(List<Lesson>, int)> getHistoryLessonList(
+      int page, int perPage) async {
+    final (historyLessonList, count) =
+        await _userRepository.getHistoryLessonList(page, perPage);
+    return (
+      const DateHelper().sortByDate(historyLessonList, (item) => item.startTime,
+          ascending: false),
+      count
+    );
   }
 }

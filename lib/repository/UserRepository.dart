@@ -48,10 +48,10 @@ class UserRepository {
     return nextLessonList;
   }
 
-  Future<(List<Lesson>, int)> getScheduleLessonList(
-      int page, int perPage) async {
+  Future<(List<Lesson>, int)> _getBookedLessonList(int page, int perPage,
+      {bool upcoming = true}) async {
     final url =
-        '/booking/list/student?page=$page&perPage=$perPage&inFuture=1&orderBy=meeting&sortBy=asc';
+        '/booking/list/student?page=$page&perPage=$perPage&inFuture=${upcoming ? '1' : '0'}&orderBy=meeting&sortBy=${upcoming ? 'asc' : 'desc'}';
     final response = await apiClient.get(Uri.parse(url));
     final data = json.decode(response.body);
 
@@ -80,5 +80,15 @@ class UserRepository {
             ))
         .toList();
     return (lessonList, count);
+  }
+
+  Future<(List<Lesson>, int)> getScheduleLessonList(
+      int page, int perPage) async {
+    return await _getBookedLessonList(page, perPage, upcoming: true);
+  }
+
+  Future<(List<Lesson>, int)> getHistoryLessonList(
+      int page, int perPage) async {
+    return await _getBookedLessonList(page, perPage, upcoming: false);
   }
 }

@@ -40,9 +40,45 @@ class UserRepository {
                 country: lesson['scheduleDetailInfo']['scheduleInfo']
                     ['tutorInfo']['country'],
               ),
-            )).toList();
+            ))
+        .toList();
     final nextLessonList = lessonList
-        .where((element) => element.startTime.isAfter(DateTime.now())).toList();
+        .where((element) => element.startTime.isAfter(DateTime.now()))
+        .toList();
     return nextLessonList;
+  }
+
+  Future<(List<Lesson>, int)> getScheduleLessonList(
+      int page, int perPage) async {
+    final url =
+        '/booking/list/student?page=$page&perPage=$perPage&inFuture=1&orderBy=meeting&sortBy=asc';
+    final response = await apiClient.get(Uri.parse(url));
+    final data = json.decode(response.body);
+
+    final int count = data['data']['count'];
+    final List<Lesson> lessonList = data['data']['rows']
+        .map<Lesson>((lesson) => Lesson(
+              id: lesson['id'],
+              tutor: Tutor(
+                id: lesson['scheduleDetailInfo']['scheduleInfo']['tutorInfo']
+                    ['id'],
+                name: lesson['scheduleDetailInfo']['scheduleInfo']['tutorInfo']
+                    ['name'],
+                specialtyList: [],
+                avatar: lesson['scheduleDetailInfo']['scheduleInfo']
+                    ['tutorInfo']['avatar'],
+                country: lesson['scheduleDetailInfo']['scheduleInfo']
+                    ['tutorInfo']['country'],
+              ),
+              startTime: DateTime.fromMillisecondsSinceEpoch(
+                  lesson['scheduleDetailInfo']['startPeriodTimestamp']),
+              duration: DateTime.fromMillisecondsSinceEpoch(
+                      lesson['scheduleDetailInfo']['startPeriodTimestamp'])
+                  .difference(DateTime.fromMillisecondsSinceEpoch(
+                      lesson['scheduleDetailInfo']['endPeriodTimestamp']))
+                  .abs(),
+            ))
+        .toList();
+    return (lessonList, count);
   }
 }

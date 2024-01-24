@@ -8,6 +8,7 @@ import 'package:lettutor/repository/UserRepository.dart';
 
 class LessonService {
   const LessonService();
+
   final _lessonRepository = const LessonRepository();
   final _userRepository = const UserRepository();
 
@@ -26,7 +27,8 @@ class LessonService {
   }
 
   Future<List<Lesson>> getLessonListOfTutor(Tutor tutor, int page) async {
-    final lessonList = await _lessonRepository.getLessonListOfTutor(tutor, page);
+    final lessonList =
+        await _lessonRepository.getLessonListOfTutor(tutor, page);
     lessonList.sort((a, b) => a.startTime.compareTo(b.startTime));
     return lessonList;
   }
@@ -43,13 +45,14 @@ class LessonService {
     return await _userRepository.getTotalLessonTime();
   }
 
-  Future<List<Lesson>> getScheduleLessonList() async {
-    await Future.delayed(const Duration(seconds: 2));
-    final scheduleLessonList = bookedLessonList
-        .where((element) => element.startTime.isAfter(DateTime.now()))
-        .toList();
-    return const DateHelper()
-        .sortByDate(scheduleLessonList, (item) => item.startTime);
+  Future<(List<Lesson>, int)> getScheduleLessonList(
+      int page, int perPage) async {
+    final (lessonList, count) =
+        await _userRepository.getScheduleLessonList(page, perPage);
+    return (
+      const DateHelper().sortByDate(lessonList, (item) => item.startTime),
+      count
+    );
   }
 
   Future<List<Lesson>> getHistoryLessonList(User user) async {

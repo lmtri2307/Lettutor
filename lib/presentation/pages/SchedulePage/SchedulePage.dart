@@ -85,25 +85,23 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthProvider>().user;
     return Scaffold(
       appBar: const PageAppBar(
         type: AppBarType.main,
         title: "Schedule",
       ),
       body: FutureBuilder(
-        future: _lessonService.getScheduleLessonList(),
+        future: _lessonService.getScheduleLessonList(1, 10),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-
           return _buildOnHasData(
               context,
               const DateHelper()
-                  .groupByDate(snapshot.data!, (p0) => p0.startTime));
+                  .groupByDate(snapshot.data!.$1, (p0) => p0.startTime));
         },
       ),
     );

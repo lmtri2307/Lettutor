@@ -6,11 +6,7 @@ class AuthService {
   const AuthService();
 
   Future<User> loginWithEmailAndPassword(String email, String password) async {
-    try {
       return await authRepository.login(email, password);
-    } catch (e) {
-      rethrow;
-    }
   }
 
   Future<void> signupWithEmailAndPassword(String email, String password) async {

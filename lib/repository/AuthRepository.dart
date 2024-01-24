@@ -37,14 +37,7 @@ class AuthRepository {
       id: data['user']['id'],
       email: data["user"]["email"],
       name: data['user']['name'],
-      avatar: data['user']['avatar'],
-      detail: UserDetail(
-          birthday: const DateHelper().parseDateString(data['user']['birthday']),
-          country: data['user']['country'],
-          phoneNumber: PhoneNumber(
-            phoneNumber: data['user']['phone'],
-            isVerified: data['user']['isPhoneActivated'],
-          )),
+      avatar: data['user']['avatar']
     );
     // set access token
     final accessToken = data['tokens']['access']['token'];

@@ -20,7 +20,7 @@ class CourseDetailCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.asset(
+          Image.network(
             course.imageUrl,
             // height: 260,
             fit: BoxFit.fitWidth,

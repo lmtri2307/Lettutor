@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:lettutor/configs/httpClient.dart';
 import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/models/Level.dart';
+import 'package:lettutor/models/Topic.dart';
 
 class CourseRepository {
   const CourseRepository();
@@ -24,6 +25,23 @@ class CourseRepository {
       );
     }).toList();
     return (courseList, count);
+  }
+
+  Future<CourseDetail> getCourseDetail(Course course) async {
+    final response = await apiClient.get(Uri.parse('$baseurl/${course.id}'));
+    final data = json.decode(response.body);
+    final List<Topic> topicList = data['data']['topics'].map<Topic>((topic) {
+      return Topic(
+        id: topic['id'],
+        name: topic['name'],
+        fileUrl: topic['nameFile'],
+      );
+    }).toList();
+    return CourseDetail(
+      topicList: topicList,
+      importance: data['data']['reason'],
+      outcome: data['data']['purpose'],
+    );
   }
 }
 

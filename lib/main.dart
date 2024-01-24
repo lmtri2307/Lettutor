@@ -7,22 +7,29 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:lettutor/service/AuthService.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   usePathUrlStrategy();
   final authProvider = AuthProvider();
-  try{
-    const AuthService().refreshSession()
-        .then((value) => authProvider.setUser(value));
-  } catch (e){
+  try {
+    final user = await const AuthService().refreshSession();
+    authProvider.setUser(user);
+  } catch (e) {
     // ignore error
   }
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
         create: (context) => authProvider,
       ),
-      ChangeNotifierProvider(create: (context) => TutorListProvider(),),
-      ChangeNotifierProvider(create: (context) => LessonProvider(),)
+      ChangeNotifierProvider(
+        create: (context) => TutorListProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => LessonProvider(),
+      )
     ],
     child: const MyApp(),
   ));
@@ -34,7 +41,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authRepository = context.watch<AuthProvider>();
-    final routeGenerator = RouteGenerator(checkLoggedIn: () => authRepository.isLoggedIn,);
+    final routeGenerator = RouteGenerator(
+      checkLoggedIn: () => authRepository.isLoggedIn,
+    );
 
     const primaryColor = Color.fromARGB(255, 0, 113, 240);
     return MaterialApp(
@@ -43,8 +52,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: primaryColor,
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: primaryColor),
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
         textTheme: const TextTheme(
             headlineLarge: TextStyle(
               color: primaryColor,
@@ -52,9 +60,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             headlineMedium: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: primaryColor),
+                fontSize: 24, fontWeight: FontWeight.bold, color: primaryColor),
             headlineSmall: TextStyle(
               fontSize: 20,
             ),
@@ -70,4 +76,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

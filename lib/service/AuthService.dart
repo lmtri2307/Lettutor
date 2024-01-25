@@ -13,9 +13,11 @@ class AuthService {
   }
 
   Future<User?> loginWithGoogle() async {
-    final GoogleSignInAccount? googleSignIn = await GoogleSignIn().signIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication? googleAuth =
-        await googleSignIn?.authentication;
+        await googleSignInAccount?.authentication;
     final String? accessToken = googleAuth?.accessToken;
     if(accessToken == null){
       return null;

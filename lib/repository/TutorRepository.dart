@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:lettutor/configs/httpClient.dart';
@@ -16,7 +17,7 @@ class TutorRepository {
   Future<List<Tutor>> searchTutorList(
       TutorSearchFormData searchForm, int page, int limit) async {
     // build search request body
-    final Map<String, dynamic> body = {
+    final Map<dynamic, dynamic> body = {
       'page': page.toString(),
       'perPage': limit.toString(),
     };
@@ -26,28 +27,31 @@ class TutorRepository {
     if (searchForm.specialty != null) {
       final specialty = SpecialtyMapper.map(searchForm.specialty!);
       if (specialty.isNotEmpty) {
+        body['filters'] = (body['filters'] ?? {}) as Map<dynamic, dynamic>;
         body['filters'] = {
           'specialties': [specialty],
         };
       }
     }
 
-    if(searchForm.tutorNationality != null) {
-      body['filters'] = body['filters'] ?? {};
-      if(searchForm.tutorNationality!.name == "Native"){
-        body['filters']['nationality'] = {
-          'isNative': true
+    if (searchForm.tutorNationality != null) {
+      body['filters'] = (body['filters'] ?? {}) as Map<dynamic, dynamic>;
+      if (searchForm.tutorNationality!.name == "Native") {
+        body['filters'] = {
+          ...body['filters'],
+          'nationality': {'isNative': true}
         };
       }
-      if(searchForm.tutorNationality!.name == "Vietnamese"){
-        body['filters']['nationality'] = {
-          'isVietNamese': true
+      if (searchForm.tutorNationality!.name == "Vietnamese") {
+        body['filters'] = {
+          ...body['filters'],
+          'nationality': {'isVietNamese': true}
         };
       }
-      if(searchForm.tutorNationality!.name == "Foreign"){
-        body['filters']['nationality'] = {
-          'isNative': false,
-          'isVietNamese': false
+      if (searchForm.tutorNationality!.name == "Foreign") {
+        body['filters'] = {
+          ...body['filters'],
+          'nationality': {'isNative': false, 'isVietNamese': false}
         };
       }
     }
@@ -131,7 +135,9 @@ class TutorRepository {
                 name: review['firstInfo']['name'],
                 avatar: review['firstInfo']['avatar'],
               ),
-              rating: review['rating'] is int ? review['rating'].toDouble() : review['rating'],
+              rating: review['rating'] is int
+                  ? review['rating'].toDouble()
+                  : review['rating'],
               comment: review['content'],
               createdAt: DateTime.parse(review['updatedAt']),
             ))

@@ -19,6 +19,19 @@ class RecommendedTutors extends StatelessWidget {
         ),
         Consumer<TutorListProvider>(
             builder: (context, tutorListProvider, child) => Column(children: [
+                  if (tutorListProvider.isEndOfList &&
+                      tutorListProvider.tutorList.isEmpty)
+                    Center(
+                        child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text("No tutors found",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(
+                                      color: Colors.red,
+                                      fontStyle: FontStyle.italic,
+                                    )))),
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/models/Category.dart';
+import 'package:lettutor/presentation/pages/CoursesPage/CoursesPage.dart';
+import 'package:lettutor/repository/CourseRepository.dart';
+import 'package:lettutor/service/CourseService.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CourseFilter extends StatelessWidget {
   const CourseFilter({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final courseFormProvider = context.read<CourseFormProvider>();
     return Theme(
         data: Theme.of(context).copyWith(
             inputDecorationTheme: InputDecorationTheme(
@@ -25,11 +31,16 @@ class CourseFilter extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text("Filters", style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.grey
-            ),),
-            const SizedBox(height: 12,),
+            Text(
+              "Filters",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.grey),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
             Wrap(
               direction: Axis.horizontal,
               runSpacing: 4,
@@ -40,39 +51,61 @@ class CourseFilter extends StatelessWidget {
                         height: 40,
                         margin: const EdgeInsets.only(right: 8),
                         child: CourseFilterField(
-                          optionList: const [
-                            "Intermediate",
-                            "Beginner",
-                            "Pre-advanced",
-                            "Upper-Beginner"
-                          ],
+                          optionList: LevelMapper.getAllLevels(),
                           label: "Select Level",
-                          getOptionLabel: (option) => option,
+                          getOptionLabel: (option) => option.name,
+                          onSelected: (selectedOptions) {
+                            courseFormProvider.setLevels(selectedOptions);
+                          },
                         ))),
                 FractionallySizedBox(
                     widthFactor: 0.5,
                     child: Container(
                         height: 40,
                         margin: const EdgeInsets.only(left: 8),
-                        child: CourseFilterField(
-                          optionList: const [
-                            "Intermediate",
-                            "Beginner",
-                            "Pre-advanced",
-                            "Upper-Beginner"
-                          ],
-                          label: "Select category",
-                          getOptionLabel: (option) => option,
+                        child: FutureBuilder(
+                          future: const CourseService().getAllCategories(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return CourseFilterField(
+                                optionList: snapshot.data as List<Category>,
+                                label: "Select Category",
+                                getOptionLabel: (option) => option.name,
+                                onSelected: (selectedOptions) {
+                                  courseFormProvider
+                                      .setCategories(selectedOptions);
+                                },
+                              );
+                            } else {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                          },
                         ))),
                 DropdownButtonFormField(
                   decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(8),
                       hintText: "Sort by level"),
                   isExpanded: true,
-                  items: ["Level decreasing", "Level ascending"]
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (e) {},
+                  items: [
+                    DropdownMenuItem(
+                        value: null,
+                        child: Text(
+                          "No sort",
+                          style: TextStyle(
+                              color: Colors.grey.shade400,
+                              fontStyle: FontStyle.italic),
+                        )),
+                    ...[false, true]
+                        .map((e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(
+                                e ? "Level ascending" : "Level decreasing")))
+                        .toList()
+                  ],
+                  onChanged: (e) {
+                    courseFormProvider.setIsAscending(e);
+                  },
                 ),
               ],
             ),
@@ -81,26 +114,33 @@ class CourseFilter extends StatelessWidget {
   }
 }
 
-class CourseFilterField<T> extends StatelessWidget {
+class CourseFilterField<T> extends StatefulWidget {
   const CourseFilterField(
       {super.key,
       required this.label,
       required this.optionList,
-      required this.getOptionLabel});
+      required this.getOptionLabel,
+      required this.onSelected});
 
   final String label;
   final List<T> optionList;
   final String Function(T option) getOptionLabel;
+  final Function(List<T> selectedOptions) onSelected;
+
+  @override
+  State<CourseFilterField<T>> createState() => _CourseFilterFieldState<T>();
+}
+
+class _CourseFilterFieldState<T> extends State<CourseFilterField<T>> {
+  final selectedOptions = <T>[];
 
   @override
   Widget build(BuildContext context) {
-    final selectedOptions = optionList.sublist(0, 2);
-
     return TextFormField(
       readOnly: true,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(8),
-        labelText: label,
+        labelText: widget.label,
         floatingLabelBehavior: selectedOptions.isNotEmpty
             ? FloatingLabelBehavior.always
             : FloatingLabelBehavior.never,
@@ -111,13 +151,19 @@ class CourseFilterField<T> extends StatelessWidget {
           context: context,
           builder: (ctx) {
             return MultiSelectDialog(
-              title: Text(label),
-              items: optionList
+              title: Text(widget.label),
+              items: widget.optionList
                   .map((option) =>
-                      MultiSelectItem(option, getOptionLabel(option)))
+                      MultiSelectItem(option, widget.getOptionLabel(option)))
                   .toList(),
               initialValue: selectedOptions,
-              onConfirm: (values) {},
+              onConfirm: (values) {
+                setState(() {
+                  selectedOptions.clear();
+                  selectedOptions.addAll(values);
+                  widget.onSelected(selectedOptions);
+                });
+              },
             );
           },
         );

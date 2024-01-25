@@ -7,7 +7,8 @@ import 'package:lettutor/service/CourseService.dart';
 import 'package:number_paginator/number_paginator.dart';
 
 class CourseTabView extends StatefulWidget {
-  const CourseTabView({super.key});
+  const CourseTabView({super.key, required this.form});
+  final CourseSearchForm form;
 
   @override
   State<CourseTabView> createState() => _CourseTabViewState();
@@ -62,7 +63,7 @@ class _CourseTabViewState extends State<CourseTabView> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _courseService.getCourseList(
-          _pagination.currentPage, _pagination.perPage),
+          _pagination.currentPage, _pagination.perPage, widget.form),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Padding(

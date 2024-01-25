@@ -6,6 +6,7 @@ import 'package:lettutor/helpers/show_toast.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/pages/SchedulePage/UpcomingLessonCard.dart';
 import 'package:lettutor/presentation/widgets/DateCard/DateCard.dart';
+import 'package:lettutor/presentation/widgets/EmptyListText/EmptyListText.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/presentation/widgets/PageOverview/PageOverview.dart';
 import 'package:lettutor/service/LessonService.dart';
@@ -96,15 +97,17 @@ class _SchedulePageState extends State<SchedulePage> {
                             ),
                         itemCount: lessonListGroupedByDate.length),
                   ),
-            NumberPaginator(
-              initialPage: _pagination.currentPage - 1,
-              numberPages: numberPages,
-              onPageChange: (int page) {
-                setState(() {
-                  _pagination.currentPage = page + 1;
-                });
-              },
-            )
+            numberPages > 0
+                ? NumberPaginator(
+                    initialPage: _pagination.currentPage - 1,
+                    numberPages: numberPages,
+                    onPageChange: (int page) {
+                      setState(() {
+                        _pagination.currentPage = page + 1;
+                      });
+                    },
+                  )
+                : const EmptyListText(text: "No lesson found"),
           ],
         ),
       ),

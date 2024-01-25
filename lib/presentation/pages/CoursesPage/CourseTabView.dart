@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/helpers/pagination.dart';
 import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/presentation/pages/CoursesPage/PreviewCard.dart';
+import 'package:lettutor/presentation/widgets/EmptyListText/EmptyListText.dart';
 import 'package:lettutor/service/CourseService.dart';
 import 'package:number_paginator/number_paginator.dart';
 
@@ -42,15 +43,17 @@ class _CourseTabViewState extends State<CourseTabView> {
                 .toList(),
           ),
         ),
-        NumberPaginator(
-          initialPage: _pagination.currentPage - 1,
-          numberPages: numberPages,
-          onPageChange: (int page) {
-            setState(() {
-              _pagination.currentPage = page + 1;
-            });
-          },
-        )
+        numberPages > 0
+            ? NumberPaginator(
+                initialPage: _pagination.currentPage - 1,
+                numberPages: numberPages,
+                onPageChange: (int page) {
+                  setState(() {
+                    _pagination.currentPage = page + 1;
+                  });
+                },
+              )
+            : const EmptyListText(text: "No course found")
       ],
     );
   }

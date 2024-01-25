@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:lettutor/configs/httpClient.dart';
+import 'package:lettutor/models/Book.dart';
 import 'package:lettutor/models/Course.dart';
 import 'package:lettutor/models/Level.dart';
 import 'package:lettutor/models/Topic.dart';
@@ -42,6 +43,21 @@ class CourseRepository {
       importance: data['data']['reason'],
       outcome: data['data']['purpose'],
     );
+  }
+
+  Future<(List<Book>, int)> getBookList(int page, int perPage) async {
+    final response = await apiClient.get(Uri.parse('/e-book?page=$page&size=$perPage'));
+    final data = json.decode(response.body);
+    final int count = data['data']['count'];
+    final List<Book> bookList = data['data']['rows'].map<Book>((book) {
+      return Book(
+        name: book['name'],
+        description: book['description'],
+        imageUrl: book['imageUrl'],
+        level: LevelMapper.fromString(book['level']),
+      );
+    }).toList();
+    return (bookList, count);
   }
 }
 

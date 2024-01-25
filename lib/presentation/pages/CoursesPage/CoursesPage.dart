@@ -72,21 +72,18 @@ class CoursesPage extends StatelessWidget {
             ]))
           ],
           // physics: NeverScrollableScrollPhysics(),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 44.0),
-            child: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: const TabBarView(
-                // physics: NeverScrollableScrollPhysics(),
-                children: [
-                  SingleChildScrollView(child: CourseTabView()),
-                  SingleChildScrollView(
-                      child: BookTabView(
-                  )),
-                  Text('Interactive E-Book'),
-                ],
-              ),
+          body: ScrollConfiguration(
+            behavior:
+                ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            child: const TabBarView(
+              // physics: NeverScrollableScrollPhysics(),
+              children: [
+                SingleChildScrollView(child: CourseTabView()),
+                SingleChildScrollView(
+                    child: BookTabView(
+                )),
+                Text('Interactive E-Book'),
+              ],
             ),
           ),
         ),

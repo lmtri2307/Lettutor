@@ -12,8 +12,8 @@ class AssetVideo extends StatefulWidget {
 }
 
 class _AssetVideoState extends State<AssetVideo> {
-  late final VideoPlayerController videoPlayerController;
-  late final ChewieController chewieController;
+  VideoPlayerController? videoPlayerController;
+  ChewieController? chewieController;
 
   @override
   void initState() {
@@ -22,8 +22,8 @@ class _AssetVideoState extends State<AssetVideo> {
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
-    chewieController.dispose();
+    videoPlayerController?.dispose();
+    chewieController?.dispose();
     super.dispose();
   }
 
@@ -33,22 +33,35 @@ class _AssetVideoState extends State<AssetVideo> {
       Uri.parse(widget.url),
     );
     final theme = Theme.of(context);
-    chewieController = ChewieController(
-      errorBuilder: (context, errorMessage) {
-        return Center(
-            child: Text("Video not available",
-                style: theme.textTheme.headlineLarge?.copyWith(
-                    color: Colors.red.shade300,
-                    fontWeight: FontWeight.bold)));
-      },
-      videoPlayerController: videoPlayerController,
-      autoInitialize: true,
-    );
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 300),
-      child: Chewie(
-        controller: chewieController,
-      ),
+      child: FutureBuilder(
+          future: videoPlayerController!.initialize(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if(chewieController != null) {
+              chewieController!.dispose();
+            }
+            chewieController = ChewieController(
+              errorBuilder: (context, errorMessage) {
+                return Center(
+                    child: Text("Video not available",
+                        style: theme.textTheme.headlineLarge?.copyWith(
+                            color: Colors.red.shade300,
+                            fontWeight: FontWeight.bold)));
+              },
+              videoPlayerController: videoPlayerController!,
+              autoInitialize: true,
+              aspectRatio: videoPlayerController!.value.aspectRatio,
+            );
+            return Chewie(
+              controller: chewieController!,
+            );
+          }),
     );
   }
 }

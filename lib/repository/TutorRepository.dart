@@ -109,9 +109,9 @@ class TutorRepository {
                 id: review['firstId'],
                 email: "",
                 name: review['firstInfo']['name'],
-                avatar: review['avatar'],
+                avatar: review['firstInfo']['avatar'],
               ),
-              rating: review['rating'],
+              rating: review['rating'] is int ? review['rating'].toDouble() : review['rating'],
               comment: review['content'],
               createdAt: DateTime.parse(review['updatedAt']),
             ))

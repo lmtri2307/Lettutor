@@ -27,7 +27,7 @@ class ProfileAvatarEditing extends StatelessWidget {
             color: Colors.black
           ),),
           const SizedBox(height: 8,),
-          Text("Account ID: d3dd80b3-1d86-43a1-a707-853ebba89a23", style: theme.textTheme.bodySmall,),
+          Text("Account ID: ${user.id}", style: theme.textTheme.bodySmall,),
         ],
       ),
     );

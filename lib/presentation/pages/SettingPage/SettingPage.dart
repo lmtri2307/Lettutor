@@ -22,6 +22,7 @@ class SettingPage extends StatelessWidget {
             child: AccountInfo(
               name: authProvider.user?.name ?? "",
               email: authProvider.user?.email ?? "",
+              avatarUrl: authProvider.user?.avatar,
             ),
           ),
           const Divider(),

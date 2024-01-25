@@ -6,11 +6,30 @@ import 'package:lettutor/presentation/widgets/TutorProfile/Rating.dart';
 import 'package:lettutor/service/TutorService.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class TutorReviewsDialog extends StatelessWidget {
+class TutorReviewsDialog extends StatefulWidget {
   const TutorReviewsDialog({super.key, required this.tutor});
 
   final Tutor tutor;
+
+  @override
+  State<TutorReviewsDialog> createState() => _TutorReviewsDialogState();
+}
+
+class _TutorReviewsDialogState extends State<TutorReviewsDialog> {
   final _tutorService = const TutorService();
+  bool isLoading = true;
+  final List<Review> reviewList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _tutorService.getReviewList(widget.tutor).then((value) {
+      setState(() {
+        reviewList.addAll(value);
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,45 +48,39 @@ class TutorReviewsDialog extends StatelessWidget {
                 onPressed: () => Navigator.pop(context),
               )
             ],
-            shape: const Border(
-                bottom: BorderSide(
-                    color: Colors.grey
-                )
-            ),
+            shape: const Border(bottom: BorderSide(color: Colors.grey)),
             title: const Text("Reviews"),
           ),
-          FutureBuilder(
-            future: _tutorService.getReviewList(tutor),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Padding(
-                  padding: EdgeInsets.all(32.0),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-              final reviewList = snapshot.data ?? [];
-              return Expanded(
-                child: SingleChildScrollView(
-                  child: ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => Padding(
+          isLoading
+              ? const Padding(
+            padding: EdgeInsets.all(32.0),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+              : Expanded(
+              child: reviewList.isNotEmpty
+                  ? ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (context, index) =>
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ReviewTile(
                         review: reviewList[index],
                       ),
                     ),
-                    separatorBuilder: (context, index) =>
-                        const Divider(color: Colors.grey),
-                    itemCount: reviewList.length,
-                  ),
-                ),
-              );
-            },
-          ),
+                separatorBuilder: (context, index) =>
+                const Divider(color: Colors.grey),
+                itemCount: reviewList.length,
+              )
+                  : Text(
+                "No review yet",
+                style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey.shade500),
+              )),
         ],
       ),
     );
@@ -98,18 +111,17 @@ class ReviewTile extends StatelessWidget {
             children: [
               RichText(
                   text: TextSpan(children: [
-                TextSpan(
-                  text: review.author.name ?? review.author.email,
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: Colors.grey.shade700),
-                ),
-                const TextSpan(text: "  ", style: TextStyle(fontSize: 12)),
-                TextSpan(
-                    text: "(${timeago.format(review.createdAt)})",
-
-                    style: theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.grey, fontStyle: FontStyle.italic)),
-              ])),
+                    TextSpan(
+                      text: review.author.name ?? review.author.email,
+                      style: theme.textTheme.bodySmall
+                          ?.copyWith(color: Colors.grey.shade700),
+                    ),
+                    const TextSpan(text: "  ", style: TextStyle(fontSize: 12)),
+                    TextSpan(
+                        text: "(${timeago.format(review.createdAt)})",
+                        style: theme.textTheme.bodySmall?.copyWith(
+                            color: Colors.grey, fontStyle: FontStyle.italic)),
+                  ])),
               Rating(
                 rating: review.rating,
               ),

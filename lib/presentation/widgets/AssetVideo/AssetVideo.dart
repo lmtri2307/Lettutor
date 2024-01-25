@@ -12,8 +12,8 @@ class AssetVideo extends StatefulWidget {
 }
 
 class _AssetVideoState extends State<AssetVideo> {
-  late final VideoPlayerController videoPlayerController;
-  late final ChewieController chewieController;
+  VideoPlayerController? videoPlayerController;
+  ChewieController? chewieController;
 
   @override
   void initState() {
@@ -22,8 +22,8 @@ class _AssetVideoState extends State<AssetVideo> {
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
-    chewieController.dispose();
+    videoPlayerController?.dispose();
+    chewieController?.dispose();
     super.dispose();
   }
 
@@ -36,14 +36,16 @@ class _AssetVideoState extends State<AssetVideo> {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 300),
       child: FutureBuilder(
-          future: videoPlayerController.initialize(),
+          future: videoPlayerController!.initialize(),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-
+            if(chewieController != null) {
+              chewieController!.dispose();
+            }
             chewieController = ChewieController(
               errorBuilder: (context, errorMessage) {
                 return Center(
@@ -52,12 +54,12 @@ class _AssetVideoState extends State<AssetVideo> {
                             color: Colors.red.shade300,
                             fontWeight: FontWeight.bold)));
               },
-              videoPlayerController: videoPlayerController,
+              videoPlayerController: videoPlayerController!,
               autoInitialize: true,
-              aspectRatio: videoPlayerController.value.aspectRatio,
+              aspectRatio: videoPlayerController!.value.aspectRatio,
             );
             return Chewie(
-              controller: chewieController,
+              controller: chewieController!,
             );
           }),
     );

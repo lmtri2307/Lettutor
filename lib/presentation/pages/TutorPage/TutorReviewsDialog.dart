@@ -53,34 +53,35 @@ class _TutorReviewsDialogState extends State<TutorReviewsDialog> {
           ),
           isLoading
               ? const Padding(
-            padding: EdgeInsets.all(32.0),
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
+                  padding: EdgeInsets.all(32.0),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
               : Expanded(
-              child: reviewList.isNotEmpty
-                  ? ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) =>
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ReviewTile(
-                        review: reviewList[index],
-                      ),
-                    ),
-                separatorBuilder: (context, index) =>
-                const Divider(color: Colors.grey),
-                itemCount: reviewList.length,
-              )
-                  : Text(
-                "No review yet",
-                style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey.shade500),
-              )),
+                  child: reviewList.isNotEmpty
+                      ? SingleChildScrollView(
+                          child: ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ReviewTile(
+                                review: reviewList[index],
+                              ),
+                            ),
+                            separatorBuilder: (context, index) =>
+                                const Divider(color: Colors.grey),
+                            itemCount: reviewList.length,
+                          ),
+                        )
+                      : Text(
+                          "No review yet",
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.grey.shade500),
+                        )),
         ],
       ),
     );
@@ -111,17 +112,17 @@ class ReviewTile extends StatelessWidget {
             children: [
               RichText(
                   text: TextSpan(children: [
-                    TextSpan(
-                      text: review.author.name ?? review.author.email,
-                      style: theme.textTheme.bodySmall
-                          ?.copyWith(color: Colors.grey.shade700),
-                    ),
-                    const TextSpan(text: "  ", style: TextStyle(fontSize: 12)),
-                    TextSpan(
-                        text: "(${timeago.format(review.createdAt)})",
-                        style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.grey, fontStyle: FontStyle.italic)),
-                  ])),
+                TextSpan(
+                  text: review.author.name ?? review.author.email,
+                  style: theme.textTheme.bodySmall
+                      ?.copyWith(color: Colors.grey.shade700),
+                ),
+                const TextSpan(text: "  ", style: TextStyle(fontSize: 12)),
+                TextSpan(
+                    text: "(${timeago.format(review.createdAt)})",
+                    style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.grey, fontStyle: FontStyle.italic)),
+              ])),
               Rating(
                 rating: review.rating,
               ),

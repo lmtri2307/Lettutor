@@ -6,17 +6,23 @@ import 'package:lettutor/presentation/pages/SchedulePage/UpcomingLessonCard.dart
 import 'package:lettutor/presentation/widgets/DateCard/DateCard.dart';
 import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/presentation/widgets/PageOverview/PageOverview.dart';
-import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/service/LessonService.dart';
-import 'package:provider/provider.dart';
+import 'package:number_paginator/number_paginator.dart';
 
-class SchedulePage extends StatelessWidget {
+class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
 
-  final _lessonService = const LessonService();
+  @override
+  State<SchedulePage> createState() => _SchedulePageState();
+}
 
-  Widget _buildOnHasData(
-      BuildContext context, List<List<Lesson>> lessonListGroupedByDate) {
+class _SchedulePageState extends State<SchedulePage> {
+  final _lessonService = const LessonService();
+  int _page = 1;
+  final limit = 10;
+
+  Widget _buildOnHasData(BuildContext context, int numberPages,
+      List<List<Lesson>> lessonListGroupedByDate) {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
@@ -59,13 +65,15 @@ class SchedulePage extends StatelessWidget {
                               dateTime:
                                   lessonListGroupedByDate[index][0].startTime,
                               child: ListView.separated(
-                                itemCount: lessonListGroupedByDate[index].length,
+                                itemCount:
+                                    lessonListGroupedByDate[index].length,
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index2) =>
                                     UpcomingLessonCard(
-                                        lesson: lessonListGroupedByDate[index][index2]),
+                                        lesson: lessonListGroupedByDate[index]
+                                            [index2]),
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(
                                   height: 8,
@@ -76,7 +84,16 @@ class SchedulePage extends StatelessWidget {
                               height: 24,
                             ),
                         itemCount: lessonListGroupedByDate.length),
-                  )
+                  ),
+            NumberPaginator(
+              initialPage: _page - 1,
+              numberPages: numberPages,
+              onPageChange: (int page) {
+                setState(() {
+                  _page = page + 1;
+                });
+              },
+            )
           ],
         ),
       ),
@@ -91,7 +108,7 @@ class SchedulePage extends StatelessWidget {
         title: "Schedule",
       ),
       body: FutureBuilder(
-        future: _lessonService.getScheduleLessonList(1, 10),
+        future: _lessonService.getScheduleLessonList(_page, 10),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -100,6 +117,7 @@ class SchedulePage extends StatelessWidget {
           }
           return _buildOnHasData(
               context,
+              (snapshot.data!.$2 + limit - 1) ~/ limit,
               const DateHelper()
                   .groupByDate(snapshot.data!.$1, (p0) => p0.startTime));
         },

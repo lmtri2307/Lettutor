@@ -1,4 +1,6 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/helpers/country_code.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/widgets/MultipleLabelsPicker/MultipleLabelPicker.dart';
 
@@ -53,7 +55,11 @@ class TutorDetails extends StatelessWidget {
           widget: tutor.detail != null
               ? IgnorePointer(
                   child: MultipleLabelsPicker(
-                    itemList: tutor.detail!.languageList,
+                    itemList: tutor.detail!.languageList
+                        .map((e) =>
+                            LanguageCodeMapper.getCountryName(e) ??
+                            e)
+                        .toList(),
                     getLabelFromItem: (item) => item,
                     onItemSelected: (e) {},
                     defaultStyle: StateStyle(
@@ -83,8 +89,7 @@ class TutorDetails extends StatelessWidget {
                     backgroundColor: const Color.fromARGB(255, 221, 234, 255)),
               ),
             )),
-        _tutorDetailItem(
-          context,
+        _tutorDetailItem(context,
             title: "Interests",
             widget: Text(
               tutor.detail?.interest ?? "",
@@ -93,8 +98,7 @@ class TutorDetails extends StatelessWidget {
                   .bodySmall
                   ?.copyWith(color: Colors.grey.shade700),
             )),
-        _tutorDetailItem(
-          context,
+        _tutorDetailItem(context,
             title: "Teaching experience",
             widget: Text(
               tutor.detail?.experience ?? "",

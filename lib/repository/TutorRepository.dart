@@ -32,6 +32,26 @@ class TutorRepository {
       }
     }
 
+    if(searchForm.tutorNationality != null) {
+      body['filters'] = body['filters'] ?? {};
+      if(searchForm.tutorNationality!.name == "Native"){
+        body['filters']['nationality'] = {
+          'isNative': true
+        };
+      }
+      if(searchForm.tutorNationality!.name == "Vietnamese"){
+        body['filters']['nationality'] = {
+          'isVietNamese': true
+        };
+      }
+      if(searchForm.tutorNationality!.name == "Foreign"){
+        body['filters']['nationality'] = {
+          'isNative': false,
+          'isVietNamese': false
+        };
+      }
+    }
+
     // fetch api
     final response = await apiClient.post(Uri.parse('$baseUrl/search'),
         headers: {'Content-Type': 'application/json'}, body: json.encode(body));

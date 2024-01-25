@@ -86,20 +86,20 @@ class TutorSearchForm extends StatelessWidget {
                 return const CircularProgressIndicator();
               }
               return FractionallySizedBox(
-                widthFactor: 0.4,
-                child: SizedBox(
-                  height: 32,
-                  child: DropdownButtonFormField<Nationality>(
-                    isExpanded: true,
-                    items: snapshot.data!
+                widthFactor: 0.5,
+                child: DropdownButtonFormField<Nationality>(
+                  isExpanded: true,
+                  items: [
+                    const DropdownMenuItem(value: null, child: Text("All")),
+                    ...snapshot.data!
                         .map((e) => DropdownMenuItem(
                             value: e, child: Text("${e.name} Tutor")))
-                        .toList(),
-                    onChanged: (nationality) {
-                      _searchFormData.tutorNationality = nationality;
-                      _onSearchTutor(tutorListProvider);
-                    },
-                  ),
+                        .toList()
+                  ],
+                  onChanged: (nationality) {
+                    _searchFormData.tutorNationality = nationality;
+                    _onSearchTutor(tutorListProvider);
+                  },
                 ),
               );
             },
@@ -151,7 +151,6 @@ class TutorSearchForm extends StatelessWidget {
               _onSearchTutor(tutorListProvider);
             },
           ),
-
         ],
       )),
     );

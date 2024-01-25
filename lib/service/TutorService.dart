@@ -77,7 +77,6 @@ class TutorService {
   }
 
   Future<List<Nationality>> getAllNationality() async {
-    await Future.delayed(const Duration(seconds: 2));
     return nationalityList;
   }
 

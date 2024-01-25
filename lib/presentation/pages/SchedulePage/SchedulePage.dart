@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/helpers/date_helper.dart';
 import 'package:lettutor/helpers/pagination.dart';
+import 'package:lettutor/helpers/show_toast.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/pages/SchedulePage/UpcomingLessonCard.dart';
 import 'package:lettutor/presentation/widgets/DateCard/DateCard.dart';
@@ -20,6 +21,15 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   final _lessonService = const LessonService();
   final _pagination = Pagination();
+
+  void _onCancelLesson(Lesson lesson) {
+    _lessonService
+        .cancelLesson(lesson)
+        .then((value) => setState(() {}))
+        .catchError((error) {
+      showErrorSnackBar(context, error.toString().substring(11));
+    });
+  }
 
   Widget _buildOnHasData(BuildContext context, int numberPages,
       List<List<Lesson>> lessonListGroupedByDate) {
@@ -72,6 +82,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index2) =>
                                     UpcomingLessonCard(
+                                        onCanceled: _onCancelLesson,
                                         lesson: lessonListGroupedByDate[index]
                                             [index2]),
                                 separatorBuilder: (context, index) =>
@@ -108,7 +119,8 @@ class _SchedulePageState extends State<SchedulePage> {
         title: "Schedule",
       ),
       body: FutureBuilder(
-        future: _lessonService.getScheduleLessonList(_pagination.currentPage, _pagination.perPage),
+        future: _lessonService.getScheduleLessonList(
+            _pagination.currentPage, _pagination.perPage),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

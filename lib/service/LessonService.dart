@@ -1,8 +1,6 @@
-import 'package:lettutor/dummy/lesson.dart';
 import 'package:lettutor/helpers/date_helper.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/models/Tutor.dart';
-import 'package:lettutor/models/User.dart';
 import 'package:lettutor/repository/LessonRepository.dart';
 import 'package:lettutor/repository/UserRepository.dart';
 
@@ -37,7 +35,6 @@ class LessonService {
     await _lessonRepository.bookLesson(lesson, note);
 
     final resultLesson = lesson.copyWith(isAvailable: false);
-    bookedLessonList.add(resultLesson);
     return resultLesson;
   }
 
@@ -64,5 +61,13 @@ class LessonService {
           ascending: false),
       count
     );
+  }
+
+  Future<void> cancelLesson(Lesson lesson) async {
+    // check if lesson is 2 hours before now
+    if (DateTime.now().isAfter(lesson.startTime.subtract(const Duration(hours: 24)))) {
+      throw Exception("Can't cancel lesson 2 hours before start time");
+    }
+    await _lessonRepository.cancelLesson(lesson);
   }
 }

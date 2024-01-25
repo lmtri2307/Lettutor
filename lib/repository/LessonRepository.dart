@@ -43,4 +43,16 @@ class LessonRepository {
       throw Exception(data['message']);
     }
   }
+
+  Future<void> cancelLesson(Lesson lesson) async {
+    final body = {
+      'scheduleDetailIds': [lesson.id],
+    };
+    final response = await apiClient.delete(Uri.parse('/booking'),
+        headers: {'Content-Type': 'application/json'}, body: json.encode(body));
+    final data = json.decode(response.body);
+    if (response.statusCode != 200) {
+      throw Exception(data['message']);
+    }
+  }
 }

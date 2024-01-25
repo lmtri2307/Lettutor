@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/helpers/show_toast.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/widgets/LessonOverview/LessonOverview.dart';
+import 'package:lettutor/service/LessonService.dart';
 
 class UpcomingLessonCard extends StatelessWidget {
-  const UpcomingLessonCard({super.key, required this.lesson});
-
+  const UpcomingLessonCard({super.key, required this.lesson, required this.onCanceled});
+  final lessonService = const LessonService();
   final Lesson lesson;
+  final Function(Lesson lesson) onCanceled;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,9 @@ class UpcomingLessonCard extends StatelessWidget {
                     style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(),
                         foregroundColor: Colors.red),
-                    onPressed: () {},
+                    onPressed: () {
+                      onCanceled(lesson);
+                    },
                     child: Text(
                       textAlign: TextAlign.center,
                       'Cancel',

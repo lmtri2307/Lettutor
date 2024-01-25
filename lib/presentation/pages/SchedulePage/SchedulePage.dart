@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lettutor/helpers/date_helper.dart';
+import 'package:lettutor/helpers/pagination.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/pages/SchedulePage/UpcomingLessonCard.dart';
 import 'package:lettutor/presentation/widgets/DateCard/DateCard.dart';
@@ -18,8 +19,7 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   final _lessonService = const LessonService();
-  int _page = 1;
-  final limit = 10;
+  final _pagination = Pagination();
 
   Widget _buildOnHasData(BuildContext context, int numberPages,
       List<List<Lesson>> lessonListGroupedByDate) {
@@ -86,11 +86,11 @@ class _SchedulePageState extends State<SchedulePage> {
                         itemCount: lessonListGroupedByDate.length),
                   ),
             NumberPaginator(
-              initialPage: _page - 1,
+              initialPage: _pagination.currentPage - 1,
               numberPages: numberPages,
               onPageChange: (int page) {
                 setState(() {
-                  _page = page + 1;
+                  _pagination.currentPage = page + 1;
                 });
               },
             )
@@ -108,16 +108,18 @@ class _SchedulePageState extends State<SchedulePage> {
         title: "Schedule",
       ),
       body: FutureBuilder(
-        future: _lessonService.getScheduleLessonList(_page, 10),
+        future: _lessonService.getScheduleLessonList(_pagination.currentPage, _pagination.perPage),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
+
+          _pagination.totalItems = snapshot.data!.$2;
           return _buildOnHasData(
               context,
-              (snapshot.data!.$2 + limit - 1) ~/ limit,
+              _pagination.totalPages,
               const DateHelper()
                   .groupByDate(snapshot.data!.$1, (p0) => p0.startTime));
         },

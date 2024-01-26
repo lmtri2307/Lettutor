@@ -26,10 +26,15 @@ class _LoginPageState extends State<LoginPage> {
     showErrorSnackBar(context, 'Log in failed! $message');
   }
 
-  bool _validate({required String email}){
+  bool _validate({required String email, required String password}){
     final emailError = validator.validateEmail(email);
     if(emailError != null){
       showErrorSnackBar(context, emailError);
+      return false;
+    }
+    final passwordError = validator.validatePassword(password);
+    if(passwordError != null){
+      showErrorSnackBar(context, passwordError);
       return false;
     }
     return true;
@@ -40,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       required String email,
       required String password}) async {
 
-    if(!_validate(email: email)){
+    if(!_validate(email: email, password: password)){
       return;
     }
 

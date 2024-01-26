@@ -20,7 +20,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
+  final retypedPasswordEditingController = TextEditingController();
   final validator = const Validator();
+
+  @override
+  void dispose() {
+    emailEditingController.dispose();
+    passwordEditingController.dispose();
+    retypedPasswordEditingController.dispose();
+    super.dispose();
+  }
 
   void _onError(String message) {
     showErrorSnackBar(context, 'Sign up failed! $message.');
@@ -31,10 +40,24 @@ class _SignUpPageState extends State<SignUpPage> {
     showSuccessSnackBar(context, 'Sign up successful! Please log in.');
   }
 
-  bool _validate({required String email}) {
+  bool _validate(
+      {required String email,
+      required String password,
+      required String retypedPassword}) {
     final emailError = validator.validateEmail(email);
     if (emailError != null) {
       showErrorSnackBar(context, emailError);
+      return false;
+    }
+    final passwordError = validator.validatePassword(password);
+    if (passwordError != null) {
+      showErrorSnackBar(context, passwordError);
+      return false;
+    }
+    final retypedPasswordError =
+        validator.validateRetypedPassword(retypedPassword, password);
+    if (retypedPasswordError != null) {
+      showErrorSnackBar(context, retypedPasswordError);
       return false;
     }
     return true;
@@ -43,8 +66,10 @@ class _SignUpPageState extends State<SignUpPage> {
   Future<void> _signup(
       {required AuthProvider authRepository,
       required String email,
-      required String password}) async {
-    if (!_validate(email: email)) {
+      required String password,
+      required String retypedPassword}) async {
+    if (!_validate(
+        email: email, password: password, retypedPassword: retypedPassword)) {
       return;
     }
     setState(() {
@@ -92,6 +117,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   AuthenticationForm(
                     emailEditingController: emailEditingController,
                     passwordEditingController: passwordEditingController,
+                    retypedPasswordEditingController:
+                        retypedPasswordEditingController,
                   ),
                   const SizedBox(height: 20),
                   Consumer<AuthProvider>(
@@ -102,7 +129,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             _signup(
                                 authRepository: value,
                                 email: emailEditingController.text,
-                                password: passwordEditingController.text);
+                                password: passwordEditingController.text,
+                                retypedPassword:
+                                    retypedPasswordEditingController.text);
                           },
                           style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(

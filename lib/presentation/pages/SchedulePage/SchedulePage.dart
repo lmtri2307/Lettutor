@@ -26,7 +26,14 @@ class _SchedulePageState extends State<SchedulePage> {
   void _onCancelLesson(Lesson lesson) {
     _lessonService
         .cancelLesson(lesson)
-        .then((value) => setState(() {}))
+        .then((value) => setState(() {
+              _pagination.totalItems -= 1;
+              // check if need to go to previous page
+              if (_pagination.totalItems % _pagination.perPage == 0 &&
+                  _pagination.currentPage > _pagination.totalPages) {
+                _pagination.currentPage -= 1;
+              }
+            }))
         .catchError((error) {
       showErrorSnackBar(context, error.toString().substring(11));
     });

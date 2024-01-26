@@ -12,4 +12,24 @@ class Validator {
 
     return null;
   }
+
+  String? validatePassword(String password) {
+    if (password.isEmpty) {
+      return 'Password is required';
+    }
+    if (password.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
+  String? validateRetypedPassword(String retypedPassword, String password){
+    if(retypedPassword.isEmpty){
+      return 'Retyped password is required';
+    }
+    if(retypedPassword != password){
+      return 'Retyped password must match password';
+    }
+    return null;
+  }
 }

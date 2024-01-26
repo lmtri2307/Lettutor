@@ -4,14 +4,12 @@ class AuthenticationForm extends StatefulWidget {
   const AuthenticationForm(
       {super.key,
       required this.emailEditingController,
-      required this.passwordEditingController});
+      required this.passwordEditingController,
+      this.retypedPasswordEditingController});
 
   final TextEditingController emailEditingController;
   final TextEditingController passwordEditingController;
-
-  String get emailField => emailEditingController.text;
-
-  String get passwordField => passwordEditingController.text;
+  final TextEditingController? retypedPasswordEditingController;
 
   @override
   State<AuthenticationForm> createState() => _AuthenticationFormState();
@@ -44,7 +42,19 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
             placeholder: "******",
             obscureText: true,
             controller: widget.passwordEditingController,
-          )
+          ),
+          if (widget.retypedPasswordEditingController != null)
+            ...[
+              const SizedBox(
+                height: 20,
+              ),
+              CustomFormField(
+                label: "RETYPE PASSWORD",
+                placeholder: "******",
+                obscureText: true,
+                controller: widget.retypedPasswordEditingController,
+              )
+            ]
         ],
       ),
     );

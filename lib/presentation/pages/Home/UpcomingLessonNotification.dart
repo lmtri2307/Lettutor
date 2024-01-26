@@ -175,8 +175,7 @@ class _NotificationState extends State<_Notification> {
                           vertical: 12, horizontal: 16),
                       backgroundColor: Colors.white),
                   onPressed: () async {
-                    await _lessonService.joinLessonMeeting(
-                        context.read<AuthProvider>().user!, widget.lesson!);
+                    Navigator.pushNamed(context, "/call", arguments: widget.lesson);
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

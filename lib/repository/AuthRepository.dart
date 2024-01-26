@@ -52,7 +52,7 @@ class AuthRepository {
         await apiClient.post(Uri.parse('$baseUrl/register'), body: {
       "email": username,
       "password": password,
-      "source": 'null',
+      "source": "https://sandbox.app.lettutor.com/"
     });
     final data = json.decode(response.body);
     if (response.statusCode < 200 || response.statusCode > 299) {
@@ -79,11 +79,10 @@ class AuthRepository {
     }
 
     final user = User(
-      id: data['user']['id'],
-      email: data["user"]["email"],
-      name: data['user']['name'],
-      avatar: data['user']['avatar']
-    );
+        id: data['user']['id'],
+        email: data["user"]["email"],
+        name: data['user']['name'],
+        avatar: data['user']['avatar']);
     // set access token
     final accessToken = data['tokens']['access']['token'];
     apiClient.token = accessToken;
@@ -127,7 +126,8 @@ class AuthRepository {
   }
 
   Future<User> loginWithFacebook(String facebookAccessToken) async {
-    final response = await apiClient.post(Uri.parse('$baseUrl/facebook'), body: {
+    final response =
+        await apiClient.post(Uri.parse('$baseUrl/facebook'), body: {
       'access_token': facebookAccessToken,
     });
     final data = json.decode(response.body);

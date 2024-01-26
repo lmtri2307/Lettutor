@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Course.dart';
+import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/models/Topic.dart';
 import 'package:lettutor/models/Tutor.dart';
 import 'package:lettutor/presentation/pages/BecomeTutorPage/BecomeTutorPage.dart';
@@ -73,7 +74,7 @@ class RouteGenerator {
         "/topic" => TopicPage(
             topic: settings.arguments! as Topic,
           ),
-        "/call" => const VideoCallPage(),
+        "/call" => VideoCallPage(lesson: settings.arguments! as BookedLesson),
         "/become-tutor" => const BecomeTutorPage(),
         "/tutor-schedule" => TutorSchedulePage(
             tutor: settings.arguments! as Tutor,

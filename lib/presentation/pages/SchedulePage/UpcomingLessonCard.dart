@@ -43,8 +43,7 @@ class UpcomingLessonCard extends StatelessWidget {
                     style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder()),
                     onPressed: () async {
-                      await lessonService.joinLessonMeeting(
-                          context.read<AuthProvider>().user!, lesson);
+                      Navigator.pushNamed(context, '/call', arguments: lesson);
                     },
                     child: Text(
                       'Go to meeting',

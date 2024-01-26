@@ -33,7 +33,7 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _buildOnHasData(BuildContext context, int numberPages,
-      List<List<Lesson>> lessonListGroupedByDate) {
+      List<List<BookedLesson>> lessonListGroupedByDate) {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(

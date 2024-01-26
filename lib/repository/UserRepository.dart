@@ -16,11 +16,12 @@ class UserRepository {
     return Duration(minutes: data['total']);
   }
 
-  Future<List<Lesson>> getNextLessonList() async {
+  Future<List<BookedLesson>> getNextLessonList() async {
     final response = await apiClient.get(Uri.parse("/booking/next"));
     final data = json.decode(response.body);
-    final List<Lesson> lessonList = data['data']
-        .map<Lesson>((lesson) => Lesson(
+    final List<BookedLesson> lessonList = data['data']
+        .map<BookedLesson>((lesson) => BookedLesson(
+              studentMeetingLink: lesson['studentMeetingLink'],
               id: lesson['id'],
               startTime: DateTime.fromMillisecondsSinceEpoch(
                   lesson['scheduleDetailInfo']['startPeriodTimestamp']),
@@ -48,7 +49,7 @@ class UserRepository {
     return nextLessonList;
   }
 
-  Future<(List<Lesson>, int)> _getBookedLessonList(int page, int perPage,
+  Future<(List<BookedLesson>, int)> _getBookedLessonList(int page, int perPage,
       {bool upcoming = true}) async {
     final url =
         '/booking/list/student?page=$page&perPage=$perPage&inFuture=${upcoming ? '1' : '0'}&orderBy=meeting&sortBy=${upcoming ? 'asc' : 'desc'}';
@@ -56,8 +57,9 @@ class UserRepository {
     final data = json.decode(response.body);
 
     final int count = data['data']['count'];
-    final List<Lesson> lessonList = data['data']['rows']
-        .map<Lesson>((lesson) => Lesson(
+    final List<BookedLesson> lessonList = data['data']['rows']
+        .map<BookedLesson>((lesson) => BookedLesson(
+              studentMeetingLink: lesson['studentMeetingLink'],
               id: lesson['id'],
               tutor: Tutor(
                 id: lesson['scheduleDetailInfo']['scheduleInfo']['tutorInfo']
@@ -82,7 +84,7 @@ class UserRepository {
     return (lessonList, count);
   }
 
-  Future<(List<Lesson>, int)> getScheduleLessonList(
+  Future<(List<BookedLesson>, int)> getScheduleLessonList(
       int page, int perPage) async {
     return await _getBookedLessonList(page, perPage, upcoming: true);
   }

@@ -57,6 +57,7 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
   number_paginator: ^0.4.0
+  omni_jitsi_meet: ^1.0.14
 #  syncfusion_flutter_datepicker: ^23.2.6
 #  flutter_advanced_calendar: ^1.4.1
 #  calendar_appbar: ^0.0.6

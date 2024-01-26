@@ -73,7 +73,7 @@ class UpcomingLessonNotification extends StatelessWidget {
 class _Notification extends StatefulWidget {
   const _Notification({super.key, this.lesson});
 
-  final Lesson? lesson;
+  final BookedLesson? lesson;
 
   @override
   State<_Notification> createState() => _NotificationState();
@@ -81,6 +81,8 @@ class _Notification extends StatefulWidget {
 
 class _NotificationState extends State<_Notification> {
   Timer? _timer;
+  final _lessonService = const LessonService();
+
 
   @override
   void initState() {
@@ -93,7 +95,6 @@ class _NotificationState extends State<_Notification> {
       setState(() {});
     });
   }
-
 
   @override
   void dispose() {
@@ -173,8 +174,9 @@ class _NotificationState extends State<_Notification> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 16),
                       backgroundColor: Colors.white),
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/call");
+                  onPressed: () async {
+                    await _lessonService.joinLessonMeeting(
+                        context.read<AuthProvider>().user!, widget.lesson!);
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

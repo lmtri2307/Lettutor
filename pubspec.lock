@@ -560,6 +560,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.0"
+  omni_jitsi_meet:
+    dependency: "direct main"
+    description:
+      name: omni_jitsi_meet
+      sha256: "7381d1ba871b92d979ce304929f8582605236681038822d0e525bb8dd26f755d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
+  omni_jitsi_meet_platform_interface:
+    dependency: transitive
+    description:
+      name: omni_jitsi_meet_platform_interface
+      sha256: "1789f0b42d3e7a7953034a9b898b519e42dcde2aff7cddfc845d5ad8b3ae7875"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
+  omni_jitsi_meet_web_plugin:
+    dependency: transitive
+    description:
+      name: omni_jitsi_meet_web_plugin
+      sha256: e5dfe938fe63ae77462b18b527b8362430ebdf85ee160357b11ebee5ba51a1a9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
   package_info_plus:
     dependency: transitive
     description:

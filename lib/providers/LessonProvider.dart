@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lettutor/models/Lesson.dart';
-import 'package:lettutor/models/User.dart';
 import 'package:lettutor/providers/TutorLessonListProvider.dart';
 import 'package:lettutor/service/LessonService.dart';
 
 class LessonProvider extends ChangeNotifier{
-  Lesson? upcomingLesson;
+  BookedLesson? upcomingLesson;
   bool needFetchUpcomingLesson = true;
   TutorLessonListProvider? tutorLessonListProvider;
   final LessonService _lessonService = const LessonService();

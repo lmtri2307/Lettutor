@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/enums/language.dart';
 import 'package:lettutor/presentation/widgets/LetTutorAppBar/LanguageOption.dart';
+import 'package:lettutor/providers/LocaleProvider.dart';
+import 'package:provider/provider.dart';
 
 class LetTutorAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const LetTutorAppBar(
+  const   LetTutorAppBar(
       {super.key, this.isLoggedIn = false, this.hasBackButton = false});
 
   final bool isLoggedIn;
@@ -15,6 +17,8 @@ class LetTutorAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localeProvider = context.watch<LocaleProvider>();
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -48,14 +52,18 @@ class LetTutorAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: const EdgeInsets.all(2.0),
               child: PopupMenuButton<Language>(
                 icon: SvgPicture.asset(
-                  'assets/images/vietnam.svg',
+                  localeProvider.locale == const Locale('vi') ? 'assets/images/vietnam.svg' : 'assets/images/english.svg',
                   semanticsLabel: 'Your SVG Image',
                   width: 16,
                   height: 16,
                   fit: BoxFit.cover,
                 ),
                 onSelected: (Language result) {
-                  // Handle your menu selection here
+                  if(result == Language.vietnam) {
+                    localeProvider.setLocale(const Locale('vi'));
+                  } else {
+                    localeProvider.setLocale(const Locale('en'));
+                  }
                 },
                 itemBuilder: (BuildContext context) =>
                     <PopupMenuEntry<Language>>[
@@ -64,8 +72,8 @@ class LetTutorAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: LanguageOption(language: Language.vietnam),
                   ),
                   const PopupMenuItem<Language>(
-                    value: Language.us,
-                    child: LanguageOption(language: Language.us),
+                    value: Language.en,
+                    child: LanguageOption(language: Language.en),
                   ),
                 ],
                 offset: const Offset(0, 40),

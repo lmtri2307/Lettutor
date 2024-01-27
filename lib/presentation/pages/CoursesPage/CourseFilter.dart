@@ -5,6 +5,8 @@ import 'package:lettutor/repository/CourseRepository.dart';
 import 'package:lettutor/service/CourseService.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CourseFilter extends StatelessWidget {
   const CourseFilter({super.key});
@@ -32,7 +34,7 @@ class CourseFilter extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Filters",
+              AppLocalizations.of(context).filters,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall
@@ -52,7 +54,7 @@ class CourseFilter extends StatelessWidget {
                         margin: const EdgeInsets.only(right: 8),
                         child: CourseFilterField(
                           optionList: LevelMapper.getAllLevels(),
-                          label: "Select Level",
+                          label: AppLocalizations.of(context).selectLevel,
                           getOptionLabel: (option) => option.name,
                           onSelected: (selectedOptions) {
                             courseFormProvider.setLevels(selectedOptions);
@@ -69,7 +71,7 @@ class CourseFilter extends StatelessWidget {
                             if (snapshot.hasData) {
                               return CourseFilterField(
                                 optionList: snapshot.data as List<Category>,
-                                label: "Select Category",
+                                label: AppLocalizations.of(context).selectCategory,
                                 getOptionLabel: (option) => option.name,
                                 onSelected: (selectedOptions) {
                                   courseFormProvider
@@ -91,7 +93,7 @@ class CourseFilter extends StatelessWidget {
                     DropdownMenuItem(
                         value: null,
                         child: Text(
-                          "No sort",
+                          AppLocalizations.of(context).noSort,
                           style: TextStyle(
                               color: Colors.grey.shade400,
                               fontStyle: FontStyle.italic),

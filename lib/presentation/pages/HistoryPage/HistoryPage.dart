@@ -12,6 +12,8 @@ import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/service/LessonService.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -36,10 +38,8 @@ class _HistoryPageState extends State<HistoryPage> {
           children: [
             PageOverview(
               image: SvgPicture.asset("assets/images/history.svg"),
-              title: "History",
-              overview:
-                  "The following is a list of lessons you have attended.\n"
-                  "You can review the details of the lessons you have attended",
+              title: AppLocalizations.of(context).history,
+              overview: AppLocalizations.of(context).historyOverview,
             ),
             const SizedBox(
               height: 24,
@@ -107,9 +107,9 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PageAppBar(
+      appBar: PageAppBar(
         type: AppBarType.main,
-        title: "History",
+        title: AppLocalizations.of(context).history,
       ),
       body: FutureBuilder(
         future: _lessonService.getHistoryLessonList(

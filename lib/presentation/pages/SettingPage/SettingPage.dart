@@ -3,6 +3,8 @@ import "package:flutter/material.dart";
 import "package:lettutor/presentation/widgets/LetTutorAppBar/LetTutorAppBar.dart";
 import "package:lettutor/providers/AuthProvider.dart";
 import "package:provider/provider.dart";
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -33,21 +35,21 @@ class SettingPage extends StatelessWidget {
               children: [
                 AccountOperationTile(
                   icon: Icons.manage_accounts,
-                  label: "Edit your account",
+                  label: AppLocalizations.of(context).editYourAccount,
                   onTap: () {
                     Navigator.pushNamed(context, "/edit-profile");
                   },
                 ),
                 AccountOperationTile(
                   icon: Icons.assignment,
-                  label: "Become a tutor",
+                  label: AppLocalizations.of(context).becomeATutor,
                   onTap: () {
                     Navigator.pushNamed(context, "/become-tutor");
                   },
                 ),
-                const AccountOperationTile(
+                AccountOperationTile(
                   icon: Icons.settings,
-                  label: "Settings",
+                  label: AppLocalizations.of(context).settings,
                 ),
                 const SizedBox(
                   height: 8,
@@ -60,14 +62,14 @@ class SettingPage extends StatelessWidget {
                     minimumSize: const Size.fromHeight(48),
                     backgroundColor: Colors.red.shade100,
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.logout, color: Colors.red),
-                      SizedBox(width: 8),
+                      const Icon(Icons.logout, color: Colors.red),
+                      const SizedBox(width: 8),
                       Text(
-                        'Log Out',
-                        style: TextStyle(fontSize: 18, color: Colors.red),
+                        AppLocalizations.of(context).logout,
+                        style: const TextStyle(fontSize: 18, color: Colors.red),
                       ),
                     ],
                   ),

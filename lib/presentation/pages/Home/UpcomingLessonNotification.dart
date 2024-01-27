@@ -8,7 +8,8 @@ import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/providers/LessonProvider.dart';
 import 'package:lettutor/service/LessonService.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class UpcomingLessonNotification extends StatelessWidget {
   const UpcomingLessonNotification({super.key});
 
@@ -126,7 +127,7 @@ class _NotificationState extends State<_Notification> {
   Widget build(BuildContext context) {
     return widget.lesson == null
         ? Text(
-            'You have no upcoming lesson',
+            AppLocalizations.of(context)!.noUpcomingLesson,
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -137,7 +138,7 @@ class _NotificationState extends State<_Notification> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Upcoming Lesson',
+                AppLocalizations.of(context)!.upcomingLesson,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -159,7 +160,7 @@ class _NotificationState extends State<_Notification> {
                 height: 12,
               ),
               Text(
-                "(starts in ${_getTimeUntilLesson(widget.lesson!)})",
+                "(${AppLocalizations.of(context).startIn} ${_getTimeUntilLesson(widget.lesson!)})",
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -185,7 +186,7 @@ class _NotificationState extends State<_Notification> {
                         color: Theme.of(context).primaryColor,
                       ),
                       const SizedBox(width: 12),
-                      Text('Enter Lesson Room',
+                      Text(AppLocalizations.of(context).enterLessonRoom,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -203,17 +204,17 @@ class _TotalLearnedTime extends StatelessWidget {
 
   final Duration learnedTime;
 
-  String _getLabel(Duration duration) {
+  String _getLabel(BuildContext context, Duration duration) {
     final hours = duration.inHours;
     final minutes = duration.inMinutes.remainder(60);
 
-    return 'Total lesson time is  ${hours.toString().padLeft(2, '0')} ${hours > 1 ? "hours" : "hour"} ${minutes.toString().padLeft(2, '0')} ${minutes > 1 ? "minutes" : "minute"}';
+    return '${AppLocalizations.of(context).totalLessonTimeIs} ${hours.toString().padLeft(2, '0')} ${hours > 1 ? AppLocalizations.of(context).hours : AppLocalizations.of(context).hour} ${minutes.toString().padLeft(2, '0')} ${minutes > 1 ? AppLocalizations.of(context).minutes : AppLocalizations.of(context).minute}';
   }
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      _getLabel(learnedTime),
+      _getLabel(context, learnedTime),
       style:
           Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
     );

@@ -5,7 +5,10 @@ import 'package:lettutor/presentation/widgets/TimeRangePickerFormField/TimeRange
 import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:lettutor/service/TutorService.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class TutorSearch extends StatelessWidget {
   const TutorSearch({super.key});
 
@@ -15,7 +18,7 @@ class TutorSearch extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Find a tutor",
+          AppLocalizations.of(context).findATutor,
           style: Theme.of(context)
               .textTheme
               .headlineLarge
@@ -72,8 +75,8 @@ class TutorSearchForm extends StatelessWidget {
                   _searchFormData.name = value;
                   _onSearchTutor(tutorListProvider);
                 },
-                decoration: const InputDecoration(
-                  hintText: "Enter tutor name...",
+                decoration: InputDecoration(
+                  hintText: "${AppLocalizations.of(context).enterTutorName}...",
                 ),
               )),
           const SizedBox(
@@ -90,7 +93,7 @@ class TutorSearchForm extends StatelessWidget {
                 child: DropdownButtonFormField<Nationality>(
                   isExpanded: true,
                   items: [
-                    const DropdownMenuItem(value: null, child: Text("All")),
+                    DropdownMenuItem(value: null, child: Text(AppLocalizations.of(context).all)),
                     ...snapshot.data!
                         .map((e) => DropdownMenuItem(
                             value: e, child: Text("${e.name} Tutor")))
@@ -108,7 +111,7 @@ class TutorSearchForm extends StatelessWidget {
             height: 10,
           ),
           Text(
-            "Select available tutoring time:",
+            "${AppLocalizations.of(context).selectAvailableTime}:",
             style: Theme.of(context)
                 .textTheme
                 .bodySmall
@@ -120,9 +123,9 @@ class TutorSearchForm extends StatelessWidget {
               height: 32,
               child: TextFormField(
                 // readOnly: true,
-                decoration: const InputDecoration(
-                  hintText: "Select a day",
-                  suffixIcon: Icon(Icons.calendar_today_outlined),
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context).selectADay,
+                  suffixIcon: const Icon(Icons.calendar_today_outlined),
                 ),
                 onTap: () async {
                   final DateTime? pickedDate = await showDatePicker(

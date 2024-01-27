@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationForm extends StatefulWidget {
   const AuthenticationForm(
@@ -30,7 +32,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CustomFormField(
-            label: "EMAIL",
+            label: AppLocalizations.of(context).email,
             placeholder: "abc@example.com",
             controller: widget.emailEditingController,
           ),
@@ -38,7 +40,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
             height: 20,
           ),
           CustomFormField(
-            label: "PASSWORD",
+            label: AppLocalizations.of(context).password,
             placeholder: "******",
             obscureText: true,
             controller: widget.passwordEditingController,
@@ -49,7 +51,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                 height: 20,
               ),
               CustomFormField(
-                label: "RETYPE PASSWORD",
+                label: AppLocalizations.of(context).retypedPassword,
                 placeholder: "******",
                 obscureText: true,
                 controller: widget.retypedPasswordEditingController,

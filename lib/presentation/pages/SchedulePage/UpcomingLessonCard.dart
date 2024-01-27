@@ -4,6 +4,8 @@ import 'package:lettutor/presentation/widgets/LessonOverview/LessonOverview.dart
 import 'package:lettutor/service/LessonService.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpcomingLessonCard extends StatelessWidget {
   const UpcomingLessonCard(
@@ -46,7 +48,7 @@ class UpcomingLessonCard extends StatelessWidget {
                       Navigator.pushNamed(context, '/call', arguments: lesson);
                     },
                     child: Text(
-                      'Go to meeting',
+                      AppLocalizations.of(context).goToMeeting,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -65,7 +67,7 @@ class UpcomingLessonCard extends StatelessWidget {
                     },
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Cancel',
+                      AppLocalizations.of(context).cancelLesson,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall

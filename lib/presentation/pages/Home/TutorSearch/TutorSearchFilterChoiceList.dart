@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/models/Specialty.dart';
 import 'package:lettutor/presentation/widgets/MultipleLabelsPicker/MultipleLabelPicker.dart';
 import 'package:lettutor/service/TutorService.dart';
-
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class TutorSearchFilterChoiceList extends StatelessWidget {
   TutorSearchFilterChoiceList(
       {super.key, required this.onSearchSpecialty});
@@ -49,7 +50,7 @@ class TutorSearchFilterChoiceList extends StatelessWidget {
               pickerKey.currentState?.reset();
             },
             child: Text(
-              "Reset result",
+              AppLocalizations.of(context).resetResult,
               style: TextStyle(
                   color: Theme.of(context).primaryColor.withOpacity(0.7)),
             )),

@@ -3,6 +3,8 @@ import 'package:lettutor/presentation/pages/Home/RecommendedTutors/TutorCard.dar
 import 'package:lettutor/presentation/widgets/EmptyListText/EmptyListText.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecommendedTutors extends StatelessWidget {
   const RecommendedTutors({super.key});
@@ -13,7 +15,7 @@ class RecommendedTutors extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          "Recommended Tutors",
+          AppLocalizations.of(context).recommendedTutors,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -22,7 +24,7 @@ class RecommendedTutors extends StatelessWidget {
             builder: (context, tutorListProvider, child) => Column(children: [
                   if (tutorListProvider.isEndOfList &&
                       tutorListProvider.tutorList.isEmpty)
-                    const EmptyListText(text: "No tutor found"),
+                    EmptyListText(text: AppLocalizations.of(context).noTutorFound),
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

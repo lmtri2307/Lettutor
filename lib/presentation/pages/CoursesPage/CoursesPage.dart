@@ -10,6 +10,8 @@ import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/presentation/widgets/PageOverview/PageOverview.dart';
 import 'package:lettutor/service/CourseService.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CourseFormProvider extends ChangeNotifier {
   final courseForm = CourseSearchForm();
@@ -45,9 +47,9 @@ class CoursesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PageAppBar(
+      appBar: PageAppBar(
         type: AppBarType.main,
-        title: "Courses",
+        title: AppLocalizations.of(context).course
       ),
       body: DefaultTabController(
         length: 3,
@@ -66,36 +68,36 @@ class CoursesPage extends StatelessWidget {
                     children: [
                       PageOverview(
                         image: SvgPicture.asset("assets/images/course.svg"),
-                        title: "Discover Courses",
+                        title: AppLocalizations.of(context).course,
                         overview:
-                            "LiveTutor has built the most quality, methodical and scientific courses in the fields of life for those who are in need of improving their knowledge of the fields.",
+                            AppLocalizations.of(context).courseOverview
                       ),
                       const SizedBox(
                         height: 12,
                       ),
-                      const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               MySearchBar(
-                                hintText: "Search Courses",
+                                hintText: AppLocalizations.of(context).searchCourse,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
-                              CourseFilter(),
-                              SizedBox(
+                              const CourseFilter(),
+                              const SizedBox(
                                 height: 10,
                               ),
                               TabBar(
                                 tabAlignment: TabAlignment.start,
                                 isScrollable: true,
                                 tabs: [
-                                  Tab(text: 'Course'),
-                                  Tab(text: 'E-Book'),
-                                  Tab(text: 'Interactive E-Book'),
+                                  Tab(text: AppLocalizations.of(context).courseTab),
+                                  Tab(text: AppLocalizations.of(context).ebookTab),
+                                  Tab(text: AppLocalizations.of(context).interactiveEbookTab),
                                 ],
                               ),
                             ],

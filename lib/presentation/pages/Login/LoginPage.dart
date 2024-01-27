@@ -7,6 +7,8 @@ import 'package:lettutor/presentation/pages/Login/SocialIcons.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/service/AuthService.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,20 +22,27 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
-  final validator = const Validator();
+  late final Validator validator;
 
-  void _onLoginFail(String message){
-    showErrorSnackBar(context, 'Log in failed! $message');
+  @override
+  void initState() {
+    super.initState();
+    validator = Validator(context);
   }
 
-  bool _validate({required String email, required String password}){
+  void _onLoginFail(String message) {
+    showErrorSnackBar(
+        context, '${AppLocalizations.of(context).loginFailed}! $message');
+  }
+
+  bool _validate({required String email, required String password}) {
     final emailError = validator.validateEmail(email);
-    if(emailError != null){
+    if (emailError != null) {
       showErrorSnackBar(context, emailError);
       return false;
     }
     final passwordError = validator.validatePassword(password);
-    if(passwordError != null){
+    if (passwordError != null) {
       showErrorSnackBar(context, passwordError);
       return false;
     }
@@ -44,8 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       {required AuthProvider authRepository,
       required String email,
       required String password}) async {
-
-    if(!_validate(email: email, password: password)){
+    if (!_validate(email: email, password: password)) {
       return;
     }
 
@@ -53,11 +61,11 @@ class _LoginPageState extends State<LoginPage> {
       _isAuthenticating = true;
     });
 
-    try{
-      final user = await const AuthService()
-          .loginWithEmailAndPassword(email, password);
+    try {
+      final user =
+          await const AuthService().loginWithEmailAndPassword(email, password);
       authRepository.setUser(user);
-    }catch(err){
+    } catch (err) {
       _onLoginFail(err.toString().substring(11));
     }
 
@@ -81,14 +89,14 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Say hello to your \nEnglish tutors",
+                    AppLocalizations.of(context).loginAppTitle,
                     style: Theme.of(context).textTheme.headlineLarge,
                     textAlign: TextAlign.center, // Center align text
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Text(
-                      "Become fluent faster through one on one video chat lessons tailored to your goals.",
+                      AppLocalizations.of(context).loginAppSubtitle,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
@@ -102,14 +110,14 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pushNamed(context, "/password");
                       },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                       ),
                       child: Text(
-                        "Forgot Password?",
+                        AppLocalizations.of(context).forgotPassword,
                         textAlign: TextAlign.left,
                         style: Theme.of(context)
                             .textTheme
@@ -143,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Colors.white,
                           )
                         : Text(
-                            "Login",
+                            AppLocalizations.of(context).login,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -153,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 32),
                   Center(
                     child: Text(
-                      "Or continue with",
+                      AppLocalizations.of(context).orContinueWith,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
@@ -165,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Not a member yet?",
+                        AppLocalizations.of(context).notAMember,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       TextButton(
@@ -173,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushNamed(context, "/signup");
                           },
                           child: Text(
-                            "Sign up",
+                            AppLocalizations.of(context).signUp,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall

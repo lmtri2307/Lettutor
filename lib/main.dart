@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:lettutor/providers/AuthProvider.dart';
 import 'package:lettutor/providers/LessonProvider.dart';
+import 'package:lettutor/providers/LocaleProvider.dart';
 import 'package:lettutor/providers/TutorListProvider.dart';
 import 'package:lettutor/routing/RouteGenerator.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -10,9 +11,15 @@ import 'package:lettutor/service/AuthService.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  timeago.setLocaleMessages('en', timeago.EnMessages());
+  timeago.setLocaleMessages("vi", timeago.ViMessages());
 
   usePathUrlStrategy();
   final authProvider = AuthProvider();
@@ -47,6 +54,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => LessonProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => LocaleProvider(),
       )
     ],
     child: const MyApp(),
@@ -65,6 +75,9 @@ class MyApp extends StatelessWidget {
 
     const primaryColor = Color.fromARGB(255, 0, 113, 240);
     return MaterialApp(
+      locale: context.watch<LocaleProvider>().locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       navigatorKey: RouteGenerator.navigatorKey,
       onGenerateRoute: routeGenerator.onGenerateRoute,
       title: 'Flutter Demo',

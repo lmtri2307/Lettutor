@@ -1,13 +1,18 @@
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Validator {
-  const Validator();
+  final BuildContext context;
+  Validator(this.context);
   String? validateEmail(String value) {
     if (value.isEmpty) {
-      return 'Email is required';
+      return AppLocalizations.of(context).emailRequired;
     }
     final emailRegExp = RegExp(
         r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$');
     if (!emailRegExp.hasMatch(value)) {
-      return 'Please enter a valid email address';
+      return AppLocalizations.of(context).invalidEmail;
     }
 
     return null;
@@ -15,20 +20,20 @@ class Validator {
 
   String? validatePassword(String password) {
     if (password.isEmpty) {
-      return 'Password is required';
+      return AppLocalizations.of(context).passwordRequired;
     }
     if (password.length < 6) {
-      return 'Password must be at least 6 characters';
+      return AppLocalizations.of(context).passwordLength;
     }
     return null;
   }
 
   String? validateRetypedPassword(String retypedPassword, String password){
     if(retypedPassword.isEmpty){
-      return 'Retyped password is required';
+      return AppLocalizations.of(context).retypedPasswordRequired;
     }
     if(retypedPassword != password){
-      return 'Retyped password must match password';
+      return AppLocalizations.of(context).retypedPasswordMatch;
     }
     return null;
   }

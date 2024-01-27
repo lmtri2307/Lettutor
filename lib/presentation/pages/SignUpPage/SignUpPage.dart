@@ -21,7 +21,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
   final retypedPasswordEditingController = TextEditingController();
-  final validator = const Validator();
+  late final Validator validator;
+
+  @override
+  void initState() {
+    super.initState();
+    validator = Validator(context);
+  }
 
   @override
   void dispose() {

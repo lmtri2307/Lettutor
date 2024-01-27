@@ -11,6 +11,8 @@ import 'package:lettutor/presentation/widgets/PageAppBar/PageAppBar.dart';
 import 'package:lettutor/presentation/widgets/PageOverview/PageOverview.dart';
 import 'package:lettutor/service/LessonService.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -52,9 +54,9 @@ class _SchedulePageState extends State<SchedulePage> {
           children: [
             PageOverview(
               image: SvgPicture.asset("assets/images/calendar.svg"),
-              title: "Schedule",
+              title: AppLocalizations.of(context).schedule,
               overview:
-                  "Here is a list of the sessions you have booked. You can track when the meeting starts, join the meeting with one click or can cancel the meeting before 2 hours.",
+                  AppLocalizations.of(context).scheduleOverview
             ),
             const SizedBox(
               height: 24,
@@ -68,7 +70,7 @@ class _SchedulePageState extends State<SchedulePage> {
                         fit: BoxFit.contain,
                       ),
                       Text(
-                        "There is no lesson schedule yet!",
+                        AppLocalizations.of(context).noSchedule,
                         style: theme.textTheme.bodySmall,
                       )
                     ]),
@@ -114,7 +116,7 @@ class _SchedulePageState extends State<SchedulePage> {
                       });
                     },
                   )
-                : const EmptyListText(text: "No lesson found"),
+                : EmptyListText(text: AppLocalizations.of(context).noSchedule),
           ],
         ),
       ),
@@ -124,9 +126,9 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PageAppBar(
+      appBar: PageAppBar(
         type: AppBarType.main,
-        title: "Schedule",
+        title: AppLocalizations.of(context).schedule,
       ),
       body: FutureBuilder(
         future: _lessonService.getScheduleLessonList(

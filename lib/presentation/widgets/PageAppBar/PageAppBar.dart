@@ -25,6 +25,7 @@ class PageAppBar extends StatelessWidget implements PreferredSizeWidget {
           toolbarHeight: double.infinity,
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
           leading: type == AppBarType.sub
               ? BackButton(
                   color: Theme.of(context).primaryColor,

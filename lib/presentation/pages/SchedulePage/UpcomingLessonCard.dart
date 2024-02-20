@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/widgets/LessonOverview/LessonOverview.dart';
+import 'package:lettutor/service/LessonService.dart';
+import 'package:lettutor/providers/AuthProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpcomingLessonCard extends StatelessWidget {
-  const UpcomingLessonCard({super.key, required this.lesson});
+  const UpcomingLessonCard(
+      {super.key, required this.lesson, required this.onCanceled});
 
-  final Lesson lesson;
+  final lessonService = const LessonService();
+  final BookedLesson lesson;
+  final Function(BookedLesson lesson) onCanceled;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +44,11 @@ class UpcomingLessonCard extends StatelessWidget {
                   child: TextButton(
                     style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder()),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/call");
+                    onPressed: () async {
+                      Navigator.pushNamed(context, '/call', arguments: lesson);
                     },
                     child: Text(
-                      'Go to meeting',
+                      AppLocalizations.of(context).goToMeeting,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -54,10 +62,12 @@ class UpcomingLessonCard extends StatelessWidget {
                     style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(),
                         foregroundColor: Colors.red),
-                    onPressed: () {},
+                    onPressed: () {
+                      onCanceled(lesson);
+                    },
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Cancel',
+                      AppLocalizations.of(context).cancelLesson,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall

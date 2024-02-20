@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lettutor</string>
+    <string name="facebook_app_id">734010348446390</string>
+    <string name="fb_login_protocol_scheme">fb734010348446390</string>
+    <string name="facebook_client_token">abebef0eb0e60616e745531b25dc1832</string>
+</resources>

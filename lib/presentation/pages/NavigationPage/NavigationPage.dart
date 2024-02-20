@@ -3,7 +3,9 @@ import "package:lettutor/presentation/pages/CoursesPage/CoursesPage.dart";
 import "package:lettutor/presentation/pages/HistoryPage/HistoryPage.dart";
 import "package:lettutor/presentation/pages/Home/HomePage.dart";
 import "package:lettutor/presentation/pages/SchedulePage/SchedulePage.dart";
-
+import "package:lettutor/presentation/pages/SettingPage/SettingPage.dart";
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -18,6 +20,7 @@ class _NavigationPageState extends State<NavigationPage> {
     const SchedulePage(),
     const HistoryPage(),
     const CoursesPage(),
+    const SettingPage(),
   ];
   int _chosenPageIndex = 0;
   @override
@@ -35,12 +38,12 @@ class _NavigationPageState extends State<NavigationPage> {
         },
         elevation: 20,
         currentIndex: _chosenPageIndex,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.schedule_outlined), label: 'Schedule'),
-          BottomNavigationBarItem(icon: Icon(Icons.history_edu), label: 'History'),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Courses'),
-          // BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.home_filled), label: AppLocalizations.of(context).home),
+          BottomNavigationBarItem(icon: const Icon(Icons.schedule_outlined), label: AppLocalizations.of(context).schedule),
+          BottomNavigationBarItem(icon: const Icon(Icons.history_edu), label: AppLocalizations.of(context).history),
+          BottomNavigationBarItem(icon: const Icon(Icons.school), label: AppLocalizations.of(context).course),
+          BottomNavigationBarItem(icon: const Icon(Icons.settings), label: AppLocalizations.of(context).settings),
         ],
       ),
     );

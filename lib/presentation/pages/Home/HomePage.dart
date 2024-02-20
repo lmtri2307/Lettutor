@@ -3,19 +3,56 @@ import 'package:lettutor/presentation/widgets/LettutorAppBar/LetTutorAppBar.dart
 import 'package:lettutor/presentation/pages/Home/RecommendedTutors/RecommendedTutors.dart';
 import 'package:lettutor/presentation/pages/Home/TutorSearch/TutorSearch.dart';
 import 'package:lettutor/presentation/pages/Home/UpcomingLessonNotification.dart';
+import 'package:lettutor/providers/TutorListProvider.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late ScrollController scrollController;
+  late TutorListProvider tutorListProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+    scrollController.addListener(_scrollListener);
+    tutorListProvider = context.read<TutorListProvider>();
+    tutorListProvider.resetPage();
+    tutorListProvider.searchForm = null;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      tutorListProvider.fetchTutorList();
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (scrollController.offset == scrollController.position.maxScrollExtent &&
+        tutorListProvider.isFetching == false) {
+      tutorListProvider.fetchTutorList();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: LetTutorAppBar(
+    return Scaffold(
+      appBar: const LetTutorAppBar(
         isLoggedIn: true,
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         scrollDirection: Axis.vertical,
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             UpcomingLessonNotification(),

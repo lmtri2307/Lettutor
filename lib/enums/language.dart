@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 enum Language {
   vietnam("vietnam"),
-  us("united-states");
+  en("english");
 
   final String name;
 

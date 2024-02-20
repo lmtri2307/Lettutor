@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/models/Lesson.dart';
 import 'package:lettutor/presentation/widgets/LessonOverview/LessonOverview.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistoryLessonCard extends StatelessWidget {
   const HistoryLessonCard({super.key, required this.lesson});
@@ -33,7 +37,7 @@ class HistoryLessonCard extends StatelessWidget {
             ),
             alignment: Alignment.centerLeft,
             child: Text(
-              "No request for lesson",
+              AppLocalizations.of(context).noRequestForLesson,
               style: TextStyle(color: Colors.grey.shade700),
             ),
           ),
@@ -45,7 +49,7 @@ class HistoryLessonCard extends StatelessWidget {
                   top: BorderSide(width: 1, color: Colors.grey.shade300)),
             ),
             alignment: Alignment.centerLeft,
-            child: Text("Tutor haven't reviewed yet",
+            child: Text(AppLocalizations.of(context).tutorNotReview,
                 style: TextStyle(color: Colors.grey.shade700)),
           ),
           Container(
@@ -62,7 +66,7 @@ class HistoryLessonCard extends StatelessWidget {
                         shape: const RoundedRectangleBorder()),
                     onPressed: () {},
                     child: Text(
-                      'Add a Rating',
+                      AppLocalizations.of(context).addARating,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -79,7 +83,7 @@ class HistoryLessonCard extends StatelessWidget {
                     onPressed: () {},
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Report',
+                      AppLocalizations.of(context).report,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
